@@ -1,0 +1,7 @@
+.pagination-container {
+  font-size: var(--theme-septenary-font-size);
+  line-height: var(--theme-senary-line-height);
+  font-weight: var( --theme-primary-font-weight);
+
+  color: var(--theme-font-color__primary);
+}

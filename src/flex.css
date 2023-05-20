@@ -1,0 +1,28 @@
+
+.k-flex {
+  display: flex;
+}
+
+.k-fdc {
+  flex-direction: column;
+}
+
+.k-fdr {
+  flex-direction: row;
+}
+
+.k-jcc {
+  justify-content: center;
+}
+
+.k-jcsb {
+  justify-content: space-between;
+}
+
+.k-jce {
+  justify-content: flex-end;
+}
+
+.k-aic {
+  align-items: center;
+}

@@ -1,0 +1,20 @@
+
+.page-not-found__container{
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  padding-top: 100px;
+}
+
+h1 {
+  font-size: 48px;
+  color: var(--theme-font-color__primary);
+}
+
+p {
+  font-size: 24px;
+}
+
+.page-link {
+  color: var(--theme-status-pending-font-color);
+}

@@ -1,0 +1,77 @@
+:root {
+  --theme-font-color__primary: #445965;
+  --theme-active__link: #516C99;
+  --theme-background: #F5F5F5;
+  --theme-background__white: #FFFFFF;
+  --theme-background__thead: #E7F6F6;
+
+  --theme-senary-font-size: 21px;
+  --theme-quinary-line-height: 30px;
+
+  --theme-primary-font-size: 15px;
+  --theme-primary-line-height:22px;
+
+  --theme-secondary-font-size:13px;
+  --theme-secondary-line-height: 20px;
+
+  --theme-septenary-font-size: 11px;
+  --theme-senary-line-height: 18px;
+
+  --theme-primary-font-weight: 500;
+  --theme-secondary-font-weight: 400;
+
+  --theme-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+
+  --theme-status-shipped-font-color: #44CD79;
+  --theme-status-shipped-background-color: #F3FCF6;
+
+  --theme-status-pending-font-color: #FDD18E;
+  --theme-status-pending-background-color: #FFF4E6;
+
+  --theme-status-cancelled-font-color: #D1322D;
+  --theme-status-cancelled-background-color: #f8c3c1;
+
+}
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--theme-background);
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.h-100 {
+  height: 100%;
+}
+
+.vh-100 {
+  height: 100vh;
+}
+
+.vw-100 {
+  width: 100vw;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.background {
+  background: linear-gradient( to right, var(--theme-status-shipped-background-color));
+}

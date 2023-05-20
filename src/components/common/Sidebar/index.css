@@ -1,0 +1,49 @@
+/* Style the sidebar links */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+  
+li {
+  text-decoration: none;
+  padding: 10px 0;
+}
+.sidebar {
+  background: var(--theme-background__white);
+  width: 20%;
+  padding-left: 16px;
+  box-shadow: -7px 0 7px -7px rgba(0,0,0,0.7);
+}
+.sidebar__nav-item--name {
+  display: inline-flex;
+  padding-left: 16px;
+}
+.nav-link__active {
+  color: var(--theme-active__link);
+}
+li {
+  color: #859d9d;
+  font-size: var(--theme-secondary-font-size);
+  line-height: var(--theme-secondary-line-height);
+  font-weight: var(--theme-secondary-font-weight);
+}
+@media screen and (max-width: 360px) {
+  .sidebar {
+    width: 5%;
+  }
+}
+@media screen and (max-width: 767px) {
+  .sidebar {
+    width: 2.8%;
+    padding-right: 16px;
+  }
+  .sidebar__nav-item--name {
+    display: none;
+  }
+}
+
+
+
+
+  
