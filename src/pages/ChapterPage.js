@@ -16,9 +16,8 @@ import { LoadingButton } from '@mui/lab';
 import { styled } from "@mui/material/styles";
 import ImageInput from '../components/image-input';
 import CourseCard from '../sections/@dashboard/course/CourseCard';
-import { BlogPostsSort } from '../sections/@dashboard/blog';
-import CHAPTER_LIST from '../_mock/chapter';
-import { getCourse, getSubject, getChapter, postFileUpload, putFileUpload, createChapter } from '../service/ash_admin';
+import {  getChapter, postFileUpload, putFileUpload, createChapter } from '../service/ash_admin';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -28,12 +27,9 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const SORT_OPTIONS = [
-  { value: 'latest', label: 'Latest' },
-  { value: 'popular', label: 'Popular' },
-  { value: 'oldest', label: 'Oldest' },
-];
 export default function ChapterPage() {
+  const navigate = useNavigate();
+  const {course_id, subject_id} = useParams();
   const [chapterAdd, setChapterAdd] = useState(false);
   const [chapter, setChapter] = useState({
     name: "Science",
@@ -41,10 +37,6 @@ export default function ChapterPage() {
     image_url: "www.google.com",
   });
 
-  const [selectedCourse, setSelectedCourse] = useState('');
-  const [selectedSubject, setSelectedSubject] = useState('');
-  const [courseList, setCourseList] = useState([]);
-  const [subjectList, setSubjectList] = useState([]);
   const [chapterList, setChapterList] = useState([]);
 
   const handleSubjectDetails = (e) => {
@@ -56,7 +48,7 @@ export default function ChapterPage() {
 
   const handleSubmit = async () => {
     console.log("chapter:", chapter);
-    const res = await createChapter(selectedSubject, {chapter: chapter});
+    const res = await createChapter(subject_id, {chapter: chapter});
     console.log('creating chapter', res);
     setChapterAdd(false);
   };
@@ -66,8 +58,8 @@ export default function ChapterPage() {
     inputFile.name = file[0].name.split('.')[0];
     console.log("file:", file[0], inputFile);
 
-    if(selectedSubject && selectedCourse) {
-      inputFile.location = `course/${selectedCourse}/subject/${selectedSubject}/chapter`
+    if(subject_id && course_id) {
+      inputFile.location = `course/${course_id}/subject/${subject_id}/chapter`
       // Creating the file location
       const res = await postFileUpload({
         file: {
@@ -90,61 +82,20 @@ export default function ChapterPage() {
   };
 
   useEffect(() => {
-    fetchCourseData();
-  }, []);
+    subject_id && fetchSubjectChapter(subject_id)
+  }, [chapterAdd, subject_id]);
 
-  const fetchCourseData = async () => {
-    const res = await getCourse();
-    console.log('fetchCourseData', res);
-    if(res && res.length > 0) {
-      setCourseList(() => [...res]);
-    }
-  }
-
-  const getCoursesOptions = () => {
-    if(courseList) {
-      return courseList.map((course) => ({
-        value: course.id,
-        label: course.name,
-      }))
-    }
-    return []
-  }
-
-  useEffect(() => {
-    selectedCourse && fetchSubjectData(selectedCourse);
-  }, [selectedCourse]);
-  
-  const fetchSubjectData = async (course_id) => {
-    const res = await getSubject(course_id);
-    console.log('fetchSubjectData', res);
-    if(res && res.length > 0) {
-      setSubjectList(() => [...res]);
-    }
-  }
-
-  const getSubjectOptions = () => {
-    if(subjectList) {
-      return subjectList.map((subject) => ({
-        value: subject.id,
-        label: subject.name,
-      }))
-    }
-    return []
-  }
-
-  useEffect(() => {
-    selectedSubject && fetchSubjectChapter(selectedSubject)
-  }, [chapterAdd, selectedSubject]);
-
-  const fetchSubjectChapter = async (subject_id) => {
-    const res = await getChapter(subject_id);
+  const fetchSubjectChapter = async (subjectId) => {
+    const res = await getChapter(subjectId);
     console.log('fetchSubjectChapter', res);
     if(res && res.length > 0) {
       setChapterList(() => [...res]);
     }
   }
 
+  const handleChapterClick = (chapter_id) => {
+    navigate(`${chapter_id}/topic`, { replace: false })
+  }
 
   return (
     <>
@@ -165,19 +116,10 @@ export default function ChapterPage() {
             New Chapter
           </Button>
         </Stack>
-        {getCoursesOptions() && 
-          <Grid item xs={12} sm={2}>
-            <Item>
-              <Stack>
-                <BlogPostsSort options={getCoursesOptions()} label='Course' onSort={(event) => setSelectedCourse(event.target.value)} value={selectedCourse}/>
-              </Stack>
-            </Item>
-          </Grid>
-        }
         {chapterAdd && (
           <div>
             <Grid container spacing={2}>
-              { selectedSubject && selectedCourse && <Grid item xs={12}>
+              { subject_id && course_id && <Grid item xs={12}>
                 <Item>
                   <Stack sx={{ display:'flex', justifyContent: 'center', alignItems: "center", height: '100px' }}>
                     {/* <TextField
@@ -208,17 +150,6 @@ export default function ChapterPage() {
                   </Stack>
                 </Item>
               </Grid>
-              
-              
-              { getSubjectOptions() && 
-                <Grid item xs={12} sm={2}>
-                  <Item>
-                    <Stack>
-                      <BlogPostsSort options={getSubjectOptions()} label='Subject' onSort={(event) => setSelectedSubject(event.target.value)} value={selectedSubject}/>
-                    </Stack>
-                  </Item>
-                </Grid>
-              }
               <Grid item xs={12} sm={8}>
                 <Item>
                   <Stack>
@@ -248,7 +179,7 @@ export default function ChapterPage() {
           chapterList ? (
           <Grid container spacing={3}>
             {chapterList.map((chapter, index) => (
-              <CourseCard key={chapter.id} course={chapter} index={index} />
+              <CourseCard key={chapter.id} course={chapter} index={index} handleClick={handleChapterClick}/>
             ))}
           </Grid>
           ): 

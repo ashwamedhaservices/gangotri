@@ -18,7 +18,7 @@ import { LoadingButton } from "@mui/lab";
 import ImageInput from "../components/image-input";
 import CourseCard from "../sections/@dashboard/course/CourseCard";
 import { createCourse, getCourse, postFileUpload, putFileUpload } from "../service/ash_admin";
-import COURSES_LIST from "../_mock/course";
+import { useNavigate } from "react-router-dom";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -31,6 +31,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 export default function CoursePage() {
+  const navigate = useNavigate();
   const [courseAdd, setCourseAdd] = useState(false);
   const [course, setCourse] = useState({
     name: "Class 10",
@@ -99,6 +100,11 @@ export default function CoursePage() {
       setCourseList(() => [...res]);
     }
   }
+
+  const handleCourseClick = (course_id) => {
+    navigate(`${course_id}/subject`, { replace: false })
+  }
+  
   return (
     <>
       <Helmet>
@@ -210,7 +216,7 @@ export default function CoursePage() {
           courseList ?
           <Grid container spacing={3}>
             {courseList.map((course, index) => (
-              <CourseCard key={course.id} course={course} index={index} />
+              <CourseCard key={course.id} course={course} index={index} handleClick={handleCourseClick}/>
             ))}
           </Grid>
           : 

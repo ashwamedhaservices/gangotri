@@ -16,9 +16,8 @@ import { LoadingButton } from '@mui/lab';
 import { styled } from "@mui/material/styles";
 import ImageInput from '../components/image-input';
 import CourseCard from '../sections/@dashboard/course/CourseCard';
-import SUBJECT_LIST from '../_mock/subject';
-import { BlogPostsSort } from '../sections/@dashboard/blog';
-import { getCourse, getSubject, postFileUpload, putFileUpload, createSubject } from '../service/ash_admin';
+import { getSubject, postFileUpload, putFileUpload, createSubject } from '../service/ash_admin';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -28,20 +27,18 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const SORT_OPTIONS = [
-  { value: 'latest', label: 'Latest' },
-  { value: 'popular', label: 'Popular' },
-  { value: 'oldest', label: 'Oldest' },
-];
+
 export default function SubjectPage() {
+  const navigate = useNavigate();
+  const {course_id} = useParams();
+
   const [subjectAdd, setSubjectAdd] = useState(false);
   const [subject, setSubject] = useState({
     name: "Science",
     description: "class 10th science",
     image_url: "www.google.com",
   });
-  const [selectedCourse, setSelectedCourse] = useState('');
-  const [courseList, setCourseList] = useState([]);
+
   const [subjectList, setSubjectList] = useState([]);
 
   const handleSubjectDetails = (e) => {
@@ -53,7 +50,7 @@ export default function SubjectPage() {
 
   const handleSubmit = async () => {
     console.log("subject:", subject);
-    const res = await createSubject(selectedCourse, {subject: subject});
+    const res = await createSubject(course_id, {subject: subject});
     console.log('creating subject...', res);
     setSubjectAdd(false);
   };
@@ -63,8 +60,8 @@ export default function SubjectPage() {
     inputFile.name = file[0].name.split('.')[0];
     console.log("file:", file[0], inputFile);
 
-    if(selectedCourse) {
-      inputFile.location = `course/${selectedCourse}/subject`;
+    if(course_id) {
+      inputFile.location = `course/${course_id}/subject`;
       // Creating the file location
       const res = await postFileUpload({
         file: {
@@ -87,37 +84,19 @@ export default function SubjectPage() {
   };
 
   useEffect(() => {
-    fetchCourseData();
-  }, []);
-
-  const fetchCourseData = async () => {
-    const res = await getCourse();
-    console.log('fetchCourseData', res);
-    if(res && res.length > 0) {
-      setCourseList(() => [...res]);
-    }
-  }
-
-  const getCoursesOptions = () => {
-    if(courseList) {
-      return courseList.map((course) => ({
-        value: course.id,
-        label: course.name,
-      }))
-    }
-    return []
-  }
-
-  useEffect(() => {
-    fetchSubjectData(selectedCourse);
-  }, [subjectAdd, selectedCourse]);
+    fetchSubjectData(course_id);
+  }, [subjectAdd, course_id]);
   
-  const fetchSubjectData = async (course_id) => {
-    const res = await getSubject(course_id);
+  const fetchSubjectData = async (courseId) => {
+    const res = await getSubject(courseId);
     console.log('fetchSubjectData', res);
     if(res && res.length > 0) {
       setSubjectList(() => [...res]);
     }
+  }
+
+  const handleSubjectClick = (subject_id) => {
+    navigate(`${subject_id}/chapter`, { replace: false })
   }
 
   return (
@@ -172,15 +151,6 @@ export default function SubjectPage() {
                   </Stack>
                 </Item>
               </Grid>
-              {getCoursesOptions() && 
-                <Grid item xs={12} sm={2}>
-                  <Item>
-                    <Stack>
-                      <BlogPostsSort options={getCoursesOptions()} label='Course' onSort={(event) => setSelectedCourse(event.target.value)} value={selectedCourse}/>
-                    </Stack>
-                  </Item>
-                </Grid>
-              }
               <Grid item xs={12} sm={8}>
                 <Item>
                   <Stack>
@@ -210,7 +180,7 @@ export default function SubjectPage() {
             subjectList ? (
               <Grid container spacing={3}>
               {subjectList.map((course, index) => (
-                <CourseCard key={course.id} course={course} index={index} />
+                <CourseCard key={course.id} course={course} index={index} handleClick={handleSubjectClick}/>
               ))}
               </Grid>
           ) : <Grid container>

@@ -16,21 +16,21 @@ const navConfig = [
     path: '/dashboard/course',
     icon: icon('ic_user'),
   },
-  {
-    title: 'subject',
-    path: '/dashboard/subject',
-    icon: icon('ic_cart'),
-  },
-  {
-    title: 'chapter',
-    path: '/dashboard/chapter',
-    icon: icon('ic_blog'),
-  },
-  {
-    title: 'topic',
-    path: '/dashboard/topic',
-    icon: icon('ic_lock'),
-  },
+  // {
+  //   title: 'subject',
+  //   path: '/dashboard/subject',
+  //   icon: icon('ic_cart'),
+  // },
+  // {
+  //   title: 'chapter',
+  //   path: '/dashboard/chapter',
+  //   icon: icon('ic_blog'),
+  // },
+  // {
+  //   title: 'topic',
+  //   path: '/dashboard/topic',
+  //   icon: icon('ic_lock'),
+  // },
   // {
   //   title: 'blog',
   //   path: '/dashboard/blog',

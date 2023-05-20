@@ -60,7 +60,7 @@ const StyledCover = styled('img')({
 });
 
 
-const CourseCard = ({ course, index }) => {
+const CourseCard = ({ course, index, handleClick }) => {
   const {
     id,
     name,
@@ -84,7 +84,7 @@ const CourseCard = ({ course, index }) => {
   //   { number: share, icon: 'eva:share-fill' },
   // ];
   return (
-    <Grid item xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 6 : 3}>
+    <Grid item xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 6 : 3} onClick={() => handleClick(id)}>
       <Card sx={{ position: 'relative' }}>
         <StyledCardMedia
           sx={{

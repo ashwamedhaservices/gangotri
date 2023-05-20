@@ -15,10 +15,10 @@ import Iconify from '../components/iconify';
 import { LoadingButton } from '@mui/lab';
 import { styled } from "@mui/material/styles";
 import ImageInput from '../components/image-input';
-import { BlogPostsSort } from '../sections/@dashboard/blog';
 import VideoInput from '../components/video-input';
-import { getCourse, getSubject, getChapter, getTopic, createTopic, postFileUpload, putFileUpload } from '../service/ash_admin';
+import { getTopic, createTopic, postFileUpload, putFileUpload } from '../service/ash_admin';
 import CourseCard from '../sections/@dashboard/course/CourseCard';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -29,12 +29,9 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const SORT_OPTIONS = [
-  { value: 'latest', label: 'Latest' },
-  { value: 'popular', label: 'Popular' },
-  { value: 'oldest', label: 'Oldest' },
-];
 export default function TopicPage() {
+  const navigate = useNavigate();
+  const {course_id, subject_id, chapter_id} = useParams();
   const [topicAdd, setTopicAdd] = useState(false);
   const [topic, setTopic] = useState({
     name: "Science",
@@ -42,14 +39,8 @@ export default function TopicPage() {
     image_url: "www.google.com",
   });
 
-
-  const [selectedCourse, setSelectedCourse] = useState('');
-  const [selectedSubject, setSelectedSubject] = useState('');
-  const [selectedChapter, setSelectedChapter] = useState('');
-  const [courseList, setCourseList] = useState([]);
-  const [subjectList, setSubjectList] = useState([]);
-  const [chapterList, setChapterList] = useState([]);
   const [topicList, setTopicList] = useState([]);
+  const [showVideo, setShowVideo] = useState('');
 
   const handleSubjectDetails = (e) => {
     setTopic(() => ({
@@ -60,7 +51,7 @@ export default function TopicPage() {
 
   const handleSubmit = async () => {
     console.log("topic:", topic);
-    const res = await createTopic(selectedChapter, { topic: topic});
+    const res = await createTopic(chapter_id, { topic: topic});
     console.log('creating topic', res);
     setTopicAdd(false);
   };
@@ -70,8 +61,8 @@ export default function TopicPage() {
     inputFile.name = file[0].name.split('.')[0];
     console.log("file:", file[0], inputFile);
 
-    if(selectedSubject && selectedCourse && selectedChapter) {
-      inputFile.location = `course/${selectedCourse}/subject/${selectedSubject}/chapter/${selectedChapter}/topic/images`;
+    if(subject_id && course_id && chapter_id) {
+      inputFile.location = `course/${course_id}/subject/${subject_id}/chapter/${chapter_id}/topic/images`;
       // Creating the file location
       const res = await postFileUpload({
         file: {
@@ -99,8 +90,8 @@ export default function TopicPage() {
     inputFile.name = file[0].name.split('.')[0];
     console.log("video file:", file[0], inputFile);
 
-    if(selectedSubject && selectedCourse && selectedChapter) {
-      inputFile.location = `course/${selectedCourse}/subject/${selectedSubject}/chapter/${selectedChapter}/topic/videos`;
+    if(subject_id && course_id && chapter_id) {
+      inputFile.location = `course/${course_id}/subject/${subject_id}/chapter/${chapter_id}/topic/videos`;
       // Creating the file location
       const res = await postFileUpload({
         file: {
@@ -123,74 +114,8 @@ export default function TopicPage() {
   }
 
   useEffect(() => {
-    fetchCourseData();
-  }, []);
-
-  const fetchCourseData = async () => {
-    const res = await getCourse();
-    console.log('fetchCourseData', res);
-    if(res && res.length > 0) {
-      setCourseList(() => [...res]);
-    }
-  }
-
-  const getCoursesOptions = () => {
-    if(courseList) {
-      return courseList.map((course) => ({
-        value: course.id,
-        label: course.name,
-      }))
-    }
-    return []
-  }
-
-  useEffect(() => {
-    selectedCourse && fetchSubjectData(selectedCourse);
-  }, [selectedCourse]);
-  
-  const fetchSubjectData = async (course_id) => {
-    const res = await getSubject(course_id);
-    console.log('fetchSubjectData', res);
-    if(res && res.length > 0) {
-      setSubjectList(() => [...res]);
-    }
-  }
-
-  const getSubjectOptions = () => {
-    if(subjectList) {
-      return subjectList.map((subject) => ({
-        value: subject.id,
-        label: subject.name,
-      }))
-    }
-    return []
-  }
-
-  useEffect(() => {
-    selectedSubject && fetchSubjectChapter(selectedSubject)
-  }, [selectedSubject]);
-
-  const fetchSubjectChapter = async (subject_id) => {
-    const res = await getChapter(subject_id);
-    console.log('fetchSubjectChapter', res);
-    if(res && res.length > 0) {
-      setChapterList(() => [...res]);
-    }
-  }
-
-  const getChapterOptions = () => {
-    if(chapterList) {
-      return chapterList.map((chapter) => ({
-        value: chapter.id,
-        label: chapter.name,
-      }))
-    }
-    return []
-  }
-
-  useEffect(() => {
-    selectedChapter && fetchSubjectChapterTopic(selectedChapter)
-  }, [topicAdd, selectedChapter]);
+    chapter_id && fetchSubjectChapterTopic(chapter_id)
+  }, [topicAdd, chapter_id]);
 
   const fetchSubjectChapterTopic = async (chapter_id) => {
     const res = await getTopic(chapter_id);
@@ -200,6 +125,13 @@ export default function TopicPage() {
     }
   }
 
+  const watchVideo = (topic) => {
+    if(showVideo) {
+      setShowVideo('');
+    } else {
+      setShowVideo(topic.video_url);
+    }
+  }
 
   return (
     <>
@@ -220,38 +152,10 @@ export default function TopicPage() {
             New Topic
           </Button>
         </Stack>
-        {getCoursesOptions() && 
-          <Grid item xs={12} sm={2}>
-            <Item>
-              <Stack>
-                <BlogPostsSort options={getCoursesOptions()} label='Course' onSort={(event) => setSelectedCourse(event.target.value)} value={selectedCourse}/>
-              </Stack>
-            </Item>
-          </Grid>
-        }
-        { getSubjectOptions() && 
-          <Grid item xs={12} sm={2}>
-            <Item>
-              <Stack>
-                <BlogPostsSort options={getSubjectOptions()} label='Subject' onSort={(event) => setSelectedSubject(event.target.value)} value={selectedSubject}/>
-              </Stack>
-            </Item>
-          </Grid>
-        }
-
-        { getChapterOptions() && 
-          <Grid item xs={12} sm={2}>
-            <Item>
-              <Stack>
-                <BlogPostsSort options={getChapterOptions()} label='Chapter' onSort={(event) => setSelectedChapter(event.target.value)} value={selectedChapter}/>
-              </Stack>
-            </Item>
-          </Grid>
-        }
         {topicAdd && (
           <div>
             <Grid container spacing={2}>
-            { selectedSubject && selectedCourse && selectedChapter && ( <>
+            { subject_id && course_id && chapter_id && ( <>
               <Grid item xs={12} sm={6}>
                 <Item>
                   <Stack sx={{ display:'flex', justifyContent: 'center', alignItems: "center" }}>
@@ -320,22 +224,11 @@ export default function TopicPage() {
             </LoadingButton>
           </div>
         )}
-        {!topicAdd && (
+        {!topicAdd && !showVideo && (
           topicList ? (
           <Grid container spacing={3}>
-            {topicList.map((chapter, index) => (
-              <>
-                <CourseCard key={chapter.id} course={chapter} index={index} />
-                {/* {chapter && (
-                  <video
-                    className="VideoInput_video"
-                    width="100%"
-                    height="300px"
-                    controls
-                    src={chapter.video_url}
-                  />
-                )} */}
-              </>
+            {topicList.map((topic, index) => (
+              <CourseCard key={topic.id} course={topic} index={index} handleClick={() => watchVideo(topic)}/>
             ))}
           </Grid>
           ): 
@@ -344,6 +237,25 @@ export default function TopicPage() {
           </Grid>
         )}
       </Container>
+      {
+        showVideo && (
+          <Container>
+            <video
+              className="VideoInput_video"
+              width="100%"
+              height="300px"
+              controls
+              src={showVideo}
+            />
+            <Button 
+              variant="contained"
+              onClick={() => watchVideo(showVideo)}
+            >
+              Go to Topics
+            </Button>
+          </Container>
+        )
+      }
 
     </>
   );
