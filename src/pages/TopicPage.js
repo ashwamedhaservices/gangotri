@@ -34,9 +34,9 @@ export default function TopicPage() {
   const {course_id, subject_id, chapter_id} = useParams();
   const [topicAdd, setTopicAdd] = useState(false);
   const [topic, setTopic] = useState({
-    name: "Science",
-    description: "class 10th science",
-    image_url: "www.google.com",
+    name: "",
+    description: "",
+    image_url: "",
   });
 
   const [topicList, setTopicList] = useState([]);

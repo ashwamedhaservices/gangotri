@@ -32,9 +32,9 @@ export default function ChapterPage() {
   const {course_id, subject_id} = useParams();
   const [chapterAdd, setChapterAdd] = useState(false);
   const [chapter, setChapter] = useState({
-    name: "Science",
-    description: "class 10th science",
-    image_url: "www.google.com",
+    name: "",
+    description: "",
+    image_url: "",
   });
 
   const [chapterList, setChapterList] = useState([]);

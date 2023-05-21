@@ -34,13 +34,11 @@ export default function CoursePage() {
   const navigate = useNavigate();
   const [courseAdd, setCourseAdd] = useState(false);
   const [course, setCourse] = useState({
-    name: "Class 10",
-    description: "All Courses related to class 10th",
-    image_url: "www.google.com",
-    level: "secondary",
-    language: "hindi",
-    price: 105.2,
-    hours: 34,
+    name: "",
+    description: "",
+    image_url: "",
+    level: "",
+    language: ""
   });
   const [courseList, setCourseList] = useState([]);
 

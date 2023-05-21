@@ -34,9 +34,9 @@ export default function SubjectPage() {
 
   const [subjectAdd, setSubjectAdd] = useState(false);
   const [subject, setSubject] = useState({
-    name: "Science",
-    description: "class 10th science",
-    image_url: "www.google.com",
+    name: "",
+    description: "",
+    image_url: "",
   });
 
   const [subjectList, setSubjectList] = useState([]);
