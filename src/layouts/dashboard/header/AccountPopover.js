@@ -1,10 +1,11 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 // @mui
 import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover } from '@mui/material';
 // mocks_
 import account from '../../../_mock/account';
 import { AuthContext } from '../../../context/authentication/authContextProvider';
+import { storageGetItem } from '../../../service/ash_admin';
 
 // ----------------------------------------------------------------------
 
@@ -28,7 +29,7 @@ const MENU_OPTIONS = [
 export default function AccountPopover() {
   const { logout } = useContext(AuthContext);
   const [open, setOpen] = useState(null);
-
+  const [accountName, setAccountName] = useState('Guest');
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
   };
@@ -40,6 +41,12 @@ export default function AccountPopover() {
     logout();
     handleClose();
   }
+
+  useEffect(() => {
+    const {full_name } = JSON.parse(storageGetItem('users'));
+    
+    setAccountName(full_name )
+  }, []) 
   return (
     <>
       <IconButton
@@ -83,11 +90,12 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {account.displayName}
+            {/* {account.displayName} */}
+            {accountName}
           </Typography>
-          <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
+          {/* <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
             {account.email}
-          </Typography>
+          </Typography> */}
         </Box>
 
         <Divider sx={{ borderStyle: 'dashed' }} />

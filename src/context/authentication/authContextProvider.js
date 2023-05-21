@@ -26,7 +26,6 @@ export const AuthContextProvider = (props) => {
       }
     })
     if(response) {
-      console.log('yaha aaya');
       dispatch(
         {
         type: SIGN_IN_USER, 

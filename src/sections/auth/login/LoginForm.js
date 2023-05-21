@@ -14,9 +14,9 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const { login } = useContext(AuthContext)
-  const [mobile, setMobile] = useState('9987860632');
-  const [email, setEmail] = useState('ravindra@gmail.com');
-  const [password, setPassword] = useState('tests1234');
+  const [mobile, setMobile] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [mobileError, setMobileError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
@@ -51,20 +51,20 @@ export default function LoginForm() {
   const validate = () => {
     let isValid = true;
     console.log('validate...')
-    if (!email.includes('@') || !email.includes('.')) {
-      setEmailError('Please enter a valid email address.');
-      isValid = false;
-    }
+    // if (!email.includes('@') || !email.includes('.')) {
+    //   setEmailError('Please enter a valid email address.');
+    //   isValid = false;
+    // }
 
     if (password.length < 6) {
       setPasswordError('Password must be at least 6 characters long.');
       isValid = false;
     }
 
-    if(!isValidEmail(email) && !isValidUserName(email)) {
-      setEmailError('Please enter a valid email address or username.');
-      isValid = false
-    }
+    // if(!isValidEmail(email) && !isValidUserName(email)) {
+    //   setEmailError('Please enter a valid email address or username.');
+    //   isValid = false
+    // }
 
     if(!isValidPassword) {
       setPasswordError('Password must be at least 6 characters long.');

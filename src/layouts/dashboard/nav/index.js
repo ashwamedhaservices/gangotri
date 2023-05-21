@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 // @mui
 import { styled, alpha } from '@mui/material/styles';
@@ -14,6 +14,7 @@ import Scrollbar from '../../../components/scrollbar';
 import NavSection from '../../../components/nav-section';
 //
 import navConfig from './config';
+import { storageGetItem } from '../../../service/ash_admin';
 
 // ----------------------------------------------------------------------
 
@@ -38,13 +39,19 @@ export default function Nav({ openNav, onCloseNav }) {
   const { pathname } = useLocation();
 
   const isDesktop = useResponsive('up', 'lg');
-
+  const [accountName, setAccountName] = useState('Guest');
   useEffect(() => {
     if (openNav) {
       onCloseNav();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
+
+  useEffect(() => {
+    const {full_name } = JSON.parse(storageGetItem('users'));
+    
+    setAccountName(full_name )
+  }, []) 
 
   const renderContent = (
     <Scrollbar
@@ -64,12 +71,13 @@ export default function Nav({ openNav, onCloseNav }) {
 
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {account.displayName}
+                {/* {account.displayName} */}
+                {accountName}
               </Typography>
 
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+              {/* <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                 {account.role}
-              </Typography>
+              </Typography> */}
             </Box>
           </StyledAccount>
         </Link>
