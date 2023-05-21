@@ -1,6 +1,5 @@
 {
   "name": "ashwamedha-admin",
-  "proxy": "http://64.227.164.116/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
