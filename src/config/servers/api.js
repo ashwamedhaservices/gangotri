@@ -1,4 +1,5 @@
-export const API_BASE_URL = 'http://64.227.164.116';
+// export const API_BASE_URL = 'http://64.227.164.116';
+export const API_BASE_URL = 'https://apistage.ashwamedha.net';
 
 export const API_BASE_VERSION = '/api/v1';
 
