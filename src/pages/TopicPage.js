@@ -158,7 +158,7 @@ export default function TopicPage() {
             { subject_id && course_id && chapter_id && ( <>
               <Grid item xs={12} sm={6}>
                 <Item>
-                  <Stack sx={{ display:'flex', justifyContent: 'center', alignItems: "center" }}>
+                  <Stack sx={{ display:'flex', justifyContent: 'center', alignItems: "center", height: '180px' }}>
                     {/* <TextField
                   autoFocus
                   name="image_url"

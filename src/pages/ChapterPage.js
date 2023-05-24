@@ -121,7 +121,7 @@ export default function ChapterPage() {
             <Grid container spacing={2}>
               { subject_id && course_id && <Grid item xs={12}>
                 <Item>
-                  <Stack sx={{ display:'flex', justifyContent: 'center', alignItems: "center", height: '100px' }}>
+                  <Stack sx={{ display:'flex', justifyContent: 'center', alignItems: "center", height: '180px' }}>
                     {/* <TextField
                   autoFocus
                   name="image_url"

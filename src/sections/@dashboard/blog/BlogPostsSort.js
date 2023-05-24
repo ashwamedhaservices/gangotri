@@ -9,14 +9,15 @@ BlogPostsSort.propTypes = {
   onSort: PropTypes.func,
 };
 
-export default function BlogPostsSort({ options, onSort, size='sm', label, value }) {
+export default function BlogPostsSort({ name, options, onChange, size='sm', label, value }) {
   return (
     <TextField 
       select 
+      name={name}
       size={size} 
       label={label}
       value={value} 
-      onChange={onSort}
+      onChange={onChange}
     >
       {options.map((option) => (
         <MenuItem key={option.value} value={option.value}>

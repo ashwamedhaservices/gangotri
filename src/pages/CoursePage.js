@@ -19,6 +19,8 @@ import ImageInput from "../components/image-input";
 import CourseCard from "../sections/@dashboard/course/CourseCard";
 import { createCourse, getCourse, postFileUpload, putFileUpload } from "../service/ash_admin";
 import { useNavigate } from "react-router-dom";
+import { BlogPostsSort } from "../sections/@dashboard/blog";
+import { LANGUAGES, LEVEL } from "../utils/options";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -27,8 +29,6 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: theme.palette.text.secondary,
 }));
-
-
 
 export default function CoursePage() {
   const navigate = useNavigate();
@@ -132,7 +132,7 @@ export default function CoursePage() {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Item>
-                  <Stack sx={{ display:'flex', justifyContent: 'center', alignItems: "center", height: '100px' }}>
+                  <Stack sx={{ display:'flex', justifyContent: 'center', alignItems: "center", height: '180px' }}>
                     {/* <TextField
                   autoFocus
                   name="image_url"
@@ -176,12 +176,12 @@ export default function CoursePage() {
               <Grid item xs={12} sm={4}>
                 <Item>
                   <Stack>
-                    <TextField
-                      autoFocus
+                    <BlogPostsSort
                       name="language"
                       label="Course language"
                       value={course.language}
                       onChange={handleCourseDetails}
+                      options={LANGUAGES}
                     />
                   </Stack>
                 </Item>
@@ -189,12 +189,12 @@ export default function CoursePage() {
               <Grid item xs={12} sm={4}>
                 <Item>
                   <Stack>
-                    <TextField
-                      autoFocus
+                    <BlogPostsSort
                       name="level"
                       label="Course level"
                       value={course.level}
                       onChange={handleCourseDetails}
+                      options={LEVEL}
                     />
                   </Stack>
                 </Item>

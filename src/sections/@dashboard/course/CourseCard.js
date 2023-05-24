@@ -76,16 +76,30 @@ const CourseCard = ({ course, index, handleClick }) => {
     created_at,
     updated_at
   } = course;
-  const latestPostLarge = index === 0;
-  const latestPost = index === 1 || index === 2;
+  // const latestPostLarge = index === 0;
+  // const latestPost = index === 1 || index === 2;
+  const latestPostLarge = false;
+  const latestPost = false;
   // const POST_INFO = [
   //   { number: comment, icon: 'eva:message-circle-fill' },
   //   { number: view, icon: 'eva:eye-fill' },
   //   { number: share, icon: 'eva:share-fill' },
   // ];
   return (
-    <Grid item xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 6 : 3} onClick={() => handleClick(id)}>
-      <Card sx={{ position: 'relative' }}>
+    <Grid item xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 6 : 3}>
+      <Card sx={
+        { 
+        position: 'relative',
+        transition: 'transform 3s ease-in-out',
+        cursor: 'pointer',
+        }, 
+        {
+          "&:hover": {
+            transform: 'scale3d(1.05, 1.05, 1)',
+          }
+        }
+      } 
+      onClick={() => handleClick(id)}>
         <StyledCardMedia
           sx={{
             ...((latestPostLarge || latestPost) && {
@@ -153,7 +167,7 @@ const CourseCard = ({ course, index, handleClick }) => {
           <StyledTitle
             color="inherit"
             variant="subtitle2"
-            underline="hover"
+            underline="unset"
             sx={{
               ...(latestPostLarge && { typography: 'h5'}),
               ...((latestPostLarge || latestPost) && {

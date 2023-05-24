@@ -123,7 +123,7 @@ export default function SubjectPage() {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Item>
-                  <Stack sx={{ display:'flex', justifyContent: 'center', alignItems: "center", height: '100px' }}>
+                  <Stack sx={{ display:'flex', justifyContent: 'center', alignItems: "center", height: '180px' }}>
                     {/* <TextField
                   autoFocus
                   name="image_url"

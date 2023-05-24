@@ -19,15 +19,17 @@ import { CHAPTER_CREATE, CHAPTER_GET, COURSE_CREATE, COURSE_GET, SUBJECT_CREATE,
 // export default ApiAdminServiceInstance;
 
 // Local Storage
-export const storageSetItem = (key, value) => localStorage.setItem(key, JSON.stringify(value));
+export const storageSetItem = (key, value) => localStorage.setItem(key, value);
 export const storageGetItem = (key) => localStorage.getItem(key);
 export const storageClear = () => localStorage.clear();
 export const storageRemoveItem = (key) => localStorage.removeItem(key);
 
-const headers = {
-  "Content-type": "application/json",
-  Authorization: `Bearer ${JSON.parse(storageGetItem('token'))}`,
-}
+const getHeaderOptions = () => (
+  {
+    "Content-type": "application/json",
+    Authorization: `Bearer ${storageGetItem('token')}`,
+  }
+)
 
 // Login
 export const postLogin = async (payload) => {
@@ -44,10 +46,10 @@ export const postLogin = async (payload) => {
     response = response.data
     if(response.success) {
       const { attributes } = response.data
-      storageSetItem('users', {
+      storageSetItem('users', JSON.stringify({
         id: attributes.id,
         full_name: attributes.full_name
-      })
+      }))
       storageSetItem('token', attributes.token);
       return response.data
     } else {
@@ -65,7 +67,7 @@ export const createCourse = async (payload) => {
     let response = await axios({
       method: 'post',
       url: COURSE_CREATE(),
-      headers,
+      headers: getHeaderOptions(),
       data: payload,
     });
     console.log('[createCourse]::', response);
@@ -88,7 +90,7 @@ export const getCourse = async () => {
     let response = await axios({
       method: 'get',
       url: COURSE_GET(),
-      headers,
+      headers: getHeaderOptions(),
     });
     console.log('[getCourse]::', response, response.data);
     response = response.data
@@ -109,7 +111,7 @@ export const createSubject = async (course_id, payload) => {
     let response = await axios({
       method: 'post',
       url: SUBJECT_CREATE(course_id),
-      headers,
+      headers: getHeaderOptions(),
       data: payload,
     });
     console.log('[createSubject]::', response);
@@ -129,7 +131,7 @@ export const getSubject = async (course_id) => {
   try {
     let response = await axios({
       method: 'get',
-      headers,
+      headers: getHeaderOptions(),
       url: SUBJECT_GET(course_id),
     });
     console.log('[getSubject]::', response);
@@ -151,7 +153,7 @@ export const createChapter = async (subject_id, payload) => {
     let response = await axios({
       method: 'post',
       url: CHAPTER_CREATE(subject_id),
-      headers,
+      headers: getHeaderOptions(),
       data: payload
     });
     console.log('[createChapter]::', response);
@@ -172,7 +174,7 @@ export const getChapter = async (subject_id) => {
     let response = await axios({
       method: 'get',
       url: CHAPTER_GET(subject_id),
-      headers
+      headers: getHeaderOptions(),
     });
     console.log('[getChapter]::', response);
     response = response.data
@@ -193,7 +195,7 @@ export const createTopic = async (chapter_id, payload) => {
     let response = await axios({
       method: 'post',
       url: TOPIC_CREATE(chapter_id),
-      headers,
+      headers: getHeaderOptions(),
       data: payload
     });
     console.log('[createChapter]::', response);
@@ -214,7 +216,7 @@ export const getTopic = async (chapter_id) => {
     let response = await axios({
       method: 'get',
       url: TOPIC_GET(chapter_id),
-      headers,
+      headers: getHeaderOptions(),
     });
     console.log('[getChapter]::', response);
     response = response.data
@@ -242,7 +244,7 @@ export const postFileUpload = async (payload) => {
     let response = await axios({
       method: 'post',
       url: FILE_UPLOAD(),
-      headers,
+      headers: getHeaderOptions(),
       data: payload
     });
     console.log('[postFileUpload]::', response);
