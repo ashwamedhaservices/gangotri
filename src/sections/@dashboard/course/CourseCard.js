@@ -61,6 +61,7 @@ const StyledCover = styled('img')({
 
 
 const CourseCard = ({ course, index, handleClick }) => {
+  const default_img_url = '/assets/images/covers/cover_17.jpg'
   const {
     id,
     name,
@@ -147,7 +148,7 @@ const CourseCard = ({ course, index, handleClick }) => {
               }),
             }}
           /> */}
-          <StyledCover alt={name} src={image_url} />
+          <StyledCover alt={name} src={image_url || default_img_url} />
         </StyledCardMedia>
 
         <CardContent

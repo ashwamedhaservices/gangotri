@@ -102,6 +102,11 @@ export default function CoursePage() {
   const handleCourseClick = (course_id) => {
     navigate(`${course_id}/subject`, { replace: false })
   }
+
+  const handleDisable = () => {
+    if(!course.name || !course.description || !course.level || !course.language) return true
+    return false
+  }
   
   return (
     <>
@@ -119,13 +124,15 @@ export default function CoursePage() {
           <Typography variant="h4" gutterBottom>
             Course
           </Typography>
-          <Button
+          {
+          !courseAdd && <Button
             variant="contained"
             startIcon={<Iconify icon="eva:plus-fill" />}
             onClick={() => setCourseAdd(true)}
           >
             New Course
           </Button>
+        }
         </Stack>
         {courseAdd && (
           <div>
@@ -160,6 +167,32 @@ export default function CoursePage() {
                   </Stack>
                 </Item>
               </Grid>
+              <Grid item xs={12} sm={3}>
+                <Item>
+                  <Stack>
+                    <BlogPostsSort
+                      name="language"
+                      label="Course language"
+                      value={course.language}
+                      onChange={handleCourseDetails}
+                      options={LANGUAGES}
+                    />
+                  </Stack>
+                </Item>
+              </Grid>
+              <Grid item xs={12} sm={3}>
+                <Item>
+                  <Stack>
+                    <BlogPostsSort
+                      name="level"
+                      label="Course level"
+                      value={course.level}
+                      onChange={handleCourseDetails}
+                      options={LEVEL}
+                    />
+                  </Stack>
+                </Item>
+              </Grid>
               <Grid item xs={12} sm={8}>
                 <Item>
                   <Stack>
@@ -173,38 +206,14 @@ export default function CoursePage() {
                   </Stack>
                 </Item>
               </Grid>
-              <Grid item xs={12} sm={4}>
-                <Item>
-                  <Stack>
-                    <BlogPostsSort
-                      name="language"
-                      label="Course language"
-                      value={course.language}
-                      onChange={handleCourseDetails}
-                      options={LANGUAGES}
-                    />
-                  </Stack>
-                </Item>
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <Item>
-                  <Stack>
-                    <BlogPostsSort
-                      name="level"
-                      label="Course level"
-                      value={course.level}
-                      onChange={handleCourseDetails}
-                      options={LEVEL}
-                    />
-                  </Stack>
-                </Item>
-              </Grid>
             </Grid>
             <LoadingButton
               size="large"
               type="submit"
               variant="contained"
               onClick={handleSubmit}
+              sx={{ mt: '1rem'}}
+              disabled={handleDisable()}
             >
               Add Course
             </LoadingButton>
