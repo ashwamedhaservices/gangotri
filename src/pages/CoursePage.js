@@ -124,22 +124,20 @@ export default function CoursePage() {
           <Typography variant="h4" gutterBottom>
             Course
           </Typography>
-          {
-          !courseAdd && <Button
+          <Button
             variant="contained"
-            startIcon={<Iconify icon="eva:plus-fill" />}
-            onClick={() => setCourseAdd(true)}
+            startIcon={!courseAdd ? <Iconify icon="eva:plus-fill" /> : ''}
+            onClick={() => setCourseAdd(!courseAdd)}
           >
-            New Course
+           {!courseAdd ?  'New Course' : 'Cancel'}
           </Button>
-        }
         </Stack>
         {courseAdd && (
           <div>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Item>
-                  <Stack sx={{ display:'flex', justifyContent: 'center', alignItems: "center", height: '180px' }}>
+                  <Stack sx={{ display:'flex', justifyContent: 'center', alignItems: "center" }}>
                     {/* <TextField
                   autoFocus
                   name="image_url"
@@ -160,7 +158,7 @@ export default function CoursePage() {
                     <TextField
                       autoFocus
                       name="name"
-                      label="Course name"
+                      label="Course name*"
                       value={course.name}
                       onChange={handleCourseDetails}
                     />
@@ -172,7 +170,7 @@ export default function CoursePage() {
                   <Stack>
                     <BlogPostsSort
                       name="language"
-                      label="Course language"
+                      label="Course language*"
                       value={course.language}
                       onChange={handleCourseDetails}
                       options={LANGUAGES}
@@ -185,7 +183,7 @@ export default function CoursePage() {
                   <Stack>
                     <BlogPostsSort
                       name="level"
-                      label="Course level"
+                      label="Course level*"
                       value={course.level}
                       onChange={handleCourseDetails}
                       options={LEVEL}
@@ -199,7 +197,7 @@ export default function CoursePage() {
                     <TextField
                       autoFocus
                       name="description"
-                      label="Course description"
+                      label="Course description*"
                       value={course.description}
                       onChange={handleCourseDetails}
                     />
@@ -211,8 +209,8 @@ export default function CoursePage() {
               size="large"
               type="submit"
               variant="contained"
-              onClick={handleSubmit}
               sx={{ mt: '1rem'}}
+              onClick={handleSubmit}
               disabled={handleDisable()}
             >
               Add Course

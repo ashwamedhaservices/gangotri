@@ -133,6 +133,11 @@ export default function TopicPage() {
     }
   }
 
+  const handleDisable = () => {
+    if(!topic.name || !topic.description) return true
+    return false
+  }
+
   return (
     <>
       <Helmet>
@@ -146,10 +151,10 @@ export default function TopicPage() {
           </Typography>
           <Button 
             variant="contained" 
-            startIcon={<Iconify icon="eva:plus-fill" />} 
-            onClick={() => setTopicAdd(true)}
+            startIcon={!topicAdd ? <Iconify icon="eva:plus-fill" /> : ''} 
+            onClick={() => setTopicAdd(!topicAdd)}
           >
-            New Topic
+            {!topicAdd ? 'New Topic' : 'Cancel'}
           </Button>
         </Stack>
         {topicAdd && (
@@ -192,7 +197,7 @@ export default function TopicPage() {
                     <TextField
                       autoFocus
                       name="name"
-                      label="Topic name"
+                      label="Topic name*"
                       value={topic.name}
                       onChange={handleSubjectDetails}
                     />
@@ -205,7 +210,7 @@ export default function TopicPage() {
                     <TextField
                       autoFocus
                       name="description"
-                      label="Topic description"
+                      label="Topic description*"
                       value={topic.description}
                       onChange={handleSubjectDetails}
                     />
@@ -218,7 +223,9 @@ export default function TopicPage() {
               size="large"
               type="submit"
               variant="contained"
+              sx={{ mt: '1rem'}}
               onClick={handleSubmit}
+              disabled={handleDisable()}
             >
               Add Topic
             </LoadingButton>

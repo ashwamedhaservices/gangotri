@@ -99,6 +99,11 @@ export default function SubjectPage() {
     navigate(`${subject_id}/chapter`, { replace: false })
   }
 
+  const handleDisable = () => {
+    if(!subject.name || !subject.description) return true
+    return false
+  }
+
   return (
     <>
       <Helmet>
@@ -112,10 +117,10 @@ export default function SubjectPage() {
           </Typography>
           <Button 
             variant="contained" 
-            startIcon={<Iconify icon="eva:plus-fill" />} 
-            onClick={() => setSubjectAdd(true)}
+            startIcon={!subjectAdd ? <Iconify icon="eva:plus-fill" /> : ''} 
+            onClick={() => setSubjectAdd(!subjectAdd)}
           >
-            New Subject
+            {!subjectAdd ? 'New Subject' : 'Cancel' }
           </Button>
         </Stack>
         {subjectAdd && (
@@ -123,7 +128,7 @@ export default function SubjectPage() {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Item>
-                  <Stack sx={{ display:'flex', justifyContent: 'center', alignItems: "center", height: '180px' }}>
+                  <Stack sx={{ display:'flex', justifyContent: 'center', alignItems: "center" }}>
                     {/* <TextField
                   autoFocus
                   name="image_url"
@@ -144,7 +149,7 @@ export default function SubjectPage() {
                     <TextField
                       autoFocus
                       name="name"
-                      label="Subject name"
+                      label="Subject name*"
                       value={subject.name}
                       onChange={handleSubjectDetails}
                     />
@@ -157,7 +162,7 @@ export default function SubjectPage() {
                     <TextField
                       autoFocus
                       name="description"
-                      label="Subject description"
+                      label="Subject description*"
                       value={subject.description}
                       onChange={handleSubjectDetails}
                     />
@@ -170,7 +175,9 @@ export default function SubjectPage() {
               size="large"
               type="submit"
               variant="contained"
+              sx={{ mt: '1rem'}}
               onClick={handleSubmit}
+              disabled={handleDisable()}
             >
               Add Subject
             </LoadingButton>

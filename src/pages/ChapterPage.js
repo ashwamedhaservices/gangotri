@@ -97,6 +97,11 @@ export default function ChapterPage() {
     navigate(`${chapter_id}/topic`, { replace: false })
   }
 
+  const handleDisable = () => {
+    if(!chapter.name || !chapter.description) return true
+    return false
+  }
+
   return (
     <>
       <Helmet>
@@ -110,10 +115,10 @@ export default function ChapterPage() {
           </Typography>
           <Button 
             variant="contained" 
-            startIcon={<Iconify icon="eva:plus-fill" />} 
-            onClick={() => setChapterAdd(true)}
+            startIcon={!chapterAdd ? <Iconify icon="eva:plus-fill" /> : ''} 
+            onClick={() => setChapterAdd(!chapterAdd)}
           >
-            New Chapter
+            { !chapterAdd ? 'New Chapter' : 'Cancel' }
           </Button>
         </Stack>
         {chapterAdd && (
@@ -143,7 +148,7 @@ export default function ChapterPage() {
                     <TextField
                       autoFocus
                       name="name"
-                      label="Chapter name"
+                      label="Chapter name*"
                       value={chapter.name}
                       onChange={handleSubjectDetails}
                     />
@@ -156,7 +161,7 @@ export default function ChapterPage() {
                     <TextField
                       autoFocus
                       name="description"
-                      label="Chapter description"
+                      label="Chapter description*"
                       value={chapter.description}
                       onChange={handleSubjectDetails}
                     />
@@ -169,7 +174,9 @@ export default function ChapterPage() {
               size="large"
               type="submit"
               variant="contained"
+              sx={{ mt: '1rem'}}
               onClick={handleSubmit}
+              disabled={handleDisable()}
             >
               Add Chapter
             </LoadingButton>
