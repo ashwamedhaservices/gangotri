@@ -5,6 +5,7 @@ import './layout.css';
 import './table.css';
 import './padding.css';
 import './flex.css';
+import './video.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 

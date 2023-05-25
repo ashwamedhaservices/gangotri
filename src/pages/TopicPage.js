@@ -149,13 +149,21 @@ export default function TopicPage() {
           <Typography variant="h4" gutterBottom>
             Topic
           </Typography>
-          <Button 
+          {!showVideo && <Button 
             variant="contained" 
             startIcon={!topicAdd ? <Iconify icon="eva:plus-fill" /> : ''} 
             onClick={() => setTopicAdd(!topicAdd)}
           >
             {!topicAdd ? 'New Topic' : 'Cancel'}
           </Button>
+        }
+        {showVideo && <Button 
+            variant="contained" 
+            onClick={() => setShowVideo('')}
+          >
+            Close
+          </Button>
+        }
         </Stack>
         {topicAdd && (
           <div>
@@ -246,20 +254,14 @@ export default function TopicPage() {
       </Container>
       {
         showVideo && (
-          <Container>
+          <Container className="a-video-container">
             <video
-              className="VideoInput_video"
+              className="VideoInput_video a-video"
               width="100%"
-              height="300px"
+              height="100%"
               controls
               src={showVideo}
             />
-            <Button 
-              variant="contained"
-              onClick={() => watchVideo(showVideo)}
-            >
-              Go to Topics
-            </Button>
           </Container>
         )
       }
