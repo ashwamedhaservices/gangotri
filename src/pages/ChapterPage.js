@@ -93,8 +93,8 @@ export default function ChapterPage() {
     }
   }
 
-  const handleChapterClick = (chapter_id) => {
-    navigate(`${chapter_id}/topic`, { replace: false })
+  const handleChapterClick = (chapter) => {
+    navigate(`${chapter.id}/topic`, { replace: false })
   }
 
   const handleDisable = () => {

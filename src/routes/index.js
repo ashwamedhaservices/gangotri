@@ -34,7 +34,7 @@ export default function Router() {
         { element: <Navigate to="/dashboard/course" />, index: true },
         // { path: 'app', element: <DashboardAppPage /> },
         { path: 'course', element: <CoursePage />,},
-        { path: 'course/:course_id/subject', element: <SubjectPage />,},
+        { path: 'course/:course_name/subject', element: <SubjectPage />,},
         { path: 'course/:course_id/subject/:subject_id/chapter', element: <ChapterPage />,},
         { path: 'course/:course_id/subject/:subject_id/chapter/:chapter_id/topic', element: <TopicPage />,},
         // { path: 'subject', element: <SubjectPage />,},

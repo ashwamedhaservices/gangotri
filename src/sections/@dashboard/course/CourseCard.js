@@ -100,7 +100,7 @@ const CourseCard = ({ course, index, handleClick }) => {
           }
         }
       } 
-      onClick={() => handleClick(id)}>
+      onClick={() => handleClick(course)}>
         <StyledCardMedia
           sx={{
             ...((latestPostLarge || latestPost) && {
@@ -168,7 +168,7 @@ const CourseCard = ({ course, index, handleClick }) => {
           <StyledTitle
             color="inherit"
             variant="subtitle2"
-            underline="unset"
+            underline="none"
             sx={{
               ...(latestPostLarge && { typography: 'h5'}),
               ...((latestPostLarge || latestPost) && {
@@ -179,7 +179,7 @@ const CourseCard = ({ course, index, handleClick }) => {
             {name}
           </StyledTitle>
 
-          <Typography gutterBottom variant="caption" sx={{ color: 'text.disabled', display: 'block' }}>
+          <Typography gutterBottom variant="caption" sx={{ color: 'text.disabled', display: 'block' }} className="truncate-3">
             {description}
           </Typography>
 

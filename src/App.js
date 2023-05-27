@@ -6,6 +6,7 @@ import Router from './routes';
 import ThemeProvider from './theme';
 import ScrollToTop from './components/scroll-to-top';
 import { AuthContextProvider } from './context/authentication/authContextProvider'
+import { CourseContextProvider } from './context/courses/courseContextProvider';
 
 function App() {
   return (
@@ -14,8 +15,10 @@ function App() {
         <BrowserRouter>
           <ThemeProvider>
             <AuthContextProvider>
-              <ScrollToTop />
-              <Router />
+              <CourseContextProvider>
+                <ScrollToTop />
+                <Router />
+              </CourseContextProvider>
             </AuthContextProvider>
           </ThemeProvider>
         </BrowserRouter>

@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 // @mui
 import {
   Stack,
@@ -17,10 +17,12 @@ import { styled } from "@mui/material/styles";
 import { LoadingButton } from "@mui/lab";
 import ImageInput from "../components/image-input";
 import CourseCard from "../sections/@dashboard/course/CourseCard";
-import { createCourse, getCourse, postFileUpload, putFileUpload } from "../service/ash_admin";
+import { createCourse, postFileUpload, putFileUpload, storageRemoveItem } from "../service/ash_admin";
 import { useNavigate } from "react-router-dom";
 import { BlogPostsSort } from "../sections/@dashboard/blog";
 import { LANGUAGES, LEVEL } from "../utils/options";
+import { CourseContext } from "../context/courses/courseContextProvider";
+import { createSlug } from "../utils/default";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -31,6 +33,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function CoursePage() {
+  const { courseList, setAllCourses, setSelectedCourse } = useContext(CourseContext)
   const navigate = useNavigate();
   const [courseAdd, setCourseAdd] = useState(false);
   const [course, setCourse] = useState({
@@ -40,7 +43,7 @@ export default function CoursePage() {
     level: "",
     language: ""
   });
-  const [courseList, setCourseList] = useState([]);
+  const [coursesList, setCoursesList] = useState([]);
 
   const handleCourseDetails = (e) => {
     setCourse(() => ({
@@ -89,18 +92,22 @@ export default function CoursePage() {
   };
 
   useEffect(() => {
+    storageRemoveItem('selectedCourse');
     fetchCourseData();
   }, [courseAdd]);
+
   const fetchCourseData = async () => {
-    const res = await getCourse();
-    console.log('', res);
-    if(res && res.length > 0) {
-      setCourseList(() => [...res]);
-    }
+    console.log('[CoursePage]::fetchCourseData');
+    await setAllCourses();
   }
 
-  const handleCourseClick = (course_id) => {
-    navigate(`${course_id}/subject`, { replace: false })
+  useEffect(() => {
+    setCoursesList(() => [...courseList])
+  }, [courseList])
+
+  const handleCourseClick = (course) => {
+    setSelectedCourse(course)
+    navigate(`${createSlug(course.name)}/subject`, { replace: false })
   }
 
   const handleDisable = () => {
@@ -122,7 +129,7 @@ export default function CoursePage() {
           mb={5}
         >
           <Typography variant="h4" gutterBottom>
-            Course
+            All Courses
           </Typography>
           <Button
             variant="contained"
@@ -195,7 +202,6 @@ export default function CoursePage() {
                 <Item>
                   <Stack>
                     <TextField
-                      autoFocus
                       name="description"
                       label="Course description*"
                       value={course.description}
@@ -218,9 +224,9 @@ export default function CoursePage() {
           </div>
         )}
         {!courseAdd && (
-          courseList ?
+          coursesList ?
           <Grid container spacing={3}>
-            {courseList.map((course, index) => (
+            {coursesList.map((course, index) => (
               <CourseCard key={course.id} course={course} index={index} handleClick={handleCourseClick}/>
             ))}
           </Grid>

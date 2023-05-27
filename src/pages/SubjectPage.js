@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 // @mui
 import {
   Stack,
@@ -16,8 +16,9 @@ import { LoadingButton } from '@mui/lab';
 import { styled } from "@mui/material/styles";
 import ImageInput from '../components/image-input';
 import CourseCard from '../sections/@dashboard/course/CourseCard';
-import { getSubject, postFileUpload, putFileUpload, createSubject } from '../service/ash_admin';
+import { getSubject, postFileUpload, putFileUpload, createSubject, storageGetItem } from '../service/ash_admin';
 import { useNavigate, useParams } from 'react-router-dom';
+import { CourseContext } from '../context/courses/courseContextProvider';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -27,10 +28,18 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
+const ItemContainer = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#232323" : "#f0f0f0",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  // textAlign: "center",
+  color: theme.palette.text.secondary,
+}));
+
 
 export default function SubjectPage() {
+  const { selectedCourse } = useContext(CourseContext)
   const navigate = useNavigate();
-  const {course_id} = useParams();
 
   const [subjectAdd, setSubjectAdd] = useState(false);
   const [subject, setSubject] = useState({
@@ -40,6 +49,7 @@ export default function SubjectPage() {
   });
 
   const [subjectList, setSubjectList] = useState([]);
+  const [selectedCourseDetails, setSelectedCourseDetails] = useState({});
 
   const handleSubjectDetails = (e) => {
     setSubject(() => ({
@@ -50,9 +60,11 @@ export default function SubjectPage() {
 
   const handleSubmit = async () => {
     console.log("subject:", subject);
-    const res = await createSubject(course_id, {subject: subject});
-    console.log('creating subject...', res);
-    setSubjectAdd(false);
+    if(selectedCourseDetails && selectedCourseDetails.id) {
+      const res = await createSubject(selectedCourseDetails.id, {subject: subject});
+      console.log('creating subject...', res);
+      setSubjectAdd(false);
+    }
   };
   const handleImage = async (file) => {
     let inputFile = {...file[0]}
@@ -60,8 +72,8 @@ export default function SubjectPage() {
     inputFile.name = file[0].name.split('.')[0];
     console.log("file:", file[0], inputFile);
 
-    if(course_id) {
-      inputFile.location = `course/${course_id}/subject`;
+    if(selectedCourseDetails.id) {
+      inputFile.location = `course/${selectedCourseDetails.id}/subject`;
       // Creating the file location
       const res = await postFileUpload({
         file: {
@@ -82,21 +94,28 @@ export default function SubjectPage() {
       console.log('uploaded subject image', resFileUpload);
     }
   };
+  useEffect(() => {
+    const storageSelectedCourse = JSON.parse(storageGetItem('selectedCourse'))
+    setSelectedCourseDetails(() => ({...selectedCourse, ...storageSelectedCourse}))
+  }, [selectedCourse])
 
   useEffect(() => {
-    fetchSubjectData(course_id);
-  }, [subjectAdd, course_id]);
+    fetchSubjectData();
+  }, [subjectAdd, selectedCourseDetails]);
   
-  const fetchSubjectData = async (courseId) => {
-    const res = await getSubject(courseId);
-    console.log('fetchSubjectData', res);
-    if(res && res.length > 0) {
-      setSubjectList(() => [...res]);
+  const fetchSubjectData = async () => {
+    if(selectedCourseDetails && selectedCourseDetails.id) {
+      const res = await getSubject(selectedCourseDetails.id);
+      console.log('fetchSubjectData', res);
+      if(res && res.length > 0) {
+        setSubjectList(() => [...res]);
+      }
     }
+    
   }
 
-  const handleSubjectClick = (subject_id) => {
-    navigate(`${subject_id}/chapter`, { replace: false })
+  const handleSubjectClick = (subject) => {
+    navigate(`${subject.id}/chapter`, { replace: false })
   }
 
   const handleDisable = () => {
@@ -123,6 +142,19 @@ export default function SubjectPage() {
             {!subjectAdd ? 'New Subject' : 'Cancel' }
           </Button>
         </Stack>
+        {selectedCourseDetails && selectedCourseDetails.name && selectedCourseDetails.description && <ItemContainer sx={{ mb: '1rem'}}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Typography variant="h6">
+                {selectedCourseDetails.name}
+              </Typography>
+              <Typography variant="body2">
+                {selectedCourseDetails.description}
+              </Typography>
+            </Grid>
+          </Grid>
+        </ItemContainer>
+        }
         {subjectAdd && (
           <div>
             <Grid container spacing={2}>
@@ -160,7 +192,6 @@ export default function SubjectPage() {
                 <Item>
                   <Stack>
                     <TextField
-                      autoFocus
                       name="description"
                       label="Subject description*"
                       value={subject.description}

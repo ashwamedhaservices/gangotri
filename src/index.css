@@ -75,3 +75,12 @@ a {
 .background {
   background: linear-gradient( to right, var(--theme-status-shipped-background-color));
 }
+
+.truncate-3 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* number of lines to show */
+          line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
