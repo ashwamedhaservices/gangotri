@@ -228,14 +228,15 @@ export default function SubjectPage() {
             </LoadingButton>
           </div>
         )}
-        {!subjectAdd && (
-            subjectList ? (
-              <Grid container spacing={3}>
-              {subjectList.map((course, index) => (
-                <CourseCard key={course.id} course={course} index={index} handleClick={handleSubjectClick}/>
-              ))}
-              </Grid>
-          ) : <Grid container>
+        {!subjectAdd && subjectList && (
+          <Grid container spacing={3}>
+            {subjectList.map((course, index) => (
+              <CourseCard key={course.id} course={course} index={index} handleClick={handleSubjectClick}/>
+            ))}
+          </Grid>
+        )}
+        {!subjectAdd && !subjectList && (
+          <Grid container>
             Select a course or add a course before adding subject
           </Grid>
         )}

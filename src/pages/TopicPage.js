@@ -326,14 +326,14 @@ export default function TopicPage() {
             </LoadingButton>
           </div>
         )}
-        {!topicAdd && !showVideo && (
-          topicList ? (
+        {!topicAdd && !showVideo && topicList && (
           <Grid container spacing={3}>
             {topicList.map((topic, index) => (
               <CourseCard key={topic.id} course={topic} index={index} handleClick={() => watchVideo(topic)}/>
             ))}
           </Grid>
-          ): 
+        )}
+        {!topicAdd && !showVideo && !topicList && (
           <Grid container>
             Select a course, chapter, topic or add a course before adding subject
           </Grid>

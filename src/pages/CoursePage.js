@@ -234,18 +234,20 @@ export default function CoursePage() {
             </LoadingButton>
           </div>
         )}
-        {!courseAdd && (
-          coursesList ?
+        {!courseAdd && coursesList && (
           <Grid container spacing={3}>
             {coursesList.map((course, index) => (
               <CourseCard key={course.id} course={course} index={index} handleClick={handleCourseClick}/>
             ))}
           </Grid>
-          : 
-          <Grid container>
-            Please add Courses
-          </Grid>
         )}
+        {
+          !courseAdd && !coursesList && (
+            <Grid container>
+              Please add Courses
+            </Grid>
+          )
+        }
       </Container>
     </>
   );

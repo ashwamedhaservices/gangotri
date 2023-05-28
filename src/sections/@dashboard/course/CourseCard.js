@@ -5,6 +5,7 @@ import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import LanguageIcon from '@mui/icons-material/Language';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
+import SchoolIcon from '@mui/icons-material/School';
 //
 import SvgColor from '../../../components/svg-color';
 import Iconify from '../../../components/iconify';
@@ -77,10 +78,10 @@ const CourseCard = ({ course, index, handleClick }) => {
     created_at,
     updated_at
   } = course;
-  // const latestPostLarge = index === 0;
-  // const latestPost = index === 1 || index === 2;
-  const latestPostLarge = false;
-  const latestPost = false;
+  const latestPostLarge = index === 0;
+  const latestPost = index === 1 || index === 2;
+  // const latestPostLarge = false;
+  // const latestPost = false;
   // const POST_INFO = [
   //   { number: comment, icon: 'eva:message-circle-fill' },
   //   { number: view, icon: 'eva:eye-fill' },
@@ -212,8 +213,8 @@ const CourseCard = ({ course, index, handleClick }) => {
                 }),
               }}
             >
-              { language && <Typography variant="caption" sx={{ display: 'flex', alignItems: 'center', mr: 1, typography: 'body2' }}><LanguageIcon sx={{ fontSize: 12 }}/>{language}</Typography>}
-              { level && <Typography variant="caption" sx={{ display: 'flex', alignItems: 'center', typography: 'body2' }}><PriorityHighIcon sx={{ fontSize: 12 }}/>{level}</Typography>}
+              { language && <Typography variant="caption" sx={{ display: 'flex', alignItems: 'center', mr: 1, typography: 'body2' }}><LanguageIcon sx={{ fontSize: 12, marginRight: '4px' }}/>{language}</Typography>}
+              { level && <Typography variant="caption" sx={{ display: 'flex', alignItems: 'center', typography: 'body2' }}><SchoolIcon sx={{ fontSize: 12, marginRight: '4px' }}/>{level}</Typography>}
             </Box>
           </StyledLanguageInfo>
 
@@ -227,8 +228,8 @@ const CourseCard = ({ course, index, handleClick }) => {
                 }),
               }}
             >
-              { hours && <Typography variant="caption" sx={{ display: 'flex', alignItems: 'center', mr: 1 }}><AccessTimeIcon sx={{ fontSize: 12 }}/>{hours} Hours</Typography>}
-              { price && <Typography variant="caption" sx={{ display: 'flex', alignItems: 'center' }}><CurrencyRupeeIcon sx={{ fontSize: 12 }}/>{price}</Typography>}
+              { hours && <Typography variant="caption" sx={{ display: 'flex', alignItems: 'center', mr: 1 }}><AccessTimeIcon sx={{ fontSize: 12, marginRight: '4px' }}/>{hours} Hours</Typography>}
+              { price && <Typography variant="caption" sx={{ display: 'flex', alignItems: 'center' }}><CurrencyRupeeIcon sx={{ fontSize: 12, marginRight: '4px' }}/>{price}</Typography>}
             </Box>
           </StyledLanguageInfo>
 

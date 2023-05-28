@@ -251,18 +251,18 @@ export default function ChapterPage() {
             </LoadingButton>
           </div>
         )}
-        {!chapterAdd && (
-          chapterList ? (
+        {!chapterAdd && chapterList && (
           <Grid container spacing={3}>
             {chapterList.map((chapter, index) => (
               <CourseCard key={chapter.id} course={chapter} index={index} handleClick={handleChapterClick}/>
             ))}
           </Grid>
-          ): 
-          <Grid container>
-            Select a course or add a course before adding subject
-          </Grid>
         )}
+        {!chapterAdd && !chapterList && (
+            <Grid container>
+              Select a course or add a course before adding subject
+            </Grid>
+          )}
       </Container>
 
     </>
