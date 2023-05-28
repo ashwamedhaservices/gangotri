@@ -9,6 +9,8 @@ import {
   Typography,
   TextField,
   Grid,
+  Breadcrumbs,
+  Link
 } from "@mui/material";
 // components
 import Iconify from "../components/iconify";
@@ -113,6 +115,11 @@ export default function CoursePage() {
     if(!course.name || !course.description || !course.level || !course.language) return true
     return false
   }
+
+  function handleClick(event) {
+    event.preventDefault();
+    console.info('You clicked a breadcrumb.');
+  }
   
   return (
     <>
@@ -121,6 +128,11 @@ export default function CoursePage() {
       </Helmet>
 
       <Container>
+        <Stack direction="row">
+          <Breadcrumbs aria-label="breadcrumb">
+            <Typography color="text.primary">Course</Typography>
+          </Breadcrumbs>
+        </Stack>
         <Stack
           direction="row"
           alignItems="center"
