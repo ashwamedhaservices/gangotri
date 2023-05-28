@@ -16,17 +16,26 @@ import { LoadingButton } from '@mui/lab';
 import { styled } from "@mui/material/styles";
 import ImageInput from '../components/image-input';
 import CourseCard from '../sections/@dashboard/course/CourseCard';
-import {  getChapter, postFileUpload, putFileUpload, createChapter, storageGetItem, storageRemoveItem } from '../service/ash_admin';
+import {  getChapter, postFileUpload, putFileUpload, createChapter, storageGetItem } from '../service/ash_admin';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CourseContext } from '../context/courses/courseContextProvider';
 import { SubjectContext } from '../context/subjects/subjectContextProvider';
 import { ChapterContext } from '../context/chapter/chapterContextProvider';
+import { createSlug } from '../utils/default';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: "center",
+  color: theme.palette.text.secondary,
+}));
+
+const ItemContainer = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#232323" : "#f0f0f0",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  // textAlign: "center",
   color: theme.palette.text.secondary,
 }));
 
@@ -101,8 +110,6 @@ export default function ChapterPage() {
   }, [selectedSubject])
 
   useEffect(() => {
-    storageRemoveItem('selectedChapter');
-    storageRemoveItem('selectedTopic');
     fetchSubjectChapter()
   }, [chapterAdd, selectedCourseDetails, selectedSubjectDetails]);
 
@@ -118,7 +125,7 @@ export default function ChapterPage() {
 
   const handleChapterClick = (chapter) => {
     setSelectedChapter(chapter);
-    navigate(`${chapter.name}/topic`, { replace: false })
+    navigate(`${createSlug(chapter.name)}/topic`, { replace: false })
   }
 
   const handleDisable = () => {
@@ -145,6 +152,28 @@ export default function ChapterPage() {
             { !chapterAdd ? 'New Chapter' : 'Cancel' }
           </Button>
         </Stack>
+        {selectedCourseDetails && 
+          selectedCourseDetails.name && 
+          selectedSubjectDetails && 
+          selectedSubjectDetails.name && 
+          selectedSubjectDetails.description && 
+          <ItemContainer sx={{ mb: '1rem'}}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Typography variant="h6">
+                  {selectedCourseDetails.name}
+                </Typography>
+                <hr />
+                <Typography variant="body1">
+                  {selectedSubjectDetails.name}
+                </Typography>
+                <Typography variant="body2">
+                  {selectedSubjectDetails.description}
+                </Typography>
+              </Grid>
+            </Grid>
+          </ItemContainer>
+        }
         {chapterAdd && (
           <div>
             <Grid container spacing={2}>

@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 // @mui
 import {
   Stack,
@@ -16,9 +16,12 @@ import { LoadingButton } from '@mui/lab';
 import { styled } from "@mui/material/styles";
 import ImageInput from '../components/image-input';
 import VideoInput from '../components/video-input';
-import { getTopic, createTopic, postFileUpload, putFileUpload } from '../service/ash_admin';
+import { getTopic, createTopic, postFileUpload, putFileUpload, storageGetItem } from '../service/ash_admin';
 import CourseCard from '../sections/@dashboard/course/CourseCard';
 import { useNavigate, useParams } from 'react-router-dom';
+import { ChapterContext } from '../context/chapter/chapterContextProvider';
+import { SubjectContext } from '../context/subjects/subjectContextProvider';
+import { CourseContext } from '../context/courses/courseContextProvider';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -29,8 +32,18 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
+const ItemContainer = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#232323" : "#f0f0f0",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  // textAlign: "center",
+  color: theme.palette.text.secondary,
+}));
+
 export default function TopicPage() {
-  const navigate = useNavigate();
+  const { selectedCourse } = useContext(CourseContext)
+  const { selectedSubject } = useContext(SubjectContext)
+  const { selectedChapter } = useContext(ChapterContext)
   const {course_id, subject_id, chapter_id} = useParams();
   const [topicAdd, setTopicAdd] = useState(false);
   const [topic, setTopic] = useState({
@@ -41,6 +54,9 @@ export default function TopicPage() {
 
   const [topicList, setTopicList] = useState([]);
   const [showVideo, setShowVideo] = useState('');
+  const [selectedCourseDetails, setSelectedCourseDetails] = useState({});
+  const [selectedSubjectDetails, setSelectedSubjectDetails] = useState({});
+  const [selectedChapterDetails, setSelectedChapterDetails] = useState({});
 
   const handleSubjectDetails = (e) => {
     setTopic(() => ({
@@ -51,9 +67,11 @@ export default function TopicPage() {
 
   const handleSubmit = async () => {
     console.log("topic:", topic);
-    const res = await createTopic(chapter_id, { topic: topic});
-    console.log('creating topic', res);
-    setTopicAdd(false);
+    if(selectedChapterDetails && selectedChapterDetails.id) {
+      const res = await createTopic(selectedChapterDetails.id, { topic: topic});
+      console.log('creating topic', res);
+      setTopicAdd(false);
+    }
   };
   const handleImage = async (file) => {
     let inputFile = {...file[0]}
@@ -61,8 +79,8 @@ export default function TopicPage() {
     inputFile.name = file[0].name.split('.')[0];
     console.log("file:", file[0], inputFile);
 
-    if(subject_id && course_id && chapter_id) {
-      inputFile.location = `course/${course_id}/subject/${subject_id}/chapter/${chapter_id}/topic/images`;
+    if(selectedCourseDetails.id && selectedSubjectDetails.id && selectedChapterDetails.id) {
+      inputFile.location = `course/${selectedCourseDetails.id}/subject/${selectedSubjectDetails.id}/chapter/${selectedChapterDetails.id}/topic/images`;
       // Creating the file location
       const res = await postFileUpload({
         file: {
@@ -90,8 +108,8 @@ export default function TopicPage() {
     inputFile.name = file[0].name.split('.')[0];
     console.log("video file:", file[0], inputFile);
 
-    if(subject_id && course_id && chapter_id) {
-      inputFile.location = `course/${course_id}/subject/${subject_id}/chapter/${chapter_id}/topic/videos`;
+    if(selectedCourseDetails.id && selectedSubjectDetails.id && selectedChapterDetails.id) {
+      inputFile.location = `course/${selectedCourseDetails.id}/subject/${selectedSubjectDetails.id}/chapter/${selectedChapterDetails.id}/topic/videos`;
       // Creating the file location
       const res = await postFileUpload({
         file: {
@@ -112,17 +130,34 @@ export default function TopicPage() {
       console.log('uploaded topic image', resFileUpload);
     }
   }
+  useEffect(() => {
+    const storageSelectedCourse = JSON.parse(storageGetItem('selectedCourse'))
+    setSelectedCourseDetails(() => ({...selectedCourse, ...storageSelectedCourse}))
+  }, [selectedCourse])
 
   useEffect(() => {
-    chapter_id && fetchSubjectChapterTopic(chapter_id)
-  }, [topicAdd, chapter_id]);
+    const storageSelectedSubject = JSON.parse(storageGetItem('selectedSubject'))
+    setSelectedSubjectDetails(() => ({...selectedSubject, ...storageSelectedSubject}))
+  }, [selectedSubject])
 
-  const fetchSubjectChapterTopic = async (chapter_id) => {
-    const res = await getTopic(chapter_id);
-    console.log('fetchSubjectChapterTopic', res);
-    if(res && res.length > 0) {
-      setTopicList(() => [...res]);
+  useEffect(() => {
+    const storageSelectedChapter = JSON.parse(storageGetItem('selectedChapter'))
+    setSelectedChapterDetails(() => ({...selectedChapter, ...storageSelectedChapter}))
+  }, [selectedChapter])
+
+  useEffect(() => {
+    fetchSubjectChapterTopic()
+  }, [topicAdd, selectedCourseDetails, selectedSubjectDetails, selectedChapterDetails]);
+
+  const fetchSubjectChapterTopic = async () => {
+    if(selectedChapterDetails && selectedChapterDetails.id) {
+      const res = await getTopic(selectedChapterDetails.id);
+      console.log('fetchSubjectChapterTopic', res);
+      if(res && res.length > 0) {
+        setTopicList(() => [...res]);
+      }
     }
+    
   }
 
   const watchVideo = (topic) => {
@@ -165,10 +200,38 @@ export default function TopicPage() {
           </Button>
         }
         </Stack>
+        {selectedCourseDetails && 
+          selectedCourseDetails.name && 
+          selectedSubjectDetails && 
+          selectedSubjectDetails.name && 
+          selectedChapterDetails &&
+          selectedChapterDetails.description && 
+          selectedChapterDetails.name &&
+          <ItemContainer sx={{ mb: '1rem'}}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Typography variant="h6">
+                  {selectedCourseDetails.name}
+                </Typography>
+                <hr />
+                <Typography variant="body1">
+                  {selectedSubjectDetails.name}
+                </Typography>
+                <hr />
+                <Typography variant="body1">
+                  {selectedChapterDetails.name}
+                </Typography>
+                <Typography variant="body2">
+                  {selectedChapterDetails.description}
+                </Typography>
+              </Grid>
+            </Grid>
+          </ItemContainer>
+        }
         {topicAdd && (
           <div>
             <Grid container spacing={2}>
-            { subject_id && course_id && chapter_id && ( <>
+            { selectedCourseDetails.id && selectedSubjectDetails.id && selectedChapterDetails.id && ( <>
               <Grid item xs={12} sm={6}>
                 <Item>
                   <Stack sx={{ display:'flex', justifyContent: 'center', alignItems: "center", height: '180px' }}>
@@ -216,7 +279,6 @@ export default function TopicPage() {
                 <Item>
                   <Stack>
                     <TextField
-                      autoFocus
                       name="description"
                       label="Topic description*"
                       value={topic.description}

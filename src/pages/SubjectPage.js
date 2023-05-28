@@ -16,7 +16,7 @@ import { LoadingButton } from '@mui/lab';
 import { styled } from "@mui/material/styles";
 import ImageInput from '../components/image-input';
 import CourseCard from '../sections/@dashboard/course/CourseCard';
-import { getSubject, postFileUpload, putFileUpload, createSubject, storageGetItem, storageRemoveItem } from '../service/ash_admin';
+import { getSubject, postFileUpload, putFileUpload, createSubject, storageGetItem } from '../service/ash_admin';
 import { useNavigate } from 'react-router-dom';
 import { CourseContext } from '../context/courses/courseContextProvider';
 import { SubjectContext } from '../context/subjects/subjectContextProvider';
@@ -103,8 +103,6 @@ export default function SubjectPage() {
   }, [selectedCourse])
 
   useEffect(() => {
-    storageRemoveItem('selectedSubject');
-    storageRemoveItem('selectedChapter');
     fetchSubjectData();
   }, [subjectAdd, selectedCourseDetails]);
   

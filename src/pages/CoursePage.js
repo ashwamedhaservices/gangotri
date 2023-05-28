@@ -17,7 +17,7 @@ import { styled } from "@mui/material/styles";
 import { LoadingButton } from "@mui/lab";
 import ImageInput from "../components/image-input";
 import CourseCard from "../sections/@dashboard/course/CourseCard";
-import { createCourse, postFileUpload, putFileUpload, storageRemoveItem } from "../service/ash_admin";
+import { createCourse, postFileUpload, putFileUpload } from "../service/ash_admin";
 import { useNavigate } from "react-router-dom";
 import { BlogPostsSort } from "../sections/@dashboard/blog";
 import { LANGUAGES, LEVEL } from "../utils/options";
@@ -92,9 +92,6 @@ export default function CoursePage() {
   };
 
   useEffect(() => {
-    storageRemoveItem('selectedCourse');
-    storageRemoveItem('selectedSubject');
-    storageRemoveItem('selectedChapter');
     fetchCourseData();
   }, [courseAdd]);
 
