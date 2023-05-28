@@ -8,7 +8,7 @@ import {
 export const courseReducer = (state, action) => {
   switch(action.type) {
     case SET_ALL_COURSES: 
-      console.log('[courseReducer]::[SET_ALL_COURSE]', action)
+      console.log('[courseReducer]::[SET_ALL_COURSES]', action)
       return {
         ...state,
         courseList: [...action.payload]

@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 // @mui
 import {
   Stack,
@@ -16,8 +16,11 @@ import { LoadingButton } from '@mui/lab';
 import { styled } from "@mui/material/styles";
 import ImageInput from '../components/image-input';
 import CourseCard from '../sections/@dashboard/course/CourseCard';
-import {  getChapter, postFileUpload, putFileUpload, createChapter } from '../service/ash_admin';
+import {  getChapter, postFileUpload, putFileUpload, createChapter, storageGetItem, storageRemoveItem } from '../service/ash_admin';
 import { useNavigate, useParams } from 'react-router-dom';
+import { CourseContext } from '../context/courses/courseContextProvider';
+import { SubjectContext } from '../context/subjects/subjectContextProvider';
+import { ChapterContext } from '../context/chapter/chapterContextProvider';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -28,8 +31,10 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function ChapterPage() {
+  const { selectedCourse } = useContext(CourseContext)
+  const { selectedSubject } = useContext(SubjectContext)
+  const { setSelectedChapter } = useContext(ChapterContext)
   const navigate = useNavigate();
-  const {course_id, subject_id} = useParams();
   const [chapterAdd, setChapterAdd] = useState(false);
   const [chapter, setChapter] = useState({
     name: "",
@@ -38,6 +43,8 @@ export default function ChapterPage() {
   });
 
   const [chapterList, setChapterList] = useState([]);
+  const [selectedCourseDetails, setSelectedCourseDetails] = useState({});
+  const [selectedSubjectDetails, setSelectedSubjectDetails] = useState({});
 
   const handleSubjectDetails = (e) => {
     setChapter(() => ({
@@ -48,9 +55,11 @@ export default function ChapterPage() {
 
   const handleSubmit = async () => {
     console.log("chapter:", chapter);
-    const res = await createChapter(subject_id, {chapter: chapter});
-    console.log('creating chapter', res);
-    setChapterAdd(false);
+    if(selectedSubjectDetails && selectedSubjectDetails.id) {
+      const res = await createChapter(selectedSubjectDetails.id, {chapter: chapter});
+      console.log('creating chapter', res);
+      setChapterAdd(false);
+    }
   };
   const handleImage = async (file) => {
     let inputFile = {...file[0]}
@@ -58,8 +67,8 @@ export default function ChapterPage() {
     inputFile.name = file[0].name.split('.')[0];
     console.log("file:", file[0], inputFile);
 
-    if(subject_id && course_id) {
-      inputFile.location = `course/${course_id}/subject/${subject_id}/chapter`
+    if(selectedSubjectDetails.id && selectedCourseDetails.id) {
+      inputFile.location = `course/${selectedCourseDetails.id}/subject/${selectedSubjectDetails.id}/chapter`
       // Creating the file location
       const res = await postFileUpload({
         file: {
@@ -82,19 +91,34 @@ export default function ChapterPage() {
   };
 
   useEffect(() => {
-    subject_id && fetchSubjectChapter(subject_id)
-  }, [chapterAdd, subject_id]);
+    const storageSelectedCourse = JSON.parse(storageGetItem('selectedCourse'))
+    setSelectedCourseDetails(() => ({...selectedCourse, ...storageSelectedCourse}))
+  }, [selectedCourse])
 
-  const fetchSubjectChapter = async (subjectId) => {
-    const res = await getChapter(subjectId);
-    console.log('fetchSubjectChapter', res);
-    if(res && res.length > 0) {
-      setChapterList(() => [...res]);
+  useEffect(() => {
+    const storageSelectedSubject = JSON.parse(storageGetItem('selectedSubject'))
+    setSelectedSubjectDetails(() => ({...selectedSubject, ...storageSelectedSubject}))
+  }, [selectedSubject])
+
+  useEffect(() => {
+    storageRemoveItem('selectedChapter');
+    storageRemoveItem('selectedTopic');
+    fetchSubjectChapter()
+  }, [chapterAdd, selectedCourseDetails, selectedSubjectDetails]);
+
+  const fetchSubjectChapter = async () => {
+    if(selectedSubjectDetails && selectedSubjectDetails.id) {
+      const res = await getChapter(selectedSubjectDetails.id);
+      console.log('fetchSubjectChapter', res);
+      if(res && res.length > 0) {
+        setChapterList(() => [...res]);
+      }
     }
   }
 
   const handleChapterClick = (chapter) => {
-    navigate(`${chapter.id}/topic`, { replace: false })
+    setSelectedChapter(chapter);
+    navigate(`${chapter.name}/topic`, { replace: false })
   }
 
   const handleDisable = () => {
@@ -124,7 +148,7 @@ export default function ChapterPage() {
         {chapterAdd && (
           <div>
             <Grid container spacing={2}>
-              { subject_id && course_id && <Grid item xs={12}>
+              { selectedSubjectDetails.id && selectedCourseDetails.id && <Grid item xs={12}>
                 <Item>
                   <Stack sx={{ display:'flex', justifyContent: 'center', alignItems: "center", height: '180px' }}>
                     {/* <TextField
@@ -159,7 +183,6 @@ export default function ChapterPage() {
                 <Item>
                   <Stack>
                     <TextField
-                      autoFocus
                       name="description"
                       label="Chapter description*"
                       value={chapter.description}

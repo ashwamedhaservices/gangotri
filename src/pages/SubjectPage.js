@@ -16,9 +16,11 @@ import { LoadingButton } from '@mui/lab';
 import { styled } from "@mui/material/styles";
 import ImageInput from '../components/image-input';
 import CourseCard from '../sections/@dashboard/course/CourseCard';
-import { getSubject, postFileUpload, putFileUpload, createSubject, storageGetItem } from '../service/ash_admin';
-import { useNavigate, useParams } from 'react-router-dom';
+import { getSubject, postFileUpload, putFileUpload, createSubject, storageGetItem, storageRemoveItem } from '../service/ash_admin';
+import { useNavigate } from 'react-router-dom';
 import { CourseContext } from '../context/courses/courseContextProvider';
+import { SubjectContext } from '../context/subjects/subjectContextProvider';
+import { createSlug } from '../utils/default';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -39,6 +41,7 @@ const ItemContainer = styled(Paper)(({ theme }) => ({
 
 export default function SubjectPage() {
   const { selectedCourse } = useContext(CourseContext)
+  const { setSelectedSubject } = useContext(SubjectContext)
   const navigate = useNavigate();
 
   const [subjectAdd, setSubjectAdd] = useState(false);
@@ -100,6 +103,8 @@ export default function SubjectPage() {
   }, [selectedCourse])
 
   useEffect(() => {
+    storageRemoveItem('selectedSubject');
+    storageRemoveItem('selectedChapter');
     fetchSubjectData();
   }, [subjectAdd, selectedCourseDetails]);
   
@@ -115,7 +120,8 @@ export default function SubjectPage() {
   }
 
   const handleSubjectClick = (subject) => {
-    navigate(`${subject.id}/chapter`, { replace: false })
+    setSelectedSubject(subject)
+    navigate(`${createSlug(subject.name)}/chapter`, { replace: false })
   }
 
   const handleDisable = () => {

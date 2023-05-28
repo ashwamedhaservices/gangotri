@@ -7,6 +7,8 @@ import ThemeProvider from './theme';
 import ScrollToTop from './components/scroll-to-top';
 import { AuthContextProvider } from './context/authentication/authContextProvider'
 import { CourseContextProvider } from './context/courses/courseContextProvider';
+import { SubjectContextProvider } from './context/subjects/subjectContextProvider';
+import { ChapterContextProvider } from './context/chapter/chapterContextProvider';
 
 function App() {
   return (
@@ -16,8 +18,12 @@ function App() {
           <ThemeProvider>
             <AuthContextProvider>
               <CourseContextProvider>
-                <ScrollToTop />
-                <Router />
+                <SubjectContextProvider>
+                  <ChapterContextProvider>
+                    <ScrollToTop />
+                    <Router />
+                  </ChapterContextProvider>
+                </SubjectContextProvider>
               </CourseContextProvider>
             </AuthContextProvider>
           </ThemeProvider>

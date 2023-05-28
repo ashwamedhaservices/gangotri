@@ -93,6 +93,8 @@ export default function CoursePage() {
 
   useEffect(() => {
     storageRemoveItem('selectedCourse');
+    storageRemoveItem('selectedSubject');
+    storageRemoveItem('selectedChapter');
     fetchCourseData();
   }, [courseAdd]);
 
