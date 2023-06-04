@@ -239,6 +239,8 @@ export const getTopic = async (chapter_id) => {
 //     "type": "png"
 //   }
 // }
+
+// Creating File Location
 export const postFileUpload = async (payload) => {
   try {
     let response = await axios({
@@ -260,29 +262,24 @@ export const postFileUpload = async (payload) => {
   }
 }
 
-export const putFileUpload = async (axios_url, payload, content_type = "image/*") => {
+// File Uploaded to the location
+export const putFileUpload = async (axios_url, payload, handleUploadProgress = ()=>{}, content_type = "image/*") => {
   try {
     // let data = new FormData();
     // data.append('file', payload);
 
     // const fileReader = await convertToBinary(payload)
-
-    let response = await axios({
+    console.log('[putFileUpload]::', axios_url, payload)
+    return axios({
       method: 'put',
       url: axios_url,
       headers: {
         "Content-type": content_type,
         "x-amz-acl": "public-read",
       },
-      data: payload
+      data: payload,
+      onUploadProgress: handleUploadProgress
     });
-    console.log('[putFileUpload]::', response);
-    response = response.data
-    if(response.status === 'success') {
-      return response.data
-    } else {
-      return null
-    }
   } catch (error) {
     console.log('[error]::[putFileUpload]', error.response)
     return null

@@ -45,6 +45,7 @@ export default function CoursePage() {
     level: "",
     language: ""
   });
+  const [uploadImagePercentage, setUploadImagePercentage] = useState(0);
   const [coursesList, setCoursesList] = useState([]);
 
   const handleCourseDetails = (e) => {
@@ -89,7 +90,14 @@ export default function CoursePage() {
     }
     
     // Uploading the file to the Storage URL of file location
-    const resFileUpload = await putFileUpload(res.message, file[0]);
+    const resFileUpload = await putFileUpload(
+                                  res.message, 
+                                  file[0],
+                                  (progressEvent) => {
+                                    const percentage= parseInt(Math.round((progressEvent.loaded * 100) / progressEvent.total));
+                                    setUploadImagePercentage(percentage);
+                                    return percentage; // Because you were returning the percentage before.
+                                  });
     console.log('uploaded course image', resFileUpload);
   };
 
@@ -166,7 +174,7 @@ export default function CoursePage() {
                     <Typography variant="subtitle1" gutterBottom>
                       Upload Image
                     </Typography>
-                    <ImageInput handleImage={handleImage} />
+                    <ImageInput handleImage={handleImage} percentage={uploadImagePercentage}/>
                   </Stack>
                 </Item>
               </Grid>

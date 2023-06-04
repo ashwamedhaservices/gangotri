@@ -54,6 +54,7 @@ export default function SubjectPage() {
   });
 
   const [subjectList, setSubjectList] = useState([]);
+  const [uploadImagePercentage, setUploadImagePercentage] = useState(0);
   const [selectedCourseDetails, setSelectedCourseDetails] = useState({});
 
   const handleSubjectDetails = (e) => {
@@ -95,7 +96,14 @@ export default function SubjectPage() {
       }
     
       // Uploading the file to the Storage URL of file location
-      const resFileUpload = await putFileUpload(res.message, file[0]);
+      const resFileUpload = await putFileUpload(
+                                    res.message, 
+                                    file[0], 
+                                    (progressEvent) => {
+                                      const percentage= parseInt(Math.round((progressEvent.loaded * 100) / progressEvent.total));
+                                      setUploadImagePercentage(percentage);
+                                      return percentage; // Because you were returning the percentage before.
+                                    });
       console.log('uploaded subject image', resFileUpload);
     }
   };
@@ -185,7 +193,7 @@ export default function SubjectPage() {
                     <Typography variant="subtitle1" gutterBottom>
                       Upload Image
                     </Typography>
-                    <ImageInput handleImage={handleImage} />
+                    <ImageInput handleImage={handleImage} percentage={uploadImagePercentage}/>
                   </Stack>
                 </Item>
               </Grid>

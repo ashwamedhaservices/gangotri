@@ -1,8 +1,10 @@
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import React from "react";
+import Box from '@mui/material/Box';
+import LinearProgressWithLabel from "../progress-bar";
 
 export default function VideoInput(props) {
-  const { width, height, handleVideo } = props;
+  const { width, height, handleVideo, percentage } = props;
 
   const inputRef = React.useRef();
 
@@ -40,7 +42,13 @@ export default function VideoInput(props) {
           src={source}
         />
       )}
-      <div className="VideoInput_footer">{source || "Nothing selectd"}</div>
+      {/* <div className="VideoInput_footer">{source || "Nothing selected"}</div> */}
+      {percentage > 0 && 
+        <Box sx={{ width: '100%' }}>
+          <Typography variant="body2" color="text.secondary">{percentage < 100 ? 'Upload in Progress' : 'Uploaded'}</Typography>
+          <LinearProgressWithLabel value={percentage} />
+        </Box>
+      }
     </div>
   );
 }

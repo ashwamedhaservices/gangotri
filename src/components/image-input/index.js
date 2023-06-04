@@ -2,6 +2,7 @@
 import { styled } from "@mui/material/styles";
 import { Box, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import LinearProgressWithLabel from "../progress-bar";
 
 // const ImageInput = () => {
 //   const [files, setFiles] = useState([]);
@@ -32,7 +33,8 @@ const ImageInput = ({
   limit, 
   multiple, 
   name,
-  handleImage
+  handleImage,
+  percentage,
 }) => {
   const [images, setImages] = useState([]);
   const [imageURLs, setImageURLs] = useState([]);
@@ -75,6 +77,12 @@ const ImageInput = ({
             </Box>
           </Box>
         ) 
+      }
+      {percentage > 0 && 
+        <Box sx={{ width: '100%' }}>
+          <Typography variant="body2" color="text.secondary">{percentage < 100 ? 'Upload in Progress' : 'Uploaded'}</Typography>
+          <LinearProgressWithLabel value={percentage} />
+        </Box>
       }
     </>
   )
