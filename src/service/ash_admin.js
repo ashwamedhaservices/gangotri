@@ -72,7 +72,7 @@ export const createCourse = async (payload) => {
     });
     console.log('[createCourse]::', response);
     response = response.data
-    if(response.status === 'success') {
+    if(response.success === true) {
       return response.data
     } else {
       return null
@@ -94,7 +94,7 @@ export const getCourse = async () => {
     });
     console.log('[getCourse]::', response, response.data);
     response = response.data
-    if(response.status === 'success') {
+    if(response.success === true) {
       return response.data
     } else {
       return null
@@ -116,7 +116,7 @@ export const createSubject = async (course_id, payload) => {
     });
     console.log('[createSubject]::', response);
     response = response.data
-    if(response.status === 'success') {
+    if(response.success === true) {
       return response.data
     } else {
       return null
@@ -136,7 +136,7 @@ export const getSubject = async (course_id) => {
     });
     console.log('[getSubject]::', response);
     response = response.data
-    if(response.status === 'success') {
+    if(response.success === true) {
       return response.data
     } else {
       return null
@@ -158,7 +158,7 @@ export const createChapter = async (subject_id, payload) => {
     });
     console.log('[createChapter]::', response);
     response = response.data
-    if(response.status === 'success') {
+    if(response.success === true) {
       return response.data
     } else {
       return null
@@ -178,7 +178,7 @@ export const getChapter = async (subject_id) => {
     });
     console.log('[getChapter]::', response);
     response = response.data
-    if(response.status === 'success') {
+    if(response.success === true) {
       return response.data
     } else {
       return null
@@ -200,7 +200,7 @@ export const createTopic = async (chapter_id, payload) => {
     });
     console.log('[createChapter]::', response);
     response = response.data
-    if(response.status === 'success') {
+    if(response.success === true) {
       return response.data
     } else {
       return null
@@ -220,7 +220,7 @@ export const getTopic = async (chapter_id) => {
     });
     console.log('[getChapter]::', response);
     response = response.data
-    if(response.status === 'success') {
+    if(response.success === true) {
       return response.data
     } else {
       return null
