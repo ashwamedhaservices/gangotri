@@ -1,68 +1,77 @@
-import PropTypes from 'prop-types';
-import { alpha, styled } from '@mui/material/styles';
-import { Box, Link, Card, Grid, Avatar, Typography, CardContent } from '@mui/material';
-import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import LanguageIcon from '@mui/icons-material/Language';
-import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
-import SchoolIcon from '@mui/icons-material/School';
+import PropTypes from "prop-types";
+import { alpha, styled } from "@mui/material/styles";
+import {
+  Box,
+  Link,
+  Card,
+  Grid,
+  Avatar,
+  Typography,
+  CardContent,
+} from "@mui/material";
+import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import EditIcon from "@mui/icons-material/Edit";
+import LanguageIcon from "@mui/icons-material/Language";
+import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
+import ViewModuleIcon from '@mui/icons-material/ViewModule';
+import SchoolIcon from "@mui/icons-material/School";
 //
-import SvgColor from '../../../components/svg-color';
-import Iconify from '../../../components/iconify';
+import SvgColor from "../../../components/svg-color";
+import Iconify from "../../../components/iconify";
 // utils
-import { fDate } from '../../../utils/formatTime';
-import { fShortenNumber } from '../../../utils/formatNumber';
+import { fDate } from "../../../utils/formatTime";
+import { fShortenNumber } from "../../../utils/formatNumber";
 // ----------------------------------------------------------------------
 
-const StyledCardMedia = styled('div')({
-  position: 'relative',
-  paddingTop: 'calc(100% * 3 / 4)',
+const StyledCardMedia = styled("div")({
+  position: "relative",
+  paddingTop: "calc(100% * 3 / 4)",
 });
 
 const StyledTitle = styled(Link)({
   // height: 44,
-  overflow: 'hidden',
+  overflow: "hidden",
   WebkitLineClamp: 2,
-  display: '-webkit-box',
-  WebkitBoxOrient: 'vertical',
+  display: "-webkit-box",
+  WebkitBoxOrient: "vertical",
 });
 
 const StyledAvatar = styled(Avatar)(({ theme }) => ({
   zIndex: 9,
   width: 32,
   height: 32,
-  position: 'absolute',
+  position: "absolute",
   left: theme.spacing(3),
   bottom: theme.spacing(-2),
 }));
 
-const StyledInfo = styled('div')(({ theme }) => ({
-  display: 'flex',
-  flexWrap: 'wrap',
-  justifyContent: 'flex-end',
+const StyledInfo = styled("div")(({ theme }) => ({
+  display: "flex",
+  flexWrap: "wrap",
+  justifyContent: "flex-end",
   marginTop: theme.spacing(1),
   color: theme.palette.text.disabled,
 }));
 
-const StyledLanguageInfo = styled('div')(({ theme }) => ({
-  display: 'flex',
-  flexWrap: 'wrap',
-  justifyContent: 'flex-start',
+const StyledLanguageInfo = styled("div")(({ theme }) => ({
+  display: "flex",
+  flexWrap: "wrap",
+  justifyContent: "flex-start",
   marginTop: theme.spacing(1),
   color: theme.palette.text.disabled,
 }));
 
-const StyledCover = styled('img')({
+const StyledCover = styled("img")({
   top: 0,
-  width: '100%',
-  height: '100%',
-  objectFit: 'cover',
-  position: 'absolute',
+  width: "100%",
+  height: "100%",
+  objectFit: "cover",
+  position: "absolute",
 });
 
-
-const CourseCard = ({ course, index, handleClick }) => {
-  const default_img_url = '/assets/images/covers/cover_17.jpg'
+const CourseCard = ({ course, index, handleClick, handleEdit }) => {
+  const default_img_url = "/assets/images/covers/cover_17.jpg";
   const {
     id,
     name,
@@ -76,7 +85,7 @@ const CourseCard = ({ course, index, handleClick }) => {
     topic_count,
     enrolled,
     created_at,
-    updated_at
+    updated_at,
   } = course;
   const latestPostLarge = index === 0;
   const latestPost = index === 1 || index === 2;
@@ -88,37 +97,43 @@ const CourseCard = ({ course, index, handleClick }) => {
   //   { number: share, icon: 'eva:share-fill' },
   // ];
   return (
-    <Grid item xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 6 : 3}>
-      <Card sx={
-        { 
-        position: 'relative',
-        transition: 'transform 3s ease-in-out',
-        cursor: 'pointer',
-        }, 
-        {
-          "&:hover": {
-            transform: 'scale3d(1.05, 1.05, 1)',
-          }
+    <Grid
+      item
+      xs={12}
+      sm={latestPostLarge ? 12 : 6}
+      md={latestPostLarge ? 6 : 3}
+    >
+      <Card
+        sx={
+          ({
+            position: "relative",
+            transition: "transform 3s ease-in-out",
+            cursor: "pointer",
+          },
+          {
+            "&:hover": {
+              transform: "scale3d(1.05, 1.05, 1)",
+            },
+          })
         }
-      } 
-      onClick={() => handleClick(course)}>
+      >
         <StyledCardMedia
           sx={{
             ...((latestPostLarge || latestPost) && {
-              pt: 'calc(100% * 4 / 3)',
-              '&:after': {
+              pt: "calc(100% * 4 / 3)",
+              "&:after": {
                 top: 0,
                 content: "''",
-                width: '100%',
-                height: '100%',
-                position: 'absolute',
+                width: "100%",
+                height: "100%",
+                position: "absolute",
                 bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72),
               },
             }),
             ...(latestPostLarge && {
               pt: {
-                xs: 'calc(100% * 4 / 3)',
-                sm: 'calc(100% * 3 / 4.66)',
+                xs: "calc(100% * 4 / 3)",
+                sm: "calc(100% * 3 / 4.66)",
               },
             }),
           }}
@@ -131,9 +146,9 @@ const CourseCard = ({ course, index, handleClick }) => {
               height: 36,
               zIndex: 9,
               bottom: -15,
-              position: 'absolute',
-              color: 'background.paper',
-              ...((latestPostLarge || latestPost) && { display: 'none' }),
+              position: "absolute",
+              color: "background.paper",
+              ...((latestPostLarge || latestPost) && { display: "none" }),
             }}
           />
           {/* <StyledAvatar
@@ -151,18 +166,67 @@ const CourseCard = ({ course, index, handleClick }) => {
           /> */}
           <StyledCover alt={name} src={image_url || default_img_url} />
         </StyledCardMedia>
+        <CardContent
+          sx={{
+            padding: 0,
+            paddingTop: "4px",
+            paddingRight: '16px',
+            top: 0,
+            width: "100%",
+            position: (latestPostLarge || latestPost) &&  "absolute",
+          }}
+        >
+          <StyledInfo>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: (latestPostLarge || latestPost) ? 'column' : 'ro0',
+                alignItems: "flex-end",
+                ...((latestPostLarge || latestPost) && {
+                  color: "grey.500",
+                }),
+              }}
+            >
+              <Typography
+                variant="caption"
+                sx={{ color: "common.black", display: "flex", alignItems: "center", cursor: "pointer", ...((latestPostLarge || latestPost) && {
+                  color: "common.white",
+                }), 
+              }}
+              onClick={() => handleEdit(course)}
+              >
+                <EditIcon sx={{ fontSize: 12, marginRight: "4px" }} />
+                Edit
+              </Typography>
+              <Typography
+                variant="caption"
+                sx={{ color: "common.black", display: "flex", alignItems: "center", cursor: "pointer", ml: (latestPostLarge || latestPost)? 0 : 1, ...((latestPostLarge || latestPost) && {
+                  color: "common.white",
+                }), }}
+                onClick={() => handleClick(course)}
+              >
+                <ViewModuleIcon sx={{ fontSize: 12, marginRight: "4px"}} />
+                View All
+              </Typography>
+            </Box>
+          </StyledInfo>
+        </CardContent>
 
         <CardContent
           sx={{
-            pt: 4,
+            pt: (latestPostLarge || latestPost) ? 4 : 1,
             ...((latestPostLarge || latestPost) && {
               bottom: 0,
-              width: '100%',
-              position: 'absolute',
+              width: "100%",
+              position: "absolute",
             }),
           }}
         >
-          <Typography gutterBottom variant="caption" sx={{ color: 'text.disabled', display: 'block' }}>
+          <Typography
+            gutterBottom
+            variant="caption"
+            sx={{ color: "text.disabled", display: "block" }}
+          >
             {fDate(created_at)}
           </Typography>
 
@@ -171,16 +235,21 @@ const CourseCard = ({ course, index, handleClick }) => {
             variant="subtitle2"
             underline="none"
             sx={{
-              ...(latestPostLarge && { typography: 'h5'}),
+              ...(latestPostLarge && { typography: "h5" }),
               ...((latestPostLarge || latestPost) && {
-                color: 'common.white',
+                color: "common.white",
               }),
             }}
           >
             {name}
           </StyledTitle>
 
-          <Typography gutterBottom variant="caption" sx={{ color: 'text.disabled', display: 'block' }} className="truncate-3">
+          <Typography
+            gutterBottom
+            variant="caption"
+            sx={{ color: "text.disabled", display: "block" }}
+            className="truncate-3"
+          >
             {description}
           </Typography>
 
@@ -206,38 +275,80 @@ const CourseCard = ({ course, index, handleClick }) => {
           <StyledLanguageInfo>
             <Box
               sx={{
-                display: 'flex',
-                alignItems: 'center',
+                display: "flex",
+                alignItems: "center",
                 ...((latestPostLarge || latestPost) && {
-                  color: 'black.500',
+                  color: "black.500",
                 }),
               }}
             >
-              { language && <Typography variant="caption" sx={{ display: 'flex', alignItems: 'center', mr: 1, typography: 'body2' }}><LanguageIcon sx={{ fontSize: 12, marginRight: '4px' }}/>{language}</Typography>}
-              { level && <Typography variant="caption" sx={{ display: 'flex', alignItems: 'center', typography: 'body2' }}><SchoolIcon sx={{ fontSize: 12, marginRight: '4px' }}/>{level}</Typography>}
+              {language && (
+                <Typography
+                  variant="caption"
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    mr: 1,
+                    typography: "body2",
+                  }}
+                >
+                  <LanguageIcon sx={{ fontSize: 12, marginRight: "4px" }} />
+                  {language}
+                </Typography>
+              )}
+              {level && (
+                <Typography
+                  variant="caption"
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    typography: "body2",
+                  }}
+                >
+                  <SchoolIcon sx={{ fontSize: 12, marginRight: "4px" }} />
+                  {level}
+                </Typography>
+              )}
             </Box>
           </StyledLanguageInfo>
 
           <StyledLanguageInfo>
             <Box
               sx={{
-                display: 'flex',
-                alignItems: 'center',
+                display: "flex",
+                alignItems: "center",
                 ...((latestPostLarge || latestPost) && {
-                  color: 'grey.500',
+                  color: "grey.500",
                 }),
               }}
             >
-              { hours && <Typography variant="caption" sx={{ display: 'flex', alignItems: 'center', mr: 1 }}><AccessTimeIcon sx={{ fontSize: 12, marginRight: '4px' }}/>{hours} Hours</Typography>}
-              { price && <Typography variant="caption" sx={{ display: 'flex', alignItems: 'center' }}><CurrencyRupeeIcon sx={{ fontSize: 12, marginRight: '4px' }}/>{price}</Typography>}
+              {hours && (
+                <Typography
+                  variant="caption"
+                  sx={{ display: "flex", alignItems: "center", mr: 1 }}
+                >
+                  <AccessTimeIcon sx={{ fontSize: 12, marginRight: "4px" }} />
+                  {hours} Hours
+                </Typography>
+              )}
+              {price && (
+                <Typography
+                  variant="caption"
+                  sx={{ display: "flex", alignItems: "center" }}
+                >
+                  <CurrencyRupeeIcon
+                    sx={{ fontSize: 12, marginRight: "4px" }}
+                  />
+                  {price}
+                </Typography>
+              )}
             </Box>
           </StyledLanguageInfo>
-
         </CardContent>
       </Card>
     </Grid>
-  )
-}
+  );
+};
 
 CourseCard.propTypes = {
   course: PropTypes.object.isRequired,
