@@ -11,18 +11,22 @@ export const ADMIN_LOGIN = () =>  `${API_BASE_URL}${API_BASE_VERSION}/users/logi
 // For Courses Get and Post
 export const COURSE_CREATE = () => `${API_BASE_VERSION_URL}/courses.json`;
 export const COURSE_GET = () => `${API_BASE_VERSION_URL}/courses.json`;
+export const COURSE_UPDATE = (course_id) => `${API_BASE_VERSION_URL}/courses/${course_id}.json`;
 
 // For Subject Get and Post
 export const SUBJECT_CREATE = (course_id) => `${API_BASE_VERSION_URL}/courses/${course_id}/subjects.json`;
 export const SUBJECT_GET = (course_id) =>  `${API_BASE_VERSION_URL}/courses/${course_id}/subjects.json`;
+export const SUBJECT_UPDATE = (subject_id) => `${API_BASE_VERSION_URL}/subjects/${subject_id}.json`;
 
 // For Chapter Get and Post
 export const CHAPTER_CREATE = (subject_id) => `${API_BASE_VERSION_URL}/subjects/${subject_id}/chapters.json`;
 export const CHAPTER_GET = (subject_id) =>  `${API_BASE_VERSION_URL}/subjects/${subject_id}/chapters.json`;
+export const CHAPTER_UPDATE = (chapter_id) => `${API_BASE_VERSION_URL}/chapters/${chapter_id}.json`;
 
 // For Topic Get and Post
 export const TOPIC_CREATE = (chapter_id) => `${API_BASE_VERSION_URL}/chapters/${chapter_id}/topics.json`;
 export const TOPIC_GET = (chapter_id) =>  `${API_BASE_VERSION_URL}/chapters/${chapter_id}/topics.json`;
+export const TOPIC_UPDATE = (topic_id) => `${API_BASE_VERSION_URL}/topics/${topic_id}.json`;
 
 // For FileUpload
 export const FILE_UPLOAD = () => `${API_BASE_VERSION_URL}/file_upload`;

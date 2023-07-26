@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CHAPTER_CREATE, CHAPTER_GET, COURSE_CREATE, COURSE_GET, SUBJECT_CREATE, SUBJECT_GET, TOPIC_CREATE, TOPIC_GET, ADMIN_LOGIN, FILE_UPLOAD, FILE_UPLOAD_WITH_FORM_DATA } from '../config/servers/api';
+import { CHAPTER_CREATE, CHAPTER_GET, COURSE_CREATE, COURSE_GET, SUBJECT_CREATE, SUBJECT_GET, TOPIC_CREATE, TOPIC_GET, ADMIN_LOGIN, FILE_UPLOAD, FILE_UPLOAD_WITH_FORM_DATA, TOPIC_UPDATE, CHAPTER_UPDATE, SUBJECT_UPDATE, COURSE_UPDATE } from '../config/servers/api';
 
 // let instance;
 // class ApiAdminService {
@@ -30,6 +30,27 @@ const getHeaderOptions = () => (
     Authorization: `Bearer ${storageGetItem('token')}`,
   }
 )
+
+// makeRequest
+export const makeRequest = async (methodType, uri, payload = {}) => {
+  try {
+    console.log(`[service]::[makeRequest]::[method:: ${methodType}]::[uri:: ${uri}]::[payload:: ${JSON.stringify(payload)}]`);
+    let url = uri;
+
+    const headers = getHeaderOptions();
+
+    let response = await axios({
+      method: methodType,
+      url: url,
+      headers: headers,
+      data: payload
+    });
+    return response.data;
+  } catch (error) {
+    console.log(`[service]::[makeRequest]::[method:: ${methodType}]::[url:: ${uri}]::[payload:: ${payload}]:: [err: ${error}]`);
+    return {};
+  }
+}
 
 // Login
 export const postLogin = async (payload) => {
@@ -84,23 +105,19 @@ export const createCourse = async (payload) => {
 }
 
 export const getCourse = async () => {
-  try {
-    const token = storageGetItem('token');
-    console.log('[getCourse]:: token', token)
-    let response = await axios({
-      method: 'get',
-      url: COURSE_GET(),
-      headers: getHeaderOptions(),
-    });
-    console.log('[getCourse]::', response, response.data);
-    response = response.data
-    if(response.success === true) {
-      return response.data
-    } else {
-      return null
-    }
-  } catch (error) {
-    console.log('[error]::[getCourse]', error.response)
+  const response  = await makeRequest('get', COURSE_GET());
+  if(response.success === true) {
+    return response.data
+  } else {
+    return null
+  }
+}
+
+export const putCourse = async (course_id, payload) => {
+  const response = await makeRequest('put', COURSE_UPDATE(course_id), payload)
+  if(response.success === true) {
+    return response.data
+  } else {
     return null
   }
 }
@@ -128,21 +145,19 @@ export const createSubject = async (course_id, payload) => {
 }
 
 export const getSubject = async (course_id) => {
-  try {
-    let response = await axios({
-      method: 'get',
-      headers: getHeaderOptions(),
-      url: SUBJECT_GET(course_id),
-    });
-    console.log('[getSubject]::', response);
-    response = response.data
-    if(response.success === true) {
-      return response.data
-    } else {
-      return null
-    }
-  } catch (error) {
-    console.log('[error]::[getSubject]', error.response)
+  const response = await makeRequest('get', SUBJECT_GET(course_id));
+  if(response.success === true) {
+    return response.data
+  } else {
+    return null
+  }
+}
+
+export const putSubject = async (subject_id, payload) => {
+  const response = await makeRequest('put', SUBJECT_UPDATE(subject_id), payload)
+  if(response.success === true) {
+    return response.data
+  } else {
     return null
   }
 }
@@ -170,21 +185,19 @@ export const createChapter = async (subject_id, payload) => {
 }
 
 export const getChapter = async (subject_id) => {
-  try {
-    let response = await axios({
-      method: 'get',
-      url: CHAPTER_GET(subject_id),
-      headers: getHeaderOptions(),
-    });
-    console.log('[getChapter]::', response);
-    response = response.data
-    if(response.success === true) {
-      return response.data
-    } else {
-      return null
-    }
-  } catch (error) {
-    console.log('[error]::[getChapter]', error.response)
+  const response = await makeRequest('get', CHAPTER_GET(subject_id));
+  if(response.success === true) {
+    return response.data
+  } else {
+    return null
+  }
+}
+
+export const putChapter = async (chapter_id, payload) => {
+  const response = await makeRequest('put', CHAPTER_UPDATE(chapter_id), payload)
+  if(response.success === true) {
+    return response.data
+  } else {
     return null
   }
 }
@@ -212,21 +225,19 @@ export const createTopic = async (chapter_id, payload) => {
 }
 
 export const getTopic = async (chapter_id) => {
-  try {
-    let response = await axios({
-      method: 'get',
-      url: TOPIC_GET(chapter_id),
-      headers: getHeaderOptions(),
-    });
-    console.log('[getChapter]::', response);
-    response = response.data
-    if(response.success === true) {
-      return response.data
-    } else {
-      return null
-    }
-  } catch (error) {
-    console.log('[error]::[getChapter]', error.response)
+  const response = await makeRequest('get', TOPIC_GET(chapter_id));
+  if(response.success === true) {
+    return response.data
+  } else {
+    return null
+  }
+}
+
+export const putTopic = async (topic_id, payload) => {
+  const response = await makeRequest('put', TOPIC_UPDATE(topic_id), payload)
+  if(response.success === true) {
+    return response.data
+  } else {
     return null
   }
 }
