@@ -18,7 +18,7 @@ import { LoadingButton } from '@mui/lab';
 import { styled } from "@mui/material/styles";
 import ImageInput from '../components/image-input';
 import CourseCard from '../sections/@dashboard/course/CourseCard';
-import { getSubject, postFileUpload, putFileUpload, createSubject, storageGetItem } from '../service/ash_admin';
+import { getSubject, postFileUpload, putFileUpload, createSubject, storageGetItem, putSubject } from '../service/ash_admin';
 import { useNavigate } from 'react-router-dom';
 import { CourseContext } from '../context/courses/courseContextProvider';
 import { SubjectContext } from '../context/subjects/subjectContextProvider';
@@ -67,8 +67,8 @@ export default function SubjectPage() {
   const handleSubmit = async () => {
     console.log("subject:", subject);
     if(selectedCourseDetails && selectedCourseDetails.id) {
-      const res = await createSubject(selectedCourseDetails.id, {subject: subject});
-      console.log('creating subject...', res);
+      const res = subject && ( subject.id ? await putSubject(subject.id, {subject: subject}) : await createSubject(selectedCourseDetails.id, {subject: subject}));
+      console.log('creating or updating subject...', res);
       setSubjectAdd(false);
     }
   };
@@ -137,6 +137,11 @@ export default function SubjectPage() {
     return false
   }
 
+  const handleEdit = (subject) => {
+    setSubjectAdd(true);
+    setSubject(subject);
+  };
+
   return (
     <>
       <Helmet>
@@ -159,7 +164,15 @@ export default function SubjectPage() {
           <Button 
             variant="contained" 
             startIcon={!subjectAdd ? <Iconify icon="eva:plus-fill" /> : ''} 
-            onClick={() => setSubjectAdd(!subjectAdd)}
+            onClick={() => {
+              setSubjectAdd(!subjectAdd);
+              setUploadImagePercentage(0);
+              setSubject({
+                name: "",
+                description: "",
+                image_url: "",
+              });
+            }}
           >
             {!subjectAdd ? 'New Subject' : 'Cancel' }
           </Button>
@@ -232,14 +245,20 @@ export default function SubjectPage() {
               onClick={handleSubmit}
               disabled={handleDisable()}
             >
-              Add Subject
+              {subject && subject.id ? 'Update' : 'Add'} Subject
             </LoadingButton>
           </div>
         )}
         {!subjectAdd && subjectList && (
           <Grid container spacing={3}>
-            {subjectList.map((course, index) => (
-              <CourseCard key={course.id} course={course} index={index} handleClick={handleSubjectClick}/>
+            {subjectList.map((subject, index) => (
+              <CourseCard 
+                key={subject.id} 
+                course={subject} 
+                index={index} 
+                handleClick={handleSubjectClick}
+                handleEdit={handleEdit}
+              />
             ))}
           </Grid>
         )}

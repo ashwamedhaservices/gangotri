@@ -180,7 +180,7 @@ const CourseCard = ({ course, index, handleClick, handleEdit }) => {
             <Box
               sx={{
                 display: "flex",
-                flexDirection: (latestPostLarge || latestPost) ? 'column' : 'ro0',
+                flexDirection: (latestPostLarge || latestPost) ? 'column' : 'row',
                 alignItems: "flex-end",
                 ...((latestPostLarge || latestPost) && {
                   color: "grey.500",
