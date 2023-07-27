@@ -18,8 +18,8 @@ import { LoadingButton } from '@mui/lab';
 import { styled } from "@mui/material/styles";
 import ImageInput from '../components/image-input';
 import CourseCard from '../sections/@dashboard/course/CourseCard';
-import {  getChapter, postFileUpload, putFileUpload, createChapter, storageGetItem } from '../service/ash_admin';
-import { useNavigate, useParams } from 'react-router-dom';
+import {  getChapter, postFileUpload, putFileUpload, createChapter, storageGetItem, putChapter } from '../service/ash_admin';
+import { useNavigate } from 'react-router-dom';
 import { CourseContext } from '../context/courses/courseContextProvider';
 import { SubjectContext } from '../context/subjects/subjectContextProvider';
 import { ChapterContext } from '../context/chapter/chapterContextProvider';
@@ -68,7 +68,7 @@ export default function ChapterPage() {
   const handleSubmit = async () => {
     console.log("chapter:", chapter);
     if(selectedSubjectDetails && selectedSubjectDetails.id) {
-      const res = await createChapter(selectedSubjectDetails.id, {chapter: chapter});
+      const res = chapter && (chapter.id ? await putChapter(chapter.id, {chapter: chapter}) : await createChapter(selectedSubjectDetails.id, {chapter: chapter}));
       console.log('creating chapter', res);
       setChapterAdd(false);
     }
@@ -143,6 +143,11 @@ export default function ChapterPage() {
     return false
   }
 
+  const handleEdit = (chapter) => {
+    setChapterAdd(true);
+    setChapter(chapter);
+  };
+
   return (
     <>
       <Helmet>
@@ -172,7 +177,15 @@ export default function ChapterPage() {
           <Button 
             variant="contained" 
             startIcon={!chapterAdd ? <Iconify icon="eva:plus-fill" /> : ''} 
-            onClick={() => setChapterAdd(!chapterAdd)}
+            onClick={() => {
+              setChapterAdd(!chapterAdd);
+              setUploadImagePercentage(0);
+              setChapter({
+                name: "",
+                description: "",
+                image_url: "",
+              });
+            }}
           >
             { !chapterAdd ? 'New Chapter' : 'Cancel' }
           </Button>
@@ -255,14 +268,20 @@ export default function ChapterPage() {
               onClick={handleSubmit}
               disabled={handleDisable()}
             >
-              Add Chapter
+              {chapter && chapter.id ? 'Update' : 'Add'} Chapter
             </LoadingButton>
           </div>
         )}
         {!chapterAdd && chapterList && (
           <Grid container spacing={3}>
             {chapterList.map((chapter, index) => (
-              <CourseCard key={chapter.id} course={chapter} index={index} handleClick={handleChapterClick}/>
+              <CourseCard 
+                key={chapter.id} 
+                course={chapter} 
+                index={index} 
+                handleClick={handleChapterClick}
+                handleEdit={handleEdit}
+              />
             ))}
           </Grid>
         )}
