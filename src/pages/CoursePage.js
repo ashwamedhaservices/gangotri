@@ -10,7 +10,7 @@ import {
   TextField,
   Grid,
   Breadcrumbs,
-  Link
+  Link,
 } from "@mui/material";
 // components
 import Iconify from "../components/iconify";
@@ -19,7 +19,12 @@ import { styled } from "@mui/material/styles";
 import { LoadingButton } from "@mui/lab";
 import ImageInput from "../components/image-input";
 import CourseCard from "../sections/@dashboard/course/CourseCard";
-import { createCourse, postFileUpload, putFileUpload } from "../service/ash_admin";
+import {
+  createCourse,
+  postFileUpload,
+  putCourse,
+  putFileUpload,
+} from "../service/ash_admin";
 import { useNavigate } from "react-router-dom";
 import { BlogPostsSort } from "../sections/@dashboard/blog";
 import { LANGUAGES, LEVEL } from "../utils/options";
@@ -35,7 +40,8 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function CoursePage() {
-  const { courseList, setAllCourses, setSelectedCourse } = useContext(CourseContext)
+  const { courseList, setAllCourses, setSelectedCourse } =
+    useContext(CourseContext);
   const navigate = useNavigate();
   const [courseAdd, setCourseAdd] = useState(false);
   const [course, setCourse] = useState({
@@ -43,7 +49,7 @@ export default function CoursePage() {
     description: "",
     image_url: "",
     level: "",
-    language: ""
+    language: "",
   });
   const [uploadImagePercentage, setUploadImagePercentage] = useState(0);
   const [coursesList, setCoursesList] = useState([]);
@@ -57,17 +63,23 @@ export default function CoursePage() {
 
   const handleSubmit = async () => {
     console.log("course:", course);
-    const res = await createCourse({ course: course })
-    console.log('creating Course...', res)
+    // const res =
+    //   course &&
+    //   (course.id
+    //     ? await putCourse({ course: course })
+    //     : await createCourse({ course: course }));
+    const res = await createCourse({ course: course });
+    console.log("creating Course...", res);
     setCourseAdd(false);
+    setUploadImagePercentage(0);
   };
-  const handleImage = async(file) => {
-    let inputFile = {...file[0]}
-    inputFile.type = file[0].name.split('.')[1];
-    inputFile.name = file[0].name.split('.')[0];
-    inputFile.location = 'course';
+  const handleImage = async (file) => {
+    let inputFile = { ...file[0] };
+    inputFile.type = file[0].name.split(".")[1];
+    inputFile.name = file[0].name.split(".")[0];
+    inputFile.location = "course";
     console.log("file:", file[0], inputFile);
-    
+
     // data.append("type", file[0].name.split('.')[1]);
     // data.append('name', file[0].name.split('.')[0])
     // data.append('location', '/course')
@@ -77,28 +89,31 @@ export default function CoursePage() {
     // Creating the file location
     const res = await postFileUpload({
       file: {
-        ...inputFile
-      }
+        ...inputFile,
+      },
     });
-    console.log('upload course res', res);
-    const uploadImageLocation = res.message.split('?')[0]
-    if(res) {
+    console.log("upload course res", res);
+    const uploadImageLocation = res.message.split("?")[0];
+    if (res) {
       setCourse({
         ...course,
         image_url: uploadImageLocation,
-      })
+      });
     }
-    
+
     // Uploading the file to the Storage URL of file location
     const resFileUpload = await putFileUpload(
-                                  res.message, 
-                                  file[0],
-                                  (progressEvent) => {
-                                    const percentage= parseInt(Math.round((progressEvent.loaded * 100) / progressEvent.total));
-                                    setUploadImagePercentage(percentage);
-                                    return percentage; // Because you were returning the percentage before.
-                                  });
-    console.log('uploaded course image', resFileUpload);
+      res.message,
+      file[0],
+      (progressEvent) => {
+        const percentage = parseInt(
+          Math.round((progressEvent.loaded * 100) / progressEvent.total)
+        );
+        setUploadImagePercentage(percentage);
+        return percentage; // Because you were returning the percentage before.
+      }
+    );
+    console.log("uploaded course image", resFileUpload);
   };
 
   useEffect(() => {
@@ -106,29 +121,35 @@ export default function CoursePage() {
   }, [courseAdd]);
 
   const fetchCourseData = async () => {
-    console.log('[CoursePage]::fetchCourseData');
+    console.log("[CoursePage]::fetchCourseData");
     await setAllCourses();
-  }
+  };
 
   useEffect(() => {
-    setCoursesList(() => [...courseList])
-  }, [courseList])
+    setCoursesList(() => [...courseList]);
+  }, [courseList]);
 
   const handleCourseClick = (course) => {
-    setSelectedCourse(course)
-    navigate(`${createSlug(course.name)}/subject`, { replace: false })
-  }
+    setSelectedCourse(course);
+    navigate(`${createSlug(course.name)}/subject`, { replace: false });
+  };
 
   const handleDisable = () => {
-    if(!course.name || !course.description || !course.level || !course.language) return true
-    return false
-  }
+    if (
+      !course.name ||
+      !course.description ||
+      !course.level ||
+      !course.language
+    )
+      return true;
+    return false;
+  };
 
-  function handleClick(event) {
-    event.preventDefault();
-    console.info('You clicked a breadcrumb.');
-  }
-  
+  const handleEdit = (course) => {
+    setCourseAdd(true);
+    setCourse(course);
+  };
+
   return (
     <>
       <Helmet>
@@ -152,10 +173,20 @@ export default function CoursePage() {
           </Typography>
           <Button
             variant="contained"
-            startIcon={!courseAdd ? <Iconify icon="eva:plus-fill" /> : ''}
-            onClick={() => setCourseAdd(!courseAdd)}
+            startIcon={!courseAdd ? <Iconify icon="eva:plus-fill" /> : ""}
+            onClick={() => {
+              setCourseAdd(!courseAdd);
+              setUploadImagePercentage(0);
+              setCourse({
+                name: "",
+                description: "",
+                image_url: "",
+                level: "",
+                language: "",
+              });
+            }}
           >
-           {!courseAdd ?  'New Course' : 'Cancel'}
+            {!courseAdd ? "New Course" : "Cancel"}
           </Button>
         </Stack>
         {courseAdd && (
@@ -163,7 +194,13 @@ export default function CoursePage() {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Item>
-                  <Stack sx={{ display:'flex', justifyContent: 'center', alignItems: "center" }}>
+                  <Stack
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
                     {/* <TextField
                   autoFocus
                   name="image_url"
@@ -174,7 +211,10 @@ export default function CoursePage() {
                     <Typography variant="subtitle1" gutterBottom>
                       Upload Image
                     </Typography>
-                    <ImageInput handleImage={handleImage} percentage={uploadImagePercentage}/>
+                    <ImageInput
+                      handleImage={handleImage}
+                      percentage={uploadImagePercentage}
+                    />
                   </Stack>
                 </Item>
               </Grid>
@@ -234,7 +274,7 @@ export default function CoursePage() {
               size="large"
               type="submit"
               variant="contained"
-              sx={{ mt: '1rem'}}
+              sx={{ mt: "1rem" }}
               onClick={handleSubmit}
               disabled={handleDisable()}
             >
@@ -245,17 +285,19 @@ export default function CoursePage() {
         {!courseAdd && coursesList && (
           <Grid container spacing={3}>
             {coursesList.map((course, index) => (
-              <CourseCard key={course.id} course={course} index={index} handleClick={handleCourseClick}/>
+              <CourseCard
+                key={course.id}
+                course={course}
+                index={index}
+                handleClick={handleCourseClick}
+                handleEdit={handleEdit}
+              />
             ))}
           </Grid>
         )}
-        {
-          !courseAdd && !coursesList && (
-            <Grid container>
-              Please add Courses
-            </Grid>
-          )
-        }
+        {!courseAdd && !coursesList && (
+          <Grid container>Please add Courses</Grid>
+        )}
       </Container>
     </>
   );
