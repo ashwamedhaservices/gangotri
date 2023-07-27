@@ -18,9 +18,9 @@ import { LoadingButton } from '@mui/lab';
 import { styled } from "@mui/material/styles";
 import ImageInput from '../components/image-input';
 import VideoInput from '../components/video-input';
-import { getTopic, createTopic, postFileUpload, putFileUpload, storageGetItem } from '../service/ash_admin';
+import { getTopic, createTopic, postFileUpload, putFileUpload, storageGetItem, putTopic } from '../service/ash_admin';
 import CourseCard from '../sections/@dashboard/course/CourseCard';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ChapterContext } from '../context/chapter/chapterContextProvider';
 import { SubjectContext } from '../context/subjects/subjectContextProvider';
 import { CourseContext } from '../context/courses/courseContextProvider';
@@ -72,7 +72,7 @@ export default function TopicPage() {
   const handleSubmit = async () => {
     console.log("topic:", topic);
     if(selectedChapterDetails && selectedChapterDetails.id) {
-      const res = await createTopic(selectedChapterDetails.id, { topic: topic});
+      const res = topic && (topic.id ? await putTopic(topic.id, { topic: topic}) :  await createTopic(selectedChapterDetails.id, { topic: topic}));
       console.log('creating topic', res);
       setTopicAdd(false);
     }
@@ -192,6 +192,11 @@ export default function TopicPage() {
     return false
   }
 
+  const handleEdit = (topic) => {
+    setTopicAdd(true);
+    setTopic(topic);
+  };
+
   return (
     <>
       <Helmet>
@@ -228,7 +233,16 @@ export default function TopicPage() {
           {!showVideo && <Button 
             variant="contained" 
             startIcon={!topicAdd ? <Iconify icon="eva:plus-fill" /> : ''} 
-            onClick={() => setTopicAdd(!topicAdd)}
+            onClick={() => {
+              setTopicAdd(!topicAdd);
+              setUploadImagePercentage(0);
+              setUploadVideoPercentage(0);
+              setTopic({
+                name: "",
+                description: "",
+                image_url: "",
+              });
+            }}
           >
             {!topicAdd ? 'New Topic' : 'Cancel'}
           </Button>
@@ -339,14 +353,20 @@ export default function TopicPage() {
               onClick={handleSubmit}
               disabled={handleDisable()}
             >
-              Add Topic
+              {topic && topic.id ? 'Update' : 'Add'} Topic
             </LoadingButton>
           </div>
         )}
         {!topicAdd && !showVideo && topicList && (
           <Grid container spacing={3}>
             {topicList.map((topic, index) => (
-              <CourseCard key={topic.id} course={topic} index={index} handleClick={() => watchVideo(topic)}/>
+              <CourseCard 
+                key={topic.id} 
+                course={topic} 
+                index={index} 
+                handleClick={() => watchVideo(topic)}
+                handleEdit={handleEdit}
+              />
             ))}
           </Grid>
         )}
