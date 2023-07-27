@@ -10,7 +10,6 @@ import {
   TextField,
   Grid,
   Breadcrumbs,
-  Link,
 } from "@mui/material";
 // components
 import Iconify from "../components/iconify";
@@ -63,12 +62,11 @@ export default function CoursePage() {
 
   const handleSubmit = async () => {
     console.log("course:", course);
-    // const res =
-    //   course &&
-    //   (course.id
-    //     ? await putCourse({ course: course })
-    //     : await createCourse({ course: course }));
-    const res = await createCourse({ course: course });
+    const res =
+      course &&
+      (course.id
+        ? await putCourse(course.id, { course: course })
+        : await createCourse({ course: course }));
     console.log("creating Course...", res);
     setCourseAdd(false);
     setUploadImagePercentage(0);
@@ -278,7 +276,7 @@ export default function CoursePage() {
               onClick={handleSubmit}
               disabled={handleDisable()}
             >
-              Add Course
+              {course && course.id ? 'Update' : 'Add'} Course
             </LoadingButton>
           </div>
         )}
