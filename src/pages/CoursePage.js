@@ -210,6 +210,7 @@ export default function CoursePage() {
                       Upload Image
                     </Typography>
                     <ImageInput
+                      previewImage={course.image_url}
                       handleImage={handleImage}
                       percentage={uploadImagePercentage}
                     />

@@ -33,6 +33,7 @@ const ImageInput = ({
   limit, 
   multiple, 
   name,
+  previewImage,
   handleImage,
   percentage,
 }) => {
@@ -64,6 +65,14 @@ const ImageInput = ({
         onChange={handleImageChange}
       />
       {
+      previewImage && imageURLs.length === 0 ? <Box sx={{ mt: 2, display: 'flex'}}>
+      <img 
+        src={previewImage} 
+        height="100px" 
+        width="150px" 
+        alt="upload"
+      />
+    </Box> :
       imageURLs.map((imageSrc, index) => 
           <Box sx={{ mt: 2, display: 'flex', }} key={index}>
             <img 

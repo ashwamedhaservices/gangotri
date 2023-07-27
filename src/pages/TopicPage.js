@@ -301,7 +301,7 @@ export default function TopicPage() {
                       Upload Image
                     </Typography>
 
-                    <ImageInput handleImage={handleImage} percentage={uploadImagePercentage}/>
+                    <ImageInput previewImage={topic.image_url} handleImage={handleImage} percentage={uploadImagePercentage}/>
                   </Stack>
                 </Item>
               </Grid>

@@ -228,7 +228,7 @@ export default function ChapterPage() {
                     <Typography variant="subtitle1" gutterBottom>
                       Upload Image
                     </Typography>
-                    <ImageInput handleImage={handleImage} percentage={uploadImagePercentage}/>
+                    <ImageInput previewImage={chapter.image_url} handleImage={handleImage} percentage={uploadImagePercentage}/>
                   </Stack>
                 </Item>
               </Grid>
