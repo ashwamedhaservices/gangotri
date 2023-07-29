@@ -29,7 +29,7 @@ import { useNavigate } from "react-router-dom";
 import { CourseContext } from "../context/courses/courseContextProvider";
 import { SubjectContext } from "../context/subjects/subjectContextProvider";
 import { createSlug } from "../utils/default";
-import { ItemCard } from "../components/common/card";
+import { ItemCardList } from "../components/common/list";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -287,24 +287,14 @@ export default function SubjectPage() {
             </LoadingButton>
           </div>
         )}
-        {!subjectAdd && subjectList && (
-          <Grid container spacing={3}>
-            {subjectList.map((subject, index) => (
-              <ItemCard
-                key={subject.id}
-                course={subject}
-                index={index}
-                handleClick={handleSubjectClick}
-                handleEdit={handleEdit}
-              />
-            ))}
-          </Grid>
-        )}
-        {!subjectAdd && !subjectList && (
-          <Grid container>
-            Select a course or add a course before adding subject
-          </Grid>
-        )}
+        { !subjectAdd &&
+          <ItemCardList
+            itemType="Subject" 
+            lists={subjectList}
+            handleViewAll={handleSubjectClick}
+            handleEdit={handleEdit}
+          />
+        }
       </Container>
     </>
   );

@@ -21,7 +21,7 @@ const StyledTitle = styled(Link)({
   WebkitBoxOrient: "vertical",
 });
 
-const ItemCard = ({ course, index, handleClick, handleEdit }) => {
+const ItemCard = ({ data, index, handleViewAll, handleEdit }) => {
   const default_img_url = "/assets/images/covers/cover_17.jpg";
   const {
     name,
@@ -30,7 +30,7 @@ const ItemCard = ({ course, index, handleClick, handleEdit }) => {
     language,
     level,
     created_at,
-  } = course;
+  } = data;
   const latestPostLarge = index === 0;
   const latestPost = index === 1 || index === 2;
   // const latestPostLarge = false;
@@ -145,7 +145,7 @@ const ItemCard = ({ course, index, handleClick, handleEdit }) => {
                   color: "common.white",
                 }),
               }}
-              onClick={() => handleEdit(course)}
+              onClick={() => handleEdit(data)}
             >
               <EditIcon sx={{ fontSize: 12, marginRight: "4px" }} />
               Edit
@@ -162,7 +162,7 @@ const ItemCard = ({ course, index, handleClick, handleEdit }) => {
                   color: "common.white",
                 }),
               }}
-              onClick={() => handleClick(course)}
+              onClick={() => handleViewAll(data)}
             >
               <ViewModuleIcon sx={{ fontSize: 12, marginRight: "4px" }} />
               View All
@@ -253,8 +253,11 @@ const ItemCard = ({ course, index, handleClick, handleEdit }) => {
 };
 
 ItemCard.propTypes = {
-  course: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
   index: PropTypes.number,
 };
 
 export default ItemCard;
+
+// TODO: Improvements:
+// 1.) Options can be passed as props

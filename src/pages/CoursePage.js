@@ -17,7 +17,6 @@ import Iconify from "../components/iconify";
 import { styled } from "@mui/material/styles";
 import { LoadingButton } from "@mui/lab";
 import ImageInput from "../components/image-input";
-import CourseCard from "../sections/@dashboard/course/CourseCard";
 import {
   createCourse,
   postFileUpload,
@@ -29,7 +28,7 @@ import { BlogPostsSort } from "../sections/@dashboard/blog";
 import { LANGUAGES, LEVEL } from "../utils/options";
 import { CourseContext } from "../context/courses/courseContextProvider";
 import { createSlug } from "../utils/default";
-import { ItemCard } from "../components/common/card";
+import { ItemCardList } from "../components/common/list";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -282,22 +281,14 @@ export default function CoursePage() {
             </LoadingButton>
           </div>
         )}
-        {!courseAdd && coursesList && (
-          <Grid container spacing={3}>
-            {coursesList.map((course, index) => (
-              <ItemCard
-                key={course.id}
-                course={course}
-                index={index}
-                handleClick={handleCourseClick}
-                handleEdit={handleEdit}
-              />
-            ))}
-          </Grid>
-        )}
-        {!courseAdd && !coursesList && (
-          <Grid container>Please add Courses</Grid>
-        )}
+        { !courseAdd &&
+          <ItemCardList
+            itemType="Course" 
+            lists={coursesList}
+            handleViewAll={handleCourseClick}
+            handleEdit={handleEdit}
+          />
+        }
       </Container>
     </>
   );

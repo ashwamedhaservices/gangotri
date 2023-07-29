@@ -23,7 +23,7 @@ import { CourseContext } from '../context/courses/courseContextProvider';
 import { SubjectContext } from '../context/subjects/subjectContextProvider';
 import { ChapterContext } from '../context/chapter/chapterContextProvider';
 import { createSlug } from '../utils/default';
-import { ItemCard } from '../components/common/card';
+import { ItemCardList } from '../components/common/list';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -272,24 +272,14 @@ export default function ChapterPage() {
             </LoadingButton>
           </div>
         )}
-        {!chapterAdd && chapterList && (
-          <Grid container spacing={3}>
-            {chapterList.map((chapter, index) => (
-              <ItemCard 
-                key={chapter.id} 
-                course={chapter} 
-                index={index} 
-                handleClick={handleChapterClick}
-                handleEdit={handleEdit}
-              />
-            ))}
-          </Grid>
-        )}
-        {!chapterAdd && !chapterList && (
-            <Grid container>
-              Select a course or add a course before adding subject
-            </Grid>
-          )}
+        { !chapterAdd &&
+          <ItemCardList
+            itemType="Chapter" 
+            lists={chapterList}
+            handleViewAll={handleChapterClick}
+            handleEdit={handleEdit}
+          />
+        }
       </Container>
 
     </>

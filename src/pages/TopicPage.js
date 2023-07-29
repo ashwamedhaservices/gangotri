@@ -23,7 +23,7 @@ import { useNavigate } from 'react-router-dom';
 import { ChapterContext } from '../context/chapter/chapterContextProvider';
 import { SubjectContext } from '../context/subjects/subjectContextProvider';
 import { CourseContext } from '../context/courses/courseContextProvider';
-import { ItemCard } from '../components/common/card';
+import { ItemCardList } from '../components/common/list';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -357,24 +357,14 @@ export default function TopicPage() {
             </LoadingButton>
           </div>
         )}
-        {!topicAdd && !showVideo && topicList && (
-          <Grid container spacing={3}>
-            {topicList.map((topic, index) => (
-              <ItemCard 
-                key={topic.id} 
-                course={topic} 
-                index={index} 
-                handleClick={() => watchVideo(topic)}
-                handleEdit={handleEdit}
-              />
-            ))}
-          </Grid>
-        )}
-        {!topicAdd && !showVideo && !topicList && (
-          <Grid container>
-            Select a course, chapter, topic or add a course before adding subject
-          </Grid>
-        )}
+        { !topicAdd && !showVideo &&
+          <ItemCardList
+            itemType="Chapter" 
+            lists={topicList}
+            handleViewAll={watchVideo}
+            handleEdit={handleEdit}
+          />
+        }
       </Container>
       {
         showVideo && (
