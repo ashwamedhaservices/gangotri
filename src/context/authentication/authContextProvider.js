@@ -26,7 +26,7 @@ export const AuthContextProvider = (props) => {
       }
     })
     if(response) {
-      dispatch(
+      await dispatch(
         {
         type: SIGN_IN_USER, 
         payload: {
@@ -50,13 +50,13 @@ export const AuthContextProvider = (props) => {
     // } 
     else {
       // User is logged out
-      storageClear();
-      dispatch({type: SIGN_OUT_USER})
+      logoutUser();
     }
   }
-  const logoutUser = () => {
+  const logoutUser = async () => {
     storageClear();
-    dispatch({type: SIGN_OUT_USER})
+    await dispatch({type: SIGN_OUT_USER})
+    navigate('/login', { replace: true });
   }
   return <AuthContext.Provider 
             value={{
