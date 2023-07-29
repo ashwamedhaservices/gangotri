@@ -1,5 +1,5 @@
-import { Helmet } from 'react-helmet-async';
-import { useContext, useEffect, useState } from 'react';
+import { Helmet } from "react-helmet-async";
+import { useContext, useEffect, useState } from "react";
 // @mui
 import {
   Stack,
@@ -11,18 +11,25 @@ import {
   Grid,
   Breadcrumbs,
   Link,
-} from '@mui/material';
+} from "@mui/material";
 // components
-import Iconify from '../components/iconify';
-import { LoadingButton } from '@mui/lab';
+import Iconify from "../components/iconify";
+import { LoadingButton } from "@mui/lab";
 import { styled } from "@mui/material/styles";
-import ImageInput from '../components/image-input';
-import CourseCard from '../sections/@dashboard/course/CourseCard';
-import { getSubject, postFileUpload, putFileUpload, createSubject, storageGetItem, putSubject } from '../service/ash_admin';
-import { useNavigate } from 'react-router-dom';
-import { CourseContext } from '../context/courses/courseContextProvider';
-import { SubjectContext } from '../context/subjects/subjectContextProvider';
-import { createSlug } from '../utils/default';
+import ImageInput from "../components/image-input";
+import {
+  getSubject,
+  postFileUpload,
+  putFileUpload,
+  createSubject,
+  storageGetItem,
+  putSubject,
+} from "../service/ash_admin";
+import { useNavigate } from "react-router-dom";
+import { CourseContext } from "../context/courses/courseContextProvider";
+import { SubjectContext } from "../context/subjects/subjectContextProvider";
+import { createSlug } from "../utils/default";
+import { ItemCard } from "../components/common/card";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -40,10 +47,9 @@ const ItemContainer = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-
 export default function SubjectPage() {
-  const { selectedCourse } = useContext(CourseContext)
-  const { setSelectedSubject } = useContext(SubjectContext)
+  const { selectedCourse } = useContext(CourseContext);
+  const { setSelectedSubject } = useContext(SubjectContext);
   const navigate = useNavigate();
 
   const [subjectAdd, setSubjectAdd] = useState(false);
@@ -66,76 +72,87 @@ export default function SubjectPage() {
 
   const handleSubmit = async () => {
     console.log("subject:", subject);
-    if(selectedCourseDetails && selectedCourseDetails.id) {
-      const res = subject && ( subject.id ? await putSubject(subject.id, {subject: subject}) : await createSubject(selectedCourseDetails.id, {subject: subject}));
-      console.log('creating or updating subject...', res);
+    if (selectedCourseDetails && selectedCourseDetails.id) {
+      const res =
+        subject &&
+        (subject.id
+          ? await putSubject(subject.id, { subject: subject })
+          : await createSubject(selectedCourseDetails.id, {
+              subject: subject,
+            }));
+      console.log("creating or updating subject...", res);
       setSubjectAdd(false);
     }
   };
   const handleImage = async (file) => {
-    let inputFile = {...file[0]}
-    inputFile.type = file[0].name.split('.')[1];
-    inputFile.name = file[0].name.split('.')[0];
+    let inputFile = { ...file[0] };
+    inputFile.type = file[0].name.split(".")[1];
+    inputFile.name = file[0].name.split(".")[0];
     console.log("file:", file[0], inputFile);
 
-    if(selectedCourseDetails.id) {
+    if (selectedCourseDetails.id) {
       inputFile.location = `course/${selectedCourseDetails.id}/subject`;
       // Creating the file location
       const res = await postFileUpload({
         file: {
-          ...inputFile
-        }
+          ...inputFile,
+        },
       });
-      console.log('upload subject res', res);
-      const uploadImageLocation = res.message.split('?')[0]
-      if(res) {
+      console.log("upload subject res", res);
+      const uploadImageLocation = res.message.split("?")[0];
+      if (res) {
         setSubject({
           ...subject,
           image_url: uploadImageLocation,
-        })
+        });
       }
-    
+
       // Uploading the file to the Storage URL of file location
       const resFileUpload = await putFileUpload(
-                                    res.message, 
-                                    file[0], 
-                                    (progressEvent) => {
-                                      const percentage= parseInt(Math.round((progressEvent.loaded * 100) / progressEvent.total));
-                                      setUploadImagePercentage(percentage);
-                                      return percentage; // Because you were returning the percentage before.
-                                    });
-      console.log('uploaded subject image', resFileUpload);
+        res.message,
+        file[0],
+        (progressEvent) => {
+          const percentage = parseInt(
+            Math.round((progressEvent.loaded * 100) / progressEvent.total)
+          );
+          setUploadImagePercentage(percentage);
+          return percentage; // Because you were returning the percentage before.
+        }
+      );
+      console.log("uploaded subject image", resFileUpload);
     }
   };
   useEffect(() => {
-    const storageSelectedCourse = JSON.parse(storageGetItem('selectedCourse'))
-    setSelectedCourseDetails(() => ({...selectedCourse, ...storageSelectedCourse}))
-  }, [selectedCourse])
+    const storageSelectedCourse = JSON.parse(storageGetItem("selectedCourse"));
+    setSelectedCourseDetails(() => ({
+      ...selectedCourse,
+      ...storageSelectedCourse,
+    }));
+  }, [selectedCourse]);
 
   useEffect(() => {
     fetchSubjectData();
   }, [subjectAdd, selectedCourseDetails]);
-  
+
   const fetchSubjectData = async () => {
-    if(selectedCourseDetails && selectedCourseDetails.id) {
+    if (selectedCourseDetails && selectedCourseDetails.id) {
       const res = await getSubject(selectedCourseDetails.id);
-      console.log('fetchSubjectData', res);
-      if(res && res.length > 0) {
+      console.log("fetchSubjectData", res);
+      if (res && res.length > 0) {
         setSubjectList(() => [...res]);
       }
     }
-    
-  }
+  };
 
   const handleSubjectClick = (subject) => {
-    setSelectedSubject(subject)
-    navigate(`${createSlug(subject.name)}/chapter`, { replace: false })
-  }
+    setSelectedSubject(subject);
+    navigate(`${createSlug(subject.name)}/chapter`, { replace: false });
+  };
 
   const handleDisable = () => {
-    if(!subject.name || !subject.description) return true
-    return false
-  }
+    if (!subject.name || !subject.description) return true;
+    return false;
+  };
 
   const handleEdit = (subject) => {
     setSubjectAdd(true);
@@ -151,19 +168,28 @@ export default function SubjectPage() {
       <Container>
         <Stack direction="row">
           <Breadcrumbs aria-label="breadcrumb">
-            <Link underline="hover" color="inherit" onClick={() => navigate(-1)}>
+            <Link
+              underline="hover"
+              color="inherit"
+              onClick={() => navigate(-1)}
+            >
               Course
             </Link>
             <Typography color="text.primary">Subject</Typography>
           </Breadcrumbs>
         </Stack>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          mb={5}
+        >
           <Typography variant="h4" gutterBottom>
             Subject
           </Typography>
-          <Button 
-            variant="contained" 
-            startIcon={!subjectAdd ? <Iconify icon="eva:plus-fill" /> : ''} 
+          <Button
+            variant="contained"
+            startIcon={!subjectAdd ? <Iconify icon="eva:plus-fill" /> : ""}
             onClick={() => {
               setSubjectAdd(!subjectAdd);
               setUploadImagePercentage(0);
@@ -174,28 +200,37 @@ export default function SubjectPage() {
               });
             }}
           >
-            {!subjectAdd ? 'New Subject' : 'Cancel' }
+            {!subjectAdd ? "New Subject" : "Cancel"}
           </Button>
         </Stack>
-        {selectedCourseDetails && selectedCourseDetails.name && selectedCourseDetails.description && <ItemContainer sx={{ mb: '1rem'}}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Typography variant="h6">
-                {selectedCourseDetails.name}
-              </Typography>
-              <Typography variant="body2">
-                {selectedCourseDetails.description}
-              </Typography>
-            </Grid>
-          </Grid>
-        </ItemContainer>
-        }
+        {selectedCourseDetails &&
+          selectedCourseDetails.name &&
+          selectedCourseDetails.description && (
+            <ItemContainer sx={{ mb: "1rem" }}>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <Typography variant="h6">
+                    {selectedCourseDetails.name}
+                  </Typography>
+                  <Typography variant="body2">
+                    {selectedCourseDetails.description}
+                  </Typography>
+                </Grid>
+              </Grid>
+            </ItemContainer>
+          )}
         {subjectAdd && (
           <div>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Item>
-                  <Stack sx={{ display:'flex', justifyContent: 'center', alignItems: "center" }}>
+                  <Stack
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
                     {/* <TextField
                   autoFocus
                   name="image_url"
@@ -206,7 +241,11 @@ export default function SubjectPage() {
                     <Typography variant="subtitle1" gutterBottom>
                       Upload Image
                     </Typography>
-                    <ImageInput previewImage={subject.image_url} handleImage={handleImage} percentage={uploadImagePercentage}/>
+                    <ImageInput
+                      previewImage={subject.image_url}
+                      handleImage={handleImage}
+                      percentage={uploadImagePercentage}
+                    />
                   </Stack>
                 </Item>
               </Grid>
@@ -235,27 +274,26 @@ export default function SubjectPage() {
                   </Stack>
                 </Item>
               </Grid>
-              
             </Grid>
             <LoadingButton
               size="large"
               type="submit"
               variant="contained"
-              sx={{ mt: '1rem'}}
+              sx={{ mt: "1rem" }}
               onClick={handleSubmit}
               disabled={handleDisable()}
             >
-              {subject && subject.id ? 'Update' : 'Add'} Subject
+              {subject && subject.id ? "Update" : "Add"} Subject
             </LoadingButton>
           </div>
         )}
         {!subjectAdd && subjectList && (
           <Grid container spacing={3}>
             {subjectList.map((subject, index) => (
-              <CourseCard 
-                key={subject.id} 
-                course={subject} 
-                index={index} 
+              <ItemCard
+                key={subject.id}
+                course={subject}
+                index={index}
                 handleClick={handleSubjectClick}
                 handleEdit={handleEdit}
               />
@@ -268,7 +306,6 @@ export default function SubjectPage() {
           </Grid>
         )}
       </Container>
-
     </>
   );
 }

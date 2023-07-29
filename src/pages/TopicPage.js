@@ -19,11 +19,11 @@ import { styled } from "@mui/material/styles";
 import ImageInput from '../components/image-input';
 import VideoInput from '../components/video-input';
 import { getTopic, createTopic, postFileUpload, putFileUpload, storageGetItem, putTopic } from '../service/ash_admin';
-import CourseCard from '../sections/@dashboard/course/CourseCard';
 import { useNavigate } from 'react-router-dom';
 import { ChapterContext } from '../context/chapter/chapterContextProvider';
 import { SubjectContext } from '../context/subjects/subjectContextProvider';
 import { CourseContext } from '../context/courses/courseContextProvider';
+import { ItemCard } from '../components/common/card';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -360,7 +360,7 @@ export default function TopicPage() {
         {!topicAdd && !showVideo && topicList && (
           <Grid container spacing={3}>
             {topicList.map((topic, index) => (
-              <CourseCard 
+              <ItemCard 
                 key={topic.id} 
                 course={topic} 
                 index={index} 

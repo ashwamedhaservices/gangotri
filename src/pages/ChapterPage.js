@@ -17,13 +17,13 @@ import Iconify from '../components/iconify';
 import { LoadingButton } from '@mui/lab';
 import { styled } from "@mui/material/styles";
 import ImageInput from '../components/image-input';
-import CourseCard from '../sections/@dashboard/course/CourseCard';
 import { getChapter, postFileUpload, putFileUpload, createChapter, storageGetItem, putChapter } from '../service/ash_admin';
 import { useNavigate } from 'react-router-dom';
 import { CourseContext } from '../context/courses/courseContextProvider';
 import { SubjectContext } from '../context/subjects/subjectContextProvider';
 import { ChapterContext } from '../context/chapter/chapterContextProvider';
 import { createSlug } from '../utils/default';
+import { ItemCard } from '../components/common/card';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -275,7 +275,7 @@ export default function ChapterPage() {
         {!chapterAdd && chapterList && (
           <Grid container spacing={3}>
             {chapterList.map((chapter, index) => (
-              <CourseCard 
+              <ItemCard 
                 key={chapter.id} 
                 course={chapter} 
                 index={index} 

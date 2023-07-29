@@ -1,0 +1,1 @@
+export { default as StyledCover } from './StyledCover';

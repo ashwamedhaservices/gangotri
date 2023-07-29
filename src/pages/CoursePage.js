@@ -29,6 +29,7 @@ import { BlogPostsSort } from "../sections/@dashboard/blog";
 import { LANGUAGES, LEVEL } from "../utils/options";
 import { CourseContext } from "../context/courses/courseContextProvider";
 import { createSlug } from "../utils/default";
+import { ItemCard } from "../components/common/card";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -284,7 +285,7 @@ export default function CoursePage() {
         {!courseAdd && coursesList && (
           <Grid container spacing={3}>
             {coursesList.map((course, index) => (
-              <CourseCard
+              <ItemCard
                 key={course.id}
                 course={course}
                 index={index}
