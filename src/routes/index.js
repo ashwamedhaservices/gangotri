@@ -1,31 +1,32 @@
-import { useContext } from 'react';
+// Routes and Navigations
 import { Navigate, useRoutes } from 'react-router-dom';
-// layouts
+
+// Layouts
 import DashboardLayout from '../layouts/dashboard';
 import SimpleLayout from '../layouts/simple';
-//
-import BlogPage from '../pages/BlogPage';
-import CoursePage from '../pages/CoursePage';
-import LoginPage from '../pages/LoginPage';
-import Page404 from '../pages/Page404';
-import ProductsPage from '../pages/ProductsPage';
-import DashboardAppPage from '../pages/DashboardAppPage';
-import { AuthContext } from '../context/authentication/authContextProvider';
-import SubjectPage from '../pages/SubjectPage';
-import ChapterPage from '../pages/ChapterPage';
-import TopicPage from '../pages/TopicPage';
+
+// Pages
+import {
+  LoginPage,
+  CoursePage,
+  SubjectPage,
+  ChapterPage,
+  TopicPage,
+  Page404,
+  ProductsPage,
+  DashboardAppPage,
+} from '../pages';
+
+// Storage
 import { storageGetItem } from '../service/ash_admin';
 
-// ----------------------------------------------------------------------
-
 export default function Router() {
-  const { isSignedIn } = useContext(AuthContext);
   const token = storageGetItem('token');
 
   const routes = useRoutes([
     {
       path: '/login',
-      element: <LoginPage />,
+      element: token ?  <Navigate to="/dashboard/course" /> : <LoginPage />,
     },
     {
       path: '/dashboard',
@@ -37,11 +38,7 @@ export default function Router() {
         { path: 'course/:course_name/subject', element: <SubjectPage />,},
         { path: 'course/:course_name/subject/:subject_name/chapter', element: <ChapterPage />,},
         { path: 'course/:course_name/subject/:subject_name/chapter/:chapter_name/topic', element: <TopicPage />,},
-        // { path: 'subject', element: <SubjectPage />,},
-        // { path: 'chapter', element: <ChapterPage />,},
-        // { path: 'topic', element: <TopicPage />,},
         // { path: 'products', element: <ProductsPage /> },
-        // { path: 'blog', element: <BlogPage /> },
       ],
     },
     {
