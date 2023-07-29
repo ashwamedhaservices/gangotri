@@ -359,7 +359,7 @@ export default function TopicPage() {
         )}
         { !topicAdd && !showVideo &&
           <ItemCardList
-            itemType="Chapter" 
+            itemType="Topic" 
             lists={topicList}
             handleViewAll={watchVideo}
             handleEdit={handleEdit}
