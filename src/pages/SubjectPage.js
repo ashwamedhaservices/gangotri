@@ -9,8 +9,6 @@ import {
   Typography,
   TextField,
   Grid,
-  Breadcrumbs,
-  Link,
 } from "@mui/material";
 // components
 import Iconify from "../components/iconify";
@@ -166,18 +164,6 @@ export default function SubjectPage() {
       </Helmet>
 
       <Container>
-        <Stack direction="row">
-          <Breadcrumbs aria-label="breadcrumb">
-            <Link
-              underline="hover"
-              color="inherit"
-              onClick={() => navigate(-1)}
-            >
-              Course
-            </Link>
-            <Typography color="text.primary">Subject</Typography>
-          </Breadcrumbs>
-        </Stack>
         <Stack
           direction="row"
           alignItems="center"

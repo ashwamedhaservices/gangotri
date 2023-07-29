@@ -9,8 +9,6 @@ import {
   Typography,
   TextField,
   Grid,
-  Breadcrumbs,
-  Link,
 } from '@mui/material';
 // components
 import Iconify from '../components/iconify';
@@ -155,21 +153,6 @@ export default function ChapterPage() {
       </Helmet>
 
       <Container>
-        <Stack direction="row">
-          <Breadcrumbs aria-label="breadcrumb">
-            <Link underline="hover" color="inherit" onClick={() => navigate(-2)}>
-              Course
-            </Link>
-            <Link
-              underline="hover"
-              color="inherit"
-              onClick={() => navigate(-1)}
-            >
-              Subject
-            </Link>
-            <Typography color="text.primary">Chapter</Typography>
-          </Breadcrumbs>
-        </Stack>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
             Chapter

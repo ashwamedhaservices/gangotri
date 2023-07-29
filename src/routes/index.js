@@ -26,13 +26,13 @@ export default function Router() {
   const routes = useRoutes([
     {
       path: '/login',
-      element: token ?  <Navigate to="/dashboard/course" /> : <LoginPage />,
+      element: token ?  <Navigate to="/course" /> : <LoginPage />,
     },
     {
-      path: '/dashboard',
+      path: '/',
       element: token ? <DashboardLayout /> : <Navigate to="/login" />,
       children: [
-        { element: <Navigate to="/dashboard/course" />, index: true },
+        { element: <Navigate to="/course" />, index: true },
         // { path: 'app', element: <DashboardAppPage /> },
         { path: 'course', element: <CoursePage />,},
         { path: 'course/:course_name/subject', element: <SubjectPage />,},
@@ -44,7 +44,7 @@ export default function Router() {
     {
       element: <SimpleLayout />,
       children: [
-        { element: <Navigate to="/dashboard/course" />, index: true },
+        { element: <Navigate to="/course" />, index: true },
         { path: '404', element: <Page404 /> },
         { path: '*', element: <Navigate to="/404" /> },
       ],

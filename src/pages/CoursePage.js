@@ -9,7 +9,6 @@ import {
   Typography,
   TextField,
   Grid,
-  Breadcrumbs,
 } from "@mui/material";
 // components
 import Iconify from "../components/iconify";
@@ -155,11 +154,6 @@ export default function CoursePage() {
       </Helmet>
 
       <Container>
-        <Stack direction="row">
-          <Breadcrumbs aria-label="breadcrumb">
-            <Typography color="text.primary">Course</Typography>
-          </Breadcrumbs>
-        </Stack>
         <Stack
           direction="row"
           alignItems="center"

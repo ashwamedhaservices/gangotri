@@ -5,6 +5,7 @@ import { styled } from '@mui/material/styles';
 //
 import Header from './header';
 import Nav from './nav';
+import LayoutBreadcrumb from './breadcrumb';
 
 // ----------------------------------------------------------------------
 
@@ -42,6 +43,7 @@ export default function DashboardLayout() {
       <Nav openNav={open} onCloseNav={() => setOpen(false)} />
 
       <Main>
+        <LayoutBreadcrumb />
         <Outlet />
       </Main>
     </StyledRoot>
