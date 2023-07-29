@@ -29,6 +29,7 @@ const LayoutBreadcrumb = () => {
                 key={link + index}
                 underline="hover" 
                 color="inherit"
+                preventScrollReset={true}
                 onClick={() => handleNavigation(index)}
               >{toTitleCase(link)}</Link>
               : 
