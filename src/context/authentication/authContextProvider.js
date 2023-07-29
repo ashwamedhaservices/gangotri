@@ -34,7 +34,7 @@ export const AuthContextProvider = (props) => {
           password
         }
       })
-      navigate('/dashboard', { replace: true });
+      navigate('/', { replace: true });
     }
     // if(user) {
     //   dispatch(
