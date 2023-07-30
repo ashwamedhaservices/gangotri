@@ -8,37 +8,37 @@ const icon = (name) => <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ 
 const navConfig = [
   // {
   //   title: 'dashboard',
-  //   path: '/dashboard/app',
+  //   path: '/app',
   //   icon: icon('ic_analytics'),
   // },
   {
     title: 'course',
-    path: '/dashboard/course',
+    path: '/course',
     icon: icon('ic_user'),
   },
   // {
   //   title: 'subject',
-  //   path: '/dashboard/subject',
+  //   path: '/subject',
   //   icon: icon('ic_cart'),
   // },
   // {
   //   title: 'chapter',
-  //   path: '/dashboard/chapter',
+  //   path: '/chapter',
   //   icon: icon('ic_blog'),
   // },
   // {
   //   title: 'topic',
-  //   path: '/dashboard/topic',
+  //   path: '/topic',
   //   icon: icon('ic_lock'),
   // },
   // {
   //   title: 'blog',
-  //   path: '/dashboard/blog',
+  //   path: '/blog',
   //   icon: icon('ic_blog'),
   // },
   // {
   //   title: 'products',
-  //   path: '/dashboard/products',
+  //   path: '/products',
   //   icon: icon('ic_blog'),
   // },
   // {
