@@ -111,11 +111,11 @@ export default function TopicPage() {
     }
   };
 
-  const handleVideo = async (file) => {
+  const handleVideo = async (file, duration) => {
     let inputFile = {...file[0]}
     inputFile.type = file[0].name.split('.')[1];
     inputFile.name = file[0].name.split('.')[0];
-    console.log("video file:", file[0], inputFile);
+    console.log("video file:", file[0], inputFile, duration);
 
     if(selectedCourseDetails.id && selectedSubjectDetails.id && selectedChapterDetails.id) {
       inputFile.location = `course/${selectedCourseDetails.id}/subject/${selectedSubjectDetails.id}/chapter/${selectedChapterDetails.id}/topic/videos`;
@@ -130,6 +130,7 @@ export default function TopicPage() {
       if(res) {
         setTopic({
           ...topic,
+          video_duration: duration,
           video_url: uploadVideoLocation
         })
       }

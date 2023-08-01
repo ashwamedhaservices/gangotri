@@ -7,17 +7,30 @@ export default function VideoInput(props) {
   const { width, height, handleVideo, percentage } = props;
 
   const inputRef = React.useRef();
+  const videoRef = React.useRef();
 
   const [source, setSource] = React.useState();
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    handleVideo([...event.target.files])
+   
+    // Below Implementation is for Duration of the video
+    const reader = new FileReader();
+    reader.onload = function () {
+      const video = videoRef.current;
+      video.onloadedmetadata = function () {
+        const duration = video.duration;
+        handleVideo([...event.target.files], Math.ceil(duration)); // Sending video and duration
+      };
+    };
+    reader.readAsDataURL(file);
+    // Above Implementaion is for Duration of the video
+    
     const url = URL.createObjectURL(file);
     setSource(url);
   };
 
-  const handleChoose = (event) => {
+  const handleChoose = () => {
     inputRef.current.click();
   };
 
@@ -36,6 +49,7 @@ export default function VideoInput(props) {
       {source && (
         <video
           className="VideoInput_video"
+          ref={videoRef}
           width="100%"
           height={height}
           controls
