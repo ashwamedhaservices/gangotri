@@ -31,10 +31,10 @@ const ItemCard = ({ data, index, handleViewAll, handleEdit }) => {
     level,
     created_at,
   } = data;
-  const latestPostLarge = index === 0;
-  const latestPost = index === 1 || index === 2;
-  // const latestPostLarge = false;
-  // const latestPost = false;
+  // const latestPostLarge = index === 0;
+  // const latestPost = index === 1 || index === 2;
+  const latestPostLarge = false;
+  const latestPost = false;
   // const POST_INFO = [
   //   { number: comment, icon: 'eva:message-circle-fill' },
   //   { number: view, icon: 'eva:eye-fill' },
@@ -115,7 +115,7 @@ const ItemCard = ({ data, index, handleViewAll, handleEdit }) => {
         <CardContent
           sx={{
             padding: 0,
-            paddingTop: "4px",
+            paddingTop: "12px",
             paddingRight: "16px",
             top: 0,
             width: "100%",
@@ -132,12 +132,13 @@ const ItemCard = ({ data, index, handleViewAll, handleEdit }) => {
               ...((latestPostLarge || latestPost) && {
                 color: "grey.500",
               }),
+              gap: latestPostLarge || latestPost ? '4px' : '8px'
             }}
           >
             <Typography
               variant="caption"
               sx={{
-                color: "common.black",
+                color: "grey.500",
                 display: "flex",
                 alignItems: "center",
                 cursor: "pointer",
@@ -147,13 +148,13 @@ const ItemCard = ({ data, index, handleViewAll, handleEdit }) => {
               }}
               onClick={() => handleEdit(data)}
             >
-              <EditIcon sx={{ fontSize: 12, marginRight: "4px" }} />
+              <EditIcon sx={{ fontSize: 13, marginRight: "4px" }} />
               Edit
             </Typography>
             <Typography
               variant="caption"
               sx={{
-                color: "common.black",
+                color: "grey.500",
                 display: "flex",
                 alignItems: "center",
                 cursor: "pointer",
@@ -164,7 +165,7 @@ const ItemCard = ({ data, index, handleViewAll, handleEdit }) => {
               }}
               onClick={() => handleViewAll(data)}
             >
-              <ViewModuleIcon sx={{ fontSize: 12, marginRight: "4px" }} />
+              <ViewModuleIcon sx={{ fontSize: 13, marginRight: "4px" }} />
               View All
             </Typography>
           </Box>
