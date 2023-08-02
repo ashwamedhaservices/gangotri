@@ -140,6 +140,7 @@ export default function TopicPage() {
                                     res.message, 
                                     file[0], 
                                     (progressEvent) => {
+                                        console.log('video Upload Progress', progressEvent.loaded, progressEvent.total);
                                         const percentage= parseInt(Math.round((progressEvent.loaded * 100) / progressEvent.total));
                                         setUploadVideoPercentage(percentage);
                                         return percentage; // Because you were returning the percentage before.

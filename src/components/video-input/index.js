@@ -15,17 +15,17 @@ export default function VideoInput(props) {
     const file = event.target.files[0];
    
     // Below Implementation is for Duration of the video
-    const reader = new FileReader();
-    reader.onload = function () {
-      const video = videoRef.current;
-      video.onloadedmetadata = function () {
-        const duration = video.duration;
-        handleVideo([...event.target.files], Math.ceil(duration)); // Sending video and duration
-      };
-    };
-    reader.readAsDataURL(file);
+    // const reader = new FileReader();
+    // reader.onload = function () {
+    //   const video = videoRef.current;
+    //   video.onloadedmetadata = function () {
+    //     const duration = video.duration;
+    //     handleVideo([...event.target.files], Math.ceil(duration)); // Sending video and duration
+    //   };
+    // };
+    // reader.readAsDataURL(file);
     // Above Implementaion is for Duration of the video
-    
+    handleVideo([...event.target.files]);
     const url = URL.createObjectURL(file);
     setSource(url);
   };
