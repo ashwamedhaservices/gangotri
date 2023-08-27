@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CHAPTER_CREATE, CHAPTER_GET, COURSE_CREATE, COURSE_GET, SUBJECT_CREATE, SUBJECT_GET, TOPIC_CREATE, TOPIC_GET, ADMIN_LOGIN, FILE_UPLOAD, FILE_UPLOAD_WITH_FORM_DATA, TOPIC_UPDATE, CHAPTER_UPDATE, SUBJECT_UPDATE, COURSE_UPDATE } from '../config/servers/api';
+import { CHAPTER_CREATE, CHAPTER_GET, COURSE_CREATE, COURSE_GET, SUBJECT_CREATE, SUBJECT_GET, TOPIC_CREATE, TOPIC_GET, ADMIN_LOGIN, FILE_UPLOAD, FILE_UPLOAD_WITH_FORM_DATA, TOPIC_UPDATE, CHAPTER_UPDATE, SUBJECT_UPDATE, COURSE_UPDATE, getAccountsKycUrl, postAccountsKycUrl, putAccountsKycUrl, getAccountsKycedBankUrl, postAccountsKycedBankUrl, putAccountsKycedBankUrl, getAccountsKycedAddressUrl, postAccountsKycedAddressUrl, putAccountsKycedAddressUrl, getAccountsKycedNomineesUrl, postAccountsKycedNomineesUrl, putAccountsKycedNomineesUrl, getAccountsOnboardingUrl, getAllKycListingUrl } from '../config/servers/api';
 
 // let instance;
 // class ApiAdminService {
@@ -241,6 +241,188 @@ export const putTopic = async (topic_id, payload) => {
     return null
   }
 }
+
+// For KYCS
+export const getAccountsKyc = async () => {
+  console.log('[service]::[getAccountsKyc]:: ');
+  const responseJson =
+      await makeRequest('get', getAccountsKycUrl(), {});
+  console.log(
+      `[service]::[getAccountsKyc]::[makeRequests]::[result] ${responseJson}`);
+
+  if (responseJson['success']) {
+    return responseJson['data'];
+  }
+  return {};
+}
+
+export const postAccountsKyc = async (payload) => {
+  console.log(`[service]::[postAccountsKyc]:: ${payload}`);
+  const responseJson = await makeRequest(
+      'post', postAccountsKycUrl(), payload);
+  console.log(
+      `[service]::[postAccountsKyc]::[makeRequests]::[result] ${responseJson}`);
+  if (responseJson['success']) {
+    return responseJson['data'];
+  }
+  return {};
+}
+
+export const putAccountsKyc = async (payload, kycId) => {
+  console.log(`[service]::[putAccountsKyc]:: ${payload} ${kycId}`);
+  const responseJson = await makeRequest(
+      'put', putAccountsKycUrl(kycId), payload);
+  console.log(
+      `[service]::[putAccountsKyc]::[makeRequests]::[result] ${responseJson}`);
+  if (responseJson['success']) {
+    return responseJson['data'];
+  }
+  return {};
+}
+
+export const getAccountsKycedBank = async (kycId) => {
+  console.log('[service]::[getAccountsKycedBank]:: ');
+  const responseJson = await makeRequest(
+      'get', getAccountsKycedBankUrl(kycId), {});
+  console.log(
+      `[service]::[getAccountsKycedBank]::[makeRequests]::[result] ${responseJson}`);
+
+  if (responseJson['success']) {
+    return responseJson['data'];
+  }
+  return {};
+}
+
+export const postAccountsKycedBank = async (payload, kycId) => {
+  console.log('[service]::[postAccountsKycedBank]:: ');
+  const responseJson = await makeRequest(
+      'post', postAccountsKycedBankUrl(kycId), payload);
+  console.log(
+      `[service]::[postAccountsKycedBank]::[makeRequests]::[result] ${responseJson}`);
+
+  if (responseJson['success']) {
+    return responseJson['data'];
+  }
+  return {};
+}
+
+export const putAccountsKycedBank = async (payload, kycId) => {
+  console.log('[service]::[putAccountsKycedBank]:: ');
+  const responseJson = await makeRequest(
+      'put', putAccountsKycedBankUrl(kycId), payload);
+  console.log(
+      `[service]::[putAccountsKycedBank]::[makeRequests]::[result] ${responseJson}`);
+
+  if (responseJson['success']) {
+    return responseJson['data'];
+  }
+  return {};
+}
+
+export const getAccountsKycedAddress = async (kycId) => {
+  console.log('[service]::[getAccountsKycedAddress]:: ');
+  const responseJson = await makeRequest(
+      'get', getAccountsKycedAddressUrl(kycId), {});
+  console.log(
+      `[service]::[getAccountsKycedAddress]::[makeRequests]::[result] ${responseJson}`);
+
+  if (responseJson['success']) {
+    return responseJson['data'];
+  }
+  return {};
+}
+
+export const postAccountsKycedAddress = async (payload, kycId) => {
+  console.log('[service]::[postAccountsKycedAddress]:: ');
+  const responseJson = await makeRequest(
+      'post', postAccountsKycedAddressUrl(kycId), payload);
+  console.log(
+      `[service]::[postAccountsKycedAddress]::[makeRequests]::[result] ${responseJson}`);
+
+  if (responseJson['success']) {
+    return responseJson['data'];
+  }
+  return {};
+}
+
+export const putAccountsKycedAddress =  async (payload, kycId) => {
+  console.log('[service]::[putAccountsKycedAddress]:: ');
+  const responseJson = await makeRequest(
+      'put', putAccountsKycedAddressUrl(kycId), payload);
+  console.log(
+      `[service]::[putAccountsKycedAddress]::[makeRequests]::[result] ${responseJson}`);
+
+  if (responseJson['success']) {
+    return responseJson['data'];
+  }
+  return {};
+}
+
+export const getAccountsKycedNominees = async (kycId) => {
+  console.log('[service]::[getAccountsKycedNominees]:: ');
+  const responseJson = await makeRequest(
+      'get', getAccountsKycedNomineesUrl(kycId), {});
+  console.log(
+      `[service]::[getAccountsKycedNominees]::[makeRequests]::[result] ${responseJson}`);
+
+  if (responseJson['success']) {
+    return responseJson['data'];
+  }
+  return {};
+}
+
+export const postAccountsKycedNominees = async (payload, kycId) => {
+  console.log('[service]::[postAccountsKycedNominees]:: ');
+  const responseJson = await makeRequest(
+      'post', postAccountsKycedNomineesUrl(kycId), payload);
+  console.log(
+      `[service]::[postAccountsKycedNominees]::[makeRequests]::[result] ${responseJson}`);
+
+  if (responseJson['success']) {
+    return responseJson['data'];
+  }
+  return {};
+}
+
+export const putAccountsKycedNominees = async (payload, kycId) => {
+  console.log('[service]::[putAccountsKycedNominees]:: ');
+  const responseJson = await makeRequest(
+      'put', putAccountsKycedNomineesUrl(kycId), payload);
+  console.log(
+      `[service]::[putAccountsKycedNominees]::[makeRequests]::[result] ${responseJson}`);
+
+  if (responseJson['success']) {
+    return responseJson['data'];
+  }
+  return {};
+}
+
+export const getAccountsOnboarding = async () => {
+  console.log('[service]::[getAccountsOnboarding]:: ');
+  const responseJson = await makeRequest(
+      'get', getAccountsOnboardingUrl(), {});
+  console.log(
+      `[service]::[getAccountsOnboarding]::[makeRequests]::[result] ${responseJson}`);
+
+  if (responseJson['success']) {
+    return responseJson['data'];
+  }
+  return {};
+}
+
+export const getAllKycList = async () => {
+  console.log('[service]::[getAllKycList]:: ');
+  const responseJson = await makeRequest(
+      'get', getAllKycListingUrl(), {});
+  console.log(
+      `[service]::[getAllKycList]::[makeRequests]::[result] ${responseJson}`);
+
+  if (responseJson['success']) {
+    return responseJson['data'];
+  }
+  return {};
+}
+// FOR KYC ABOVE 
 
 // UPLOAD FILE TO GET PRESIGNEDURL
 // {

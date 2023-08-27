@@ -12,6 +12,7 @@ import {
   SubjectPage,
   ChapterPage,
   TopicPage,
+  OnboardingPage,
   Page404,
   ProductsPage,
   DashboardAppPage,
@@ -39,6 +40,7 @@ export default function Router() {
         { path: 'course/:course_name/subject/:subject_name/chapter', element: <ChapterPage />,},
         { path: 'course/:course_name/subject/:subject_name/chapter/:chapter_name/topic', element: <TopicPage />,},
         // { path: 'products', element: <ProductsPage /> },
+        { path: 'onboarding', element: <OnboardingPage />},
       ],
     },
     {
