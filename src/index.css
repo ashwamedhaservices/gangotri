@@ -31,6 +31,10 @@
   --theme-status-cancelled-font-color: #D1322D;
   --theme-status-cancelled-background-color: #f8c3c1;
 
+  --theme-primary-navbar-color: #516C99;
+  --theme-background-tertiary: #d4cbcb;
+  --theme-primary-color: #445965;
+
 }
 body {
   margin: 0;
