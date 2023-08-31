@@ -87,7 +87,7 @@ function Row({ row }) {
                   <TableRow key={kyc.id}>
                     <TableCell align="right">{fullName(kyc.name)}</TableCell>
                     <TableCell align="right">{kyc.id_proof_no}</TableCell>
-                    <TableCell align="right">{kyc.id_proof_type.toUpperCase()}</TableCell>
+                    <TableCell align="right">{kyc.id_proof_type?.toUpperCase()}</TableCell>
                     <TableCell align="right">
                       { isValidImage(kyc.id_proof_url) ?
                       <img src={kyc.id_proof_url} 
@@ -98,7 +98,7 @@ function Row({ row }) {
                       : 'Not uploaded'}
                     </TableCell>
                     <TableCell align="right">{kyc.address_proof_no}</TableCell>
-                    <TableCell align="right">{kyc.address_proof_type.toUpperCase()}</TableCell>
+                    <TableCell align="right">{kyc.address_proof_type?.toUpperCase()}</TableCell>
                     <TableCell align="right">{ 
                     isValidImage(kyc.address_proof_url) ?
                       <img src={kyc.address_proof_url} 
