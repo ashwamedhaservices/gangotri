@@ -14,5 +14,5 @@ export async function uploadMedia({ type, file, preset }) {
 
 export const isValidImage = (url) => {
   const imageBucket = url ? url.split('/') : []
-  return imageBucket.length >= 2 && imageBucket[1] === 'kailasa-bucket1'
+  return imageBucket.includes('kailasa-bucket1')
 }

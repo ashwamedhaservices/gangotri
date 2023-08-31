@@ -15,36 +15,57 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { fullName, toTitleCase } from '../../utils/text-typecase';
 import { isValidImage } from '../../utils/upload-media';
+import { Modal } from '@mui/material';
 
-function createData(name, calories, fat, carbs, protein, price) {
-  return {
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
-    price,
-    history: [
-      {
-        date: '2020-01-05',
-        customerId: '11091700',
-        amount: 3,
-      },
-      {
-        date: '2020-01-02',
-        customerId: 'Anonymous',
-        amount: 1,
-      },
-    ],
-  };
-}
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
 function Row({ row }) {
   const { user, kyc, bank_accounts, nominees } = row;
   const [open, setOpen] = React.useState(false);
 
+  
+  const [openModal, setOpenModal] = React.useState(false);
+  const [currentImage, setCurrentImage] = React.useState('');
+  const [currentImageType, setCurrentImageType] = React.useState('');
+  const handleOpen = (url, type) => {
+    setOpenModal(true);
+    setCurrentImage(url);
+    setCurrentImageType(toTitleCase(type));
+  }
+  const handleClose = () => {
+    setOpenModal(false);
+    setCurrentImage('');
+    setCurrentImageType('');
+  }
   return (
     <React.Fragment>
+      <Modal
+        open={openModal}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            {currentImageType} image
+          </Typography>
+          <img
+            src={currentImage}
+            alt={currentImageType}
+            loading="lazy"
+          />
+        </Box>
+      </Modal>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
         <TableCell>
           <IconButton
@@ -91,9 +112,10 @@ function Row({ row }) {
                     <TableCell align="right">
                       { isValidImage(kyc.id_proof_url) ?
                       <img src={kyc.id_proof_url} 
-                        height="15px" 
-                        width="15px" 
+                        height="30px" 
+                        width="30px" 
                         alt={kyc.id_proof_type}
+                        onClick={() => handleOpen(kyc.id_proof_url, kyc.id_proof_type)}
                       />
                       : 'Not uploaded'}
                     </TableCell>
@@ -102,9 +124,10 @@ function Row({ row }) {
                     <TableCell align="right">{ 
                     isValidImage(kyc.address_proof_url) ?
                       <img src={kyc.address_proof_url} 
-                        height="10px" 
-                        width="10px" 
+                        height="30px" 
+                        width="30px" 
                         alt={kyc.address_proof_type}
+                        onClick={() => handleOpen(kyc.address_proof_url, kyc.address_proof_type)}
                       />
                       : 'Not uploaded'}</TableCell>
                   </TableRow>
