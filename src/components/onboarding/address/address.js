@@ -13,16 +13,12 @@ import {
 } from "@mui/material";
 import ArrowBackSharpIcon from "@mui/icons-material/ArrowBackSharp";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import {
-  getAccountsKyc,
-  getAccountsOnboarding,
-} from "../../../service/ash_admin";
 import { KycAddressContext } from "../../../context/address/kycAddressContextProvider";
 
 function Address() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { fetchKycAddressData, createKycAddress, updateKycAddress } = useContext(KycAddressContext)
+  const { fetchAddressByIdForAdminData, updateKycAddress } = useContext(KycAddressContext)
   const [kycId, setKycId] = useState(0);
   const [addressData, setAddressData] = useState({
     name: "",
@@ -37,61 +33,23 @@ function Address() {
   });
 
   useEffect(() => {
-    fetchKycData();
     const addressId = searchParams.get('id');
     if(addressId) {
       _fetchKycAddressData(addressId);
     }
   }, []);
 
-  const fetchKycData = async () => {
-    try {
-      const kyc = await getAccountsKyc();
-      console.log("[address]::[_fetchKycData]::", kyc);
-      setKycId(kyc.id);
-    } catch (error) {
-      console.error("[address]::[_fetchKycData]::err", error);
-    }
-  };
-
   const _fetchKycAddressData = async (addressId) => {
-    const addresses = await fetchKycAddressData(kycId);
+    const address = await fetchAddressByIdForAdminData(addressId);
     setAddressData(() => ({
-      ...addresses.filter((address) => address.id === Number(addressId))[0]
+      ...address
     }))
   }
-
-  const _createKycAddress = async () => {
-    await createKycAddress(addressData, kycId);
-    await _fetchOnboardingStatus();
-  };
 
   const _updateKycAddress = async () => {
     await updateKycAddress(addressData);
     navigate('/kyc', {replace: true});
   }
-  
-  const _fetchOnboardingStatus = async () => {
-    try {
-      console.log("[ProfilePage]::[_fetchOnboardingStatus]");
-      const onboarding = await getAccountsOnboarding();
-
-      const flow = onboarding["flow"];
-
-      const pages = flow.filter((page) => !page["status"]);
-      console.log(pages);
-
-      if (!onboarding["status"]) {
-        const path = `/kyc/${pages && pages[0]["page"]}`;
-        console.log(path);
-        navigate(path, { replace: true });
-      }
-
-      console.log(`[ProfilePage]::[_fetchOnboardingStatus]`, pages, onboarding);
-    } catch (err) {
-      console.log(`[ProfilePage]::[_fetchOnboardingStatus]::err ${err}`);
-    }
-  };
 
   const handleAddressSubmit = async () => {
     console.log(addressData);
@@ -99,7 +57,6 @@ function Address() {
       await _updateKycAddress();
       return
     }
-    await _createKycAddress();
   };
 
   const handleAddressDetail = (event) => {
@@ -134,7 +91,7 @@ function Address() {
         }}
       >
         <Toolbar>
-          <IconButton onClick={() => navigate("/kyc", { replace: true })}>
+          <IconButton onClick={() => navigate("/onboarding", { replace: true })}>
             <ArrowBackSharpIcon
               color="primary"
               style={{ color: "var(--theme-primary-navbar-color)" }}

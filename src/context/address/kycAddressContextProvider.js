@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { getAccountsKycedAddress, postAccountsKycedAddress, putAccountsKycedAddress } from '../../service/ash_admin';
+import { getAccountsKycedAddress, getAddressByIdForAdmin, postAccountsKycedAddress, putAccountsKycedAddress } from '../../service/ash_admin';
 
 export const KycAddressContext = createContext();
 
@@ -45,11 +45,23 @@ export const KycAddressContextProvider = (props) => {
     }
   };
 
+  const _fetchAddressByIdForAdminData = async (id) => {
+    try {
+      const data = await getAddressByIdForAdmin(id);
+      console.log("[KycAddressContextProvider]::[_fetchAddressByIdForAdminData]::", data);
+      return data;
+    } catch (error) {
+      console.error("[KycAddressContextProvider]::[_fetchAddressByIdForAdminData]::err", error);
+      return {}
+    }
+  }
+
   return <KycAddressContext.Provider
    value={{
      fetchKycAddressData: _fetchKycAddressData,
      createKycAddress: _createKycAddress,
      updateKycAddress: _updateKycAddress,
+     fetchAddressByIdForAdminData: _fetchAddressByIdForAdminData
    }}>
     {props.children}
   </KycAddressContext.Provider>

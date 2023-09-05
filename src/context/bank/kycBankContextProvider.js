@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { getAccountsKycedBank, postAccountsKycedBank, putAccountsKycedBank } from '../../service/ash_admin';
+import { getAccountsKycedBank, getBankByIdForAdmin, postAccountsKycedBank, putAccountsKycedBank } from '../../service/ash_admin';
 
 export const KycBankContext = createContext();
 
@@ -45,11 +45,23 @@ export const KycBankContextProvider = (props) => {
     }
   };
 
+  const _fetchBankByIdForAdminData = async (id) => {
+    try {
+      const data = await getBankByIdForAdmin(id);
+      console.log("[KycBankContextProvider]::[_fetchBankByIdForAdminData]::", data);
+      return data;
+    } catch (error) {
+      console.error("[KycBankContextProvider]::[_fetchBankByIdForAdminData]::err", error);
+      return {}
+    }
+  }
+
   return <KycBankContext.Provider
    value={{
      fetchKycBankData: _fetchKycBankData,
      createKycBank: _createKycBank,
      updateKycBank: _updateKycBank,
+     fetchBankByIdForAdminData: _fetchBankByIdForAdminData
    }}>
     {props.children}
   </KycBankContext.Provider>

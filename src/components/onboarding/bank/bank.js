@@ -21,8 +21,7 @@ import { KycBankContext } from "../../../context/bank/kycBankContextProvider";
 const Bank = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { fetchKycBankData, createKycBank, updateKycBank } = useContext(KycBankContext)
-  const [kycId, setKycId] = useState(null);
+  const { fetchBankByIdForAdminData, updateKycBank } = useContext(KycBankContext)
   const [bankData, setBankData] = useState({
     account_number: "",
     account_type: "",
@@ -32,61 +31,23 @@ const Bank = () => {
   const [ifscError, setIfscError] = useState("");
 
   useEffect(() => {
-    fetchKycData();
     const bankId = searchParams.get('id');
     if(bankId) {
       _fetchKycBankData(bankId);
     }
   }, []);
 
-  const fetchKycData = async () => {
-    try {
-      const kyc = await getAccountsKyc();
-      console.log("[address]::[_fetchKycData]::", kyc);
-      setKycId(kyc.id);
-    } catch (error) {
-      console.error("[address]::[_fetchKycData]::err", error);
-    }
-  };
-
   const _fetchKycBankData = async (bankId) => {
-    const banks = await fetchKycBankData(kycId);
+    const bank = await fetchBankByIdForAdminData(bankId);
     setBankData(() => ({
-      ...banks.filter((bank) => bank.id === Number(bankId))[0]
+      ...bank
     }))
   }
 
-  const _createBank = async () => {
-    await createKycBank(bankData, kycId);
-    await _fetchOnboardingStatus();
-  };
-
   const _updateKycBank = async () => {
     await updateKycBank(bankData);
-    navigate('/kyc', {replace: true});
+    navigate('/onboarding', {replace: true});
   }
-
-  const _fetchOnboardingStatus = async () => {
-    try {
-      console.log("[ProfilePage]::[_fetchOnboardingStatus]");
-      const onboarding = await getAccountsOnboarding();
-
-      const flow = onboarding["flow"];
-
-      const pages = flow.filter((page) => !page["status"]);
-      console.log(pages);
-
-      if (!onboarding["status"]) {
-        const path = `/kyc/${pages && pages[0]["page"]}`;
-        console.log(path);
-        navigate(path, { replace: true });
-      }
-
-      console.log(`[ProfilePage]::[_fetchOnboardingStatus]`, pages, onboarding);
-    } catch (err) {
-      console.log(`[ProfilePage]::[_fetchOnboardingStatus]::err ${err}`);
-    }
-  };
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -118,7 +79,6 @@ const Bank = () => {
       await _updateKycBank();
       return
     }
-    await _createBank();
   }
 
   const buttonDisabled = () => {
@@ -138,7 +98,7 @@ const Bank = () => {
         }}
       >
         <Toolbar>
-          <IconButton onClick={() => navigate("/kyc", { replace: true })}>
+          <IconButton onClick={() => navigate("/onboarding", { replace: true })}>
             <ArrowBackSharpIcon
               color="primary"
               style={{ color: "var(--theme-primary-navbar-color)" }}

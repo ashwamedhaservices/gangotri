@@ -9,9 +9,6 @@ import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Grid } from "@mui/material";
-import {
-  getAccountsOnboarding,
-} from "../../../service/ash_admin";
 import { panNumberValidation } from "../../../utils/validations";
 
 import { KycContext } from "../../../context/kyc/kycContextProvider";
@@ -19,7 +16,7 @@ import { KycContext } from "../../../context/kyc/kycContextProvider";
 const Pan = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { fetchKycData, createKyc, updateKyc } = useContext(KycContext)
+  const { updateKyc, fetchKycByIdForAdminData } = useContext(KycContext)
   const [panNumberError, setPanNumberError] = useState("");
 
   const [kycData, setKycData] = useState({
@@ -31,45 +28,18 @@ const Pan = () => {
   useEffect(() => {
     const kycId = searchParams.get('id');
     if(kycId) {
-      _fetchKycData();
+      _fetchKycData(kycId);
     }
   }, [])
 
-  const _fetchKycData = async () => {
-    const kyc = await fetchKycData();
+  const _fetchKycData = async (kycId) => {
+    const kyc = await fetchKycByIdForAdminData(kycId);
     setKycData({...kyc})
-  };
-
-  const _createKyc = async () => {
-    await createKyc(kycData);
-    await _fetchOnboardingStatus();
   };
 
   const _updateKyc = async () => {
     await updateKyc(kycData);
-    navigate('/kyc', {replace: true});
-  };
-
-  const _fetchOnboardingStatus = async () => {
-    try {
-      console.log("[ProfilePage]::[_fetchOnboardingStatus]");
-      const onboarding = await getAccountsOnboarding();
-
-      const flow = onboarding["flow"];
-
-      const pages = flow.filter((page) => !page["status"]);
-      console.log(pages);
-
-      if (!onboarding["status"]) {
-        const path = `/kyc/${pages && pages[0]["page"]}`;
-        console.log(path);
-        navigate(path, { replace: true });
-      }
-
-      console.log(`[ProfilePage]::[_fetchOnboardingStatus]`, pages, onboarding);
-    } catch (err) {
-      console.log(`[ProfilePage]::[_fetchOnboardingStatus]::err ${err}`);
-    }
+    navigate('/onboarding', {replace: true});
   };
 
   const _panNumberValidation = (value) => {
@@ -84,7 +54,6 @@ const Pan = () => {
       _updateKyc();
       return
     }
-    await _createKyc();
   };
 
   const handleKycDetails = (event) => {
@@ -118,7 +87,7 @@ const Pan = () => {
         }}
       >
         <Toolbar>
-          <IconButton onClick={() => navigate("/kyc", { replace: true })}>
+          <IconButton onClick={() => navigate("/onboarding", { replace: true })}>
             <ArrowBackSharpIcon
               color="primary"
               style={{ color: "var(--theme-primary-navbar-color)" }}

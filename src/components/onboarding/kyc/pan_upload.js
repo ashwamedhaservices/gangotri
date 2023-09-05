@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   Stack,
@@ -18,8 +18,10 @@ import {
   putFileUpload,
 } from "../../../service/ash_admin";
 import ImageInput from "../../image-input";
+import { KycContext } from "../../../context/kyc/kycContextProvider";
 
 function PanUpload() {
+  const { updateKyc, fetchKycByIdForAdminData } = useContext(KycContext)
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [kycId, setKycId] = useState(null);
@@ -32,59 +34,25 @@ function PanUpload() {
   useEffect(() => {
     const kycId = searchParams.get('id');
     setKycUpdateId(kycId)
-    fetchKycData();
+    if(kycId){
+      _fetchKycData(kycId);
+    }
+    
   }, []);
 
-  const fetchKycData = async () => {
+  const _fetchKycData = async (kycId) => {
     try {
-      const kyc = await getAccountsKyc();
-      console.log("[pan_upload]::[_fetchKycData]::", kyc);
-      setKycId(kyc.id);
+      const kyc = await fetchKycByIdForAdminData(kycId);
+      console.log("[pan_upload]::[_fetchKycData]::", kycId);
+      setKycData(kycId);
     } catch (error) {
       console.error("[pan_upload]::[_fetchKycData]::err", error);
     }
   };
 
-  const updateKyc = async () => {
-    try {
-      console.log("[pan]::[_updateKyc]:: Enter", kycData);
-      const kycPayload = { kyc: kycData };
-      console.log("[pan]::[_updateKyc]::", kycPayload);
-
-      const data = await putAccountsKyc(kycPayload, kycId);
-      console.log("[pan]::[_updateKyc]::[response]::", data);
-
-      if(kycUpdateId) {
-        navigate('/kyc', {replace: true});
-        return
-      }
-
-      await _fetchOnboardingStatus();
-    } catch (error) {
-      console.error("[pan]::[_updateKyc]::err", error);
-    }
-  };
-
-  const _fetchOnboardingStatus = async () => {
-    try {
-      console.log("[ProfilePage]::[_fetchOnboardingStatus]");
-      const onboarding = await getAccountsOnboarding();
-
-      const flow = onboarding["flow"];
-      
-      const pages = flow.filter((page) => !page["status"]);
-      console.log(pages);
-
-      if (!onboarding["status"]) {
-        const path = `/kyc/${pages && pages[0]["page"]}`;
-        console.log(path);
-        navigate(path, { replace: true })
-      }
-
-      console.log(`[ProfilePage]::[_fetchOnboardingStatus]`, pages, onboarding);
-    } catch (err) {
-      console.log(`[ProfilePage]::[_fetchOnboardingStatus]::err ${err}`);
-    }
+  const _updateKyc = async () => {
+    await updateKyc(kycData);
+    navigate('/onboarding', {replace: true});
   };
 
   const handleImage = async (file) => {
@@ -126,7 +94,7 @@ function PanUpload() {
 
   const handlePanProofSubmit = async () => {
     console.log(kycData);
-    await updateKyc();
+    await _updateKyc();
   }
   const buttonDisabled = () => {
     if(kycData && !kycData.id_proof_url) return true

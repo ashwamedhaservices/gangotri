@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { getAccountsKyc, getAllKycList, postAccountsKyc, putAccountsKyc } from '../../service/ash_admin';
+import { getAccountsKyc, getAllKycList, getKycByIdForAdmin, postAccountsKyc, putAccountsKyc } from '../../service/ash_admin';
 
 export const KycContext = createContext();
 
@@ -56,12 +56,24 @@ export const KycContextProvider = (props) => {
     }
   }
 
+  const _fetchKycByIdForAdminData = async (id) => {
+    try {
+      const kycs = await getKycByIdForAdmin(id);
+      console.log("[KycContextProvider]::[_fetchKycByIdForAdminData]::", kycs);
+      return kycs;
+    } catch (error) {
+      console.error("[KycContextProvider]::[_fetchKycByIdForAdminData]::err", error);
+      return {}
+    }
+  }
+
   return <KycContext.Provider
    value={{
      fetchKycData: _fetchKycData,
      createKyc: _createKyc,
      updateKyc: _updateKyc,
      fetchAllKycData: _fetchAdminAllKycData,
+     fetchKycByIdForAdminData: _fetchKycByIdForAdminData
    }}>
     {props.children}
   </KycContext.Provider>

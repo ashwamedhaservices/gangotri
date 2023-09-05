@@ -16,6 +16,8 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { fullName, toTitleCase } from '../../utils/text-typecase';
 import { isValidImage } from '../../utils/upload-media';
 import { Modal } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import { createSearchParams, useNavigate } from 'react-router-dom';
 
 const style = {
   position: 'absolute',
@@ -30,6 +32,7 @@ const style = {
 };
 
 function Row({ row }) {
+  const navigate = useNavigate();
   const { user, kyc, bank_accounts, nominees } = row;
   const [open, setOpen] = React.useState(false);
 
@@ -46,6 +49,12 @@ function Row({ row }) {
     setOpenModal(false);
     setCurrentImage('');
     setCurrentImageType('');
+  }
+  const handleNavigate = (pathname, params) => {
+    navigate({
+      pathname,
+      search: `?${createSearchParams(params)}`,
+    }, { replace: true });
   }
   return (
     <React.Fragment>
@@ -102,6 +111,7 @@ function Row({ row }) {
                     <TableCell align="right">Address proof no</TableCell>
                     <TableCell align="right">Address proof type</TableCell>
                     <TableCell align="right">Address proof image</TableCell>
+                    <TableCell align="right"></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -130,6 +140,9 @@ function Row({ row }) {
                         onClick={() => handleOpen(kyc.address_proof_url, kyc.address_proof_type)}
                       />
                       : 'Not uploaded'}</TableCell>
+                    <TableCell align="right">
+                      <EditIcon onClick={() => handleNavigate('/pan', { id: kyc.id })}/>
+                    </TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
@@ -145,6 +158,7 @@ function Row({ row }) {
                     <TableCell align="right">Account number</TableCell>
                     <TableCell align="right">Account type</TableCell>
                     <TableCell align="right">IFSC Code</TableCell>
+                    <TableCell align="right"></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -153,6 +167,9 @@ function Row({ row }) {
                       <TableCell align="right">{bank.account_number}</TableCell>
                       <TableCell align="right">{bank.account_type}</TableCell>
                       <TableCell align="right">{bank.ifsc}</TableCell>
+                      <TableCell align="right">
+                        <EditIcon onClick={() => handleNavigate('/bank', { id: bank.id })}/>
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -170,6 +187,7 @@ function Row({ row }) {
                     <TableCell align="right">Relationship</TableCell>
                     <TableCell align="right">Dob</TableCell>
                     <TableCell align="right">Relationship with gurdian</TableCell>
+                    <TableCell align="right"></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -179,6 +197,9 @@ function Row({ row }) {
                       <TableCell align="right">{toTitleCase(nominee.relationship)}</TableCell>
                       <TableCell align="right">{nominee.dob ? nominee.dob : 'NA'}</TableCell>
                       <TableCell align="right">{nominee.relationship_with_gurdian ? toTitleCase(nominee.relationship_with_gurdian) : 'NA'}</TableCell>
+                      <TableCell align="right">
+                        <EditIcon onClick={() => handleNavigate('/nominee', { id: nominee.id })}/>
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

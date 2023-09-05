@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CHAPTER_CREATE, CHAPTER_GET, COURSE_CREATE, COURSE_GET, SUBJECT_CREATE, SUBJECT_GET, TOPIC_CREATE, TOPIC_GET, ADMIN_LOGIN, FILE_UPLOAD, FILE_UPLOAD_WITH_FORM_DATA, TOPIC_UPDATE, CHAPTER_UPDATE, SUBJECT_UPDATE, COURSE_UPDATE, getAccountsKycUrl, postAccountsKycUrl, putAccountsKycUrl, getAccountsKycedBankUrl, postAccountsKycedBankUrl, putAccountsKycedBankUrl, getAccountsKycedAddressUrl, postAccountsKycedAddressUrl, putAccountsKycedAddressUrl, getAccountsKycedNomineesUrl, postAccountsKycedNomineesUrl, putAccountsKycedNomineesUrl, getAccountsOnboardingUrl, getAllKycListingUrl } from '../config/servers/api';
+import { CHAPTER_CREATE, CHAPTER_GET, COURSE_CREATE, COURSE_GET, SUBJECT_CREATE, SUBJECT_GET, TOPIC_CREATE, TOPIC_GET, ADMIN_LOGIN, FILE_UPLOAD, FILE_UPLOAD_WITH_FORM_DATA, TOPIC_UPDATE, CHAPTER_UPDATE, SUBJECT_UPDATE, COURSE_UPDATE, getAccountsKycUrl, postAccountsKycUrl, putAccountsKycUrl, getAccountsKycedBankUrl, postAccountsKycedBankUrl, putAccountsKycedBankUrl, getAccountsKycedAddressUrl, postAccountsKycedAddressUrl, putAccountsKycedAddressUrl, getAccountsKycedNomineesUrl, postAccountsKycedNomineesUrl, putAccountsKycedNomineesUrl, getAccountsOnboardingUrl, getAllKycListingUrl, getKycByIdForAdminUrl, getAddressByIdForAdminUrl, getNomineeByIdForAdminUrl, getBankByIdForAdminUrl } from '../config/servers/api';
 
 // let instance;
 // class ApiAdminService {
@@ -416,6 +416,58 @@ export const getAllKycList = async () => {
       'get', getAllKycListingUrl(), {});
   console.log(
       `[service]::[getAllKycList]::[makeRequests]::[result] ${responseJson}`);
+
+  if (responseJson['success']) {
+    return responseJson['data'];
+  }
+  return {};
+}
+
+export const getKycByIdForAdmin = async (kycId) => {
+  console.log('[service]::[getKycByIdForAdmin]:: ');
+  const responseJson = await makeRequest(
+      'get', getKycByIdForAdminUrl(kycId), {});
+  console.log(
+      `[service]::[getKycByIdForAdmin]::[makeRequests]::[result] ${responseJson}`);
+
+  if (responseJson['success']) {
+    return responseJson['data'];
+  }
+  return {};
+}
+
+export const getAddressByIdForAdmin = async (addressId) => {
+  console.log('[service]::[getAccountsKycedNominees]:: ');
+  const responseJson = await makeRequest(
+      'get', getAddressByIdForAdminUrl(addressId), {});
+  console.log(
+      `[service]::[getAddressByIdForAdmin]::[makeRequests]::[result] ${responseJson}`);
+
+  if (responseJson['success']) {
+    return responseJson['data'];
+  }
+  return {};
+}
+
+export const getNomineeByIdForAdmin = async (nomineeId) => {
+  console.log('[service]::[getNomineeByIdForAdmin]:: ');
+  const responseJson = await makeRequest(
+      'get', getNomineeByIdForAdminUrl(nomineeId), {});
+  console.log(
+      `[service]::[getNomineeByIdForAdmin]::[makeRequests]::[result] ${responseJson}`);
+
+  if (responseJson['success']) {
+    return responseJson['data'];
+  }
+  return {};
+}
+
+export const getBankByIdForAdmin = async (bankId) => {
+  console.log('[service]::[getBankByIdForAdmin]:: ');
+  const responseJson = await makeRequest(
+      'get', getBankByIdForAdminUrl(bankId), {});
+  console.log(
+      `[service]::[getBankByIdForAdmin]::[makeRequests]::[result] ${responseJson}`);
 
   if (responseJson['success']) {
     return responseJson['data'];

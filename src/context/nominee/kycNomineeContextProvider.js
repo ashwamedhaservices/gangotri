@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { getAccountsKycedNominees, postAccountsKyc, postAccountsKycedNominees, putAccountsKyc, putAccountsKycedNominees } from '../../service/ash_admin';
+import { getAccountsKycedNominees, getNomineeByIdForAdmin, postAccountsKyc, postAccountsKycedNominees, putAccountsKyc, putAccountsKycedNominees } from '../../service/ash_admin';
 
 export const KycNomineeContext = createContext();
 
@@ -45,11 +45,23 @@ export const KycNomineeContextProvider = (props) => {
     }
   };
 
+  const _fetchNomineeByIdForAdminData = async (id) => {
+    try {
+      const data = await getNomineeByIdForAdmin(id);
+      console.log("[KycNomineeContextProvider]::[_fetchNomineeByIdForAdminData]::", data);
+      return data;
+    } catch (error) {
+      console.error("[KycNomineeContextProvider]::[_fetchNomineeByIdForAdminData]::err", error);
+      return {}
+    }
+  }
+
   return <KycNomineeContext.Provider
    value={{
      fetchKycNomineeData: _fetchKycNomineeData,
      createKycNominee: _createKycNominee,
      updateKycNominee: _updateKycNominee,
+     fetchNomineeByIdForAdminData: _fetchNomineeByIdForAdminData
    }}>
     {props.children}
   </KycNomineeContext.Provider>

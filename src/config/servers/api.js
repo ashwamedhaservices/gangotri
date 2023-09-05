@@ -73,5 +73,12 @@ export const putAccountsKycedNomineesUrl = (nomineeId) => `${API_BASE_URL}/${API
 export const getAccountsOnboardingUrl = () => `${API_BASE_URL}/${API_ACCOUNTS}${API_BASE_VERSION}/onboarding.json`;
 
 // For Admin all kyc data GET
-export const getAllKycListingUrl = () => `${API_BASE_URL}/referrals/admin${API_BASE_VERSION}/kycs.json`;
-// export const getAllKycListingUrl = () => `${apiBaseUrlStaging}/referrals/admin${API_BASE_VERSION}/kycs.json`;
+export const getAllKycListingUrl = () => `${API_BASE_URL}/${API_ACCOUNTS}/admin${API_BASE_VERSION}/kycs.json`;
+
+export const getKycByIdForAdminUrl = (kycId) => `${API_BASE_URL}/${API_ACCOUNTS}/admin${API_BASE_VERSION}/kycs/${kycId}.json`; 
+
+export const getAddressByIdForAdminUrl = (addressId) => `${API_BASE_URL}/${API_ACCOUNTS}/admin${API_BASE_VERSION}/addresses/${addressId}.json`;
+
+export const getNomineeByIdForAdminUrl = (nomineeId) => `${API_BASE_URL}/${API_ACCOUNTS}/admin${API_BASE_VERSION}/nominees/${nomineeId}.json`;
+
+export const getBankByIdForAdminUrl = (bankId) => `${API_BASE_URL}/${API_ACCOUNTS}/admin${API_BASE_VERSION}/bank_accounts/${bankId}.json`;

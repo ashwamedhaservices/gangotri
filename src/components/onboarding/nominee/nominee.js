@@ -17,7 +17,7 @@ import { KycNomineeContext } from '../../../context/nominee/kycNomineeContextPro
 const Nominee = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { fetchKycNomineeData, createKycNominee, updateKycNominee } = useContext(KycNomineeContext)
+  const { fetchNomineeByIdForAdminData, createKycNominee, updateKycNominee } = useContext(KycNomineeContext)
   const [kycId, setKycId] = useState(null);
   const [nomineeData, setNomineeData] = useState({
     name: '',
@@ -26,61 +26,28 @@ const Nominee = () => {
   });
 
   useEffect(() => {
-    fetchKycData();
     const nomineeId = searchParams.get('id');
     if(nomineeId) {
       _fetchKycNomineeData(nomineeId);
     }
   }, []);
 
-  const fetchKycData = async () => {
-    try {
-      const kyc = await getAccountsKyc();
-      console.log("[nominee]::[_fetchKycData]::", kyc);
-      setKycId(kyc.id);
-    } catch (error) {
-      console.error("[nominee]::[_fetchKycData]::err", error);
-    }
-  };
-
   const _fetchKycNomineeData = async (nomineeId) => {
-    const nominees = await fetchKycNomineeData(kycId);
+    const nominee = await fetchNomineeByIdForAdminData(nomineeId);
     setNomineeData(() => ({
-      ...nominees.filter((nominee) => nominee.id === Number(nomineeId))[0]
+      ...nominee
     }))
   }
 
   const _createNominee = async () => {
     await createKycNominee(nomineeData, kycId);
-    await _fetchOnboardingStatus();
   };
 
   const _updateKycNominee = async () => {
     await updateKycNominee(nomineeData);
-    navigate('/kyc', {replace: true});
+    navigate('/onboarding', {replace: true});
   }
 
-  const _fetchOnboardingStatus = async () => {
-    try {
-      console.log("[NomineePage]::[_fetchOnboardingStatus]");
-      const onboarding = await getAccountsOnboarding();
-
-      const flow = onboarding["flow"];
-
-      const pages = flow.filter((page) => !page["status"]);
-      console.log(pages);
-
-      if (onboarding["status"]) { // This condition is changed
-        const path = `/kyc`;
-        console.log(path);
-        navigate(path, { replace: true });
-      }
-
-      console.log(`[NomineePage]::[_fetchOnboardingStatus]`, pages, onboarding);
-    } catch (err) {
-      console.log(`[NomineePage]::[_fetchOnboardingStatus]::err ${err}`);
-    }
-  };
 
   const handleInputChange = event => {
     const { name, value } = event.target;
@@ -115,7 +82,7 @@ const Nominee = () => {
         }}
       >
         <Toolbar>
-          <IconButton onClick={() => navigate("/kyc", { replace: true })}>
+          <IconButton onClick={() => navigate("/onboarding", { replace: true })}>
             <ArrowBackSharpIcon
               color="primary"
               style={{ color: "var(--theme-primary-navbar-color)" }}
