@@ -1,9 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
   Container,
   Button,
   TextField,
@@ -11,9 +7,9 @@ import {
   MenuItem,
   FormControl,
 } from "@mui/material";
-import ArrowBackSharpIcon from "@mui/icons-material/ArrowBackSharp";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { KycAddressContext } from "../../../context/address/kycAddressContextProvider";
+import CustomAppBar from "../../common/AppBar/CustomAppBar";
 
 function Address() {
   const navigate = useNavigate();
@@ -83,29 +79,7 @@ function Address() {
 
   return (
     <div>
-      <AppBar
-        position="static"
-        style={{
-          backgroundColor: "var(--theme-background-secondary)",
-          elevation: 0,
-        }}
-      >
-        <Toolbar>
-          <IconButton onClick={() => navigate("/onboarding", { replace: true })}>
-            <ArrowBackSharpIcon
-              color="primary"
-              style={{ color: "var(--theme-primary-navbar-color)" }}
-            />
-          </IconButton>
-          <Typography
-            variant="h6"
-            color="primary"
-            style={{ color: "var(--theme-primary-navbar-color)" }}
-          >
-            Address Details
-          </Typography>
-        </Toolbar>
-      </AppBar>
+      <CustomAppBar title="Address details" link='/onboarding' isReplace/>
       <Container style={{ padding: "16px", marginTop: "32px" }}>
         {/* Name of Address */}
         <TextField

@@ -1,22 +1,18 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
-  AppBar,
   TextField,
   Button,
   MenuItem,
-  Toolbar,
-  IconButton,
-  Typography,
   Container,
 } from "@mui/material";
-import ArrowBackSharpIcon from "@mui/icons-material/ArrowBackSharp";
 import {
   getAccountsKyc,
   getAccountsOnboarding
 } from "../../../service/ash_admin";
 import { accountNoValidation, ifscValidation } from "../../../utils/validations";
 import { KycBankContext } from "../../../context/bank/kycBankContextProvider";
+import CustomAppBar from "../../common/AppBar/CustomAppBar";
 
 const Bank = () => {
   const navigate = useNavigate();
@@ -90,29 +86,7 @@ const Bank = () => {
 
   return (
     <div>
-      <AppBar
-        position="static"
-        style={{
-          backgroundColor: "var(--theme-background-secondary)",
-          elevation: 0,
-        }}
-      >
-        <Toolbar>
-          <IconButton onClick={() => navigate("/onboarding", { replace: true })}>
-            <ArrowBackSharpIcon
-              color="primary"
-              style={{ color: "var(--theme-primary-navbar-color)" }}
-            />
-          </IconButton>
-          <Typography
-            variant="h6"
-            color="primary"
-            style={{ color: "var(--theme-primary-navbar-color)" }}
-          >
-            Bank details
-          </Typography>
-        </Toolbar>
-      </AppBar>
+      <CustomAppBar title="Bank details" link='/onboarding' isReplace/>
       <Container style={{ padding: "16px", marginTop: "32px" }}>
         <TextField
           label="Enter account number"

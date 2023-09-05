@@ -1,18 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
   Container,
   Button,
   TextField,
   MenuItem,
 } from "@mui/material";
-import ArrowBackSharpIcon from "@mui/icons-material/ArrowBackSharp";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { getAccountsKyc, getAccountsOnboarding } from '../../../service/ash_admin';
 import { KycNomineeContext } from '../../../context/nominee/kycNomineeContextProvider';
+import CustomAppBar from '../../common/AppBar/CustomAppBar';
 
 const Nominee = () => {
   const navigate = useNavigate();
@@ -74,29 +70,7 @@ const Nominee = () => {
 
   return (
     <div>
-      <AppBar
-        position="static"
-        style={{
-          backgroundColor: "var(--theme-background-secondary)",
-          elevation: 0,
-        }}
-      >
-        <Toolbar>
-          <IconButton onClick={() => navigate("/onboarding", { replace: true })}>
-            <ArrowBackSharpIcon
-              color="primary"
-              style={{ color: "var(--theme-primary-navbar-color)" }}
-            />
-          </IconButton>
-          <Typography
-            variant="h6"
-            color="primary"
-            style={{ color: "var(--theme-primary-navbar-color)" }}
-          >
-            Nominee Details
-          </Typography>
-        </Toolbar>
-      </AppBar>
+      <CustomAppBar title="Nominee details" link='/onboarding' isReplace/>
       <Container style={{ padding: "16px", marginTop: "32px" }}>
         <TextField
           label="Enter nominee name"

@@ -2,14 +2,10 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   Stack,
-  AppBar,
-  Toolbar,
-  IconButton,
   Typography,
   Container,
   Button,
 } from "@mui/material";
-import ArrowBackSharpIcon from "@mui/icons-material/ArrowBackSharp";
 import {
   getAccountsKyc,
   getAccountsOnboarding,
@@ -19,6 +15,7 @@ import {
 } from "../../../service/ash_admin";
 import ImageInput from "../../image-input";
 import { KycContext } from "../../../context/kyc/kycContextProvider";
+import CustomAppBar from "../../common/AppBar/CustomAppBar";
 
 function PanUpload() {
   const { updateKyc, fetchKycByIdForAdminData } = useContext(KycContext)
@@ -102,29 +99,7 @@ function PanUpload() {
   }
   return (
     <div>
-      <AppBar
-        position="static"
-        style={{
-          backgroundColor: "var(--theme-background-secondary)",
-          elevation: 0,
-        }}
-      >
-        <Toolbar>
-          <IconButton onClick={() => navigate("/kyc", { replace: true })}>
-            <ArrowBackSharpIcon
-              color="primary"
-              style={{ color: "var(--theme-primary-navbar-color)" }}
-            />
-          </IconButton>
-          <Typography
-            variant="h6"
-            color="primary"
-            style={{ color: "var(--theme-primary-navbar-color)" }}
-          >
-            Pan Upload
-          </Typography>
-        </Toolbar>
-      </AppBar>
+      <CustomAppBar title="Pan upload" link='/onboarding' isReplace/>
       <Container>
         <Container style={{ padding: "16px", marginTop: "32px" }}>
           <Stack

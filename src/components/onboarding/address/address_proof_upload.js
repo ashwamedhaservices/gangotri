@@ -3,11 +3,11 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import axios from 'axios';
-import { Stack, AppBar, IconButton, Toolbar, Typography, FormControl, Select, MenuItem } from '@mui/material';
-import ArrowBackSharpIcon from "@mui/icons-material/ArrowBackSharp";
+import { Stack, Typography, FormControl, Select, MenuItem } from '@mui/material';
 import { Container } from '@mui/system';
 import { getAccountsKyc, getAccountsOnboarding, postFileUpload, putAccountsKyc, putFileUpload } from '../../../service/ash_admin';
 import ImageInput from '../../image-input';
+import CustomAppBar from '../../common/AppBar/CustomAppBar';
 
 const AddressProofUpload = () => {
   const navigate = useNavigate();
@@ -137,29 +137,7 @@ const AddressProofUpload = () => {
 
   return (
     <div>
-      <AppBar
-        position="static"
-        style={{
-          backgroundColor: "var(--theme-background-secondary)",
-          elevation: 0,
-        }}
-      >
-        <Toolbar>
-          <IconButton onClick={() => navigate("/kyc", { replace: true })}>
-            <ArrowBackSharpIcon
-              color="primary"
-              style={{ color: "var(--theme-primary-navbar-color)" }}
-            />
-          </IconButton>
-          <Typography
-            variant="h6"
-            color="primary"
-            style={{ color: "var(--theme-primary-navbar-color)" }}
-          >
-            Address proof upload
-          </Typography>
-        </Toolbar>
-      </AppBar>
+      <CustomAppBar title="Address proof upload" link='/onboarding' isReplace/>
       <Container style={{ padding: "16px", marginTop: "32px" }}>
         <TextField
           label="Enter address proof no"
