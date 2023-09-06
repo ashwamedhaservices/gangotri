@@ -58,23 +58,7 @@ function Row({ row }) {
   }
   return (
     <React.Fragment>
-      <Modal
-        open={openModal}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            {currentImageType} image
-          </Typography>
-          <img
-            src={currentImage}
-            alt={currentImageType}
-            loading="lazy"
-          />
-        </Box>
-      </Modal>
+      <ImageModal openModal={openModal} handleClose={handleClose} currentImage={currentImage} currentImageType={currentImageType} />
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
         <TableCell>
           <IconButton
@@ -97,114 +81,19 @@ function Row({ row }) {
       <TableRow sx={{background: 'rgba(145, 158, 171, 0.16)'}}>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
-          <Box sx={{ margin: 1, marginTop: 2, marginBottom: 2 }}>
-              <Typography variant="h6" gutterBottom component="div">
-                Kycs
-              </Typography>
-              <Table size="small" aria-label="purchases">
-                <TableHead>
-                  <TableRow>
-                    <TableCell align="right">Name</TableCell>
-                    <TableCell align="right">Id proof no</TableCell>
-                    <TableCell align="right">Id proof type</TableCell>
-                    <TableCell align="right">Id proof image</TableCell>
-                    <TableCell align="right">Address proof no</TableCell>
-                    <TableCell align="right">Address proof type</TableCell>
-                    <TableCell align="right">Address proof image</TableCell>
-                    <TableCell align="right"></TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  <TableRow key={kyc.id}>
-                    <TableCell align="right">{fullName(kyc.name)}</TableCell>
-                    <TableCell align="right">{kyc.id_proof_no}</TableCell>
-                    <TableCell align="right">{kyc.id_proof_type?.toUpperCase()}</TableCell>
-                    <TableCell align="right">
-                      { isValidImage(kyc.id_proof_url) ?
-                      <img src={kyc.id_proof_url} 
-                        height="30px" 
-                        width="30px" 
-                        alt={kyc.id_proof_type}
-                        onClick={() => handleOpen(kyc.id_proof_url, kyc.id_proof_type)}
-                      />
-                      : 'Not uploaded'}
-                    </TableCell>
-                    <TableCell align="right">{kyc.address_proof_no}</TableCell>
-                    <TableCell align="right">{kyc.address_proof_type?.toUpperCase()}</TableCell>
-                    <TableCell align="right">{ 
-                    isValidImage(kyc.address_proof_url) ?
-                      <img src={kyc.address_proof_url} 
-                        height="30px" 
-                        width="30px" 
-                        alt={kyc.address_proof_type}
-                        onClick={() => handleOpen(kyc.address_proof_url, kyc.address_proof_type)}
-                      />
-                      : 'Not uploaded'}</TableCell>
-                    <TableCell align="right">
-                      <EditIcon onClick={() => handleNavigate('/pan', { id: kyc.id })}/>
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
+
+            <Box sx={{ margin: 1, marginTop: 2, marginBottom: 2 }}>
+              <KycTable kyc={kyc} handleNavigate={handleNavigate} handleOpen={handleOpen}/>
             </Box>
 
             <Box sx={{ margin: 1, marginTop: 2, marginBottom: 2 }}>
-              <Typography variant="h6" gutterBottom component="div">
-                Bank accounts
-              </Typography>
-              <Table size="small" aria-label="purchases">
-                <TableHead>
-                  <TableRow>
-                    <TableCell align="right">Account number</TableCell>
-                    <TableCell align="right">Account type</TableCell>
-                    <TableCell align="right">IFSC Code</TableCell>
-                    <TableCell align="right"></TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {bank_accounts.map((bank) => (
-                    <TableRow key={bank.id}>
-                      <TableCell align="right">{bank.account_number}</TableCell>
-                      <TableCell align="right">{bank.account_type}</TableCell>
-                      <TableCell align="right">{bank.ifsc}</TableCell>
-                      <TableCell align="right">
-                        <EditIcon onClick={() => handleNavigate('/bank', { id: bank.id })}/>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+              <BankAccountTable bankAccounts={bank_accounts} handleNavigate={handleNavigate}/>
             </Box>
 
             <Box sx={{ margin: 1, marginTop: 2, marginBottom: 2 }}>
-              <Typography variant="h6" gutterBottom component="div">
-                Nominees
-              </Typography>
-              <Table size="small" aria-label="purchases">
-                <TableHead>
-                  <TableRow>
-                    <TableCell align="right">Name</TableCell>
-                    <TableCell align="right">Relationship</TableCell>
-                    <TableCell align="right">Dob</TableCell>
-                    <TableCell align="right">Relationship with gurdian</TableCell>
-                    <TableCell align="right"></TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {nominees.map((nominee) => (
-                    <TableRow key={nominee.id}>
-                      <TableCell align="right">{fullName(nominee.name)}</TableCell>
-                      <TableCell align="right">{toTitleCase(nominee.relationship)}</TableCell>
-                      <TableCell align="right">{nominee.dob ? nominee.dob : 'NA'}</TableCell>
-                      <TableCell align="right">{nominee.relationship_with_gurdian ? toTitleCase(nominee.relationship_with_gurdian) : 'NA'}</TableCell>
-                      <TableCell align="right">
-                        <EditIcon onClick={() => handleNavigate('/nominee', { id: nominee.id })}/>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+              <NomineesTable nominees={nominees} handleNavigate={handleNavigate}/>
             </Box>
+
           </Collapse>
         </TableCell>
       </TableRow>
@@ -237,6 +126,150 @@ function Row({ row }) {
 //   createData('Cupcake', 305, 3.7, 67, 4.3, 2.5),
 //   createData('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
 // ];
+
+const ImageModal = ({ openModal, handleClose, currentImage, currentImageType }) => {
+  return (
+    <Modal
+      open={openModal}
+      onClose={handleClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box sx={style}>
+        <Typography id="modal-modal-title" variant="h6" component="h2">
+          {currentImageType} image
+        </Typography>
+        <img
+          src={currentImage}
+          alt={currentImageType}
+          loading="lazy"
+        />
+      </Box>
+    </Modal>
+  );
+}
+
+const KycTable = ({ kyc, handleNavigate, handleOpen }) => {
+  return (
+    <>
+      <Typography variant="h6" gutterBottom component="div">
+        Kycs
+      </Typography>
+      <Table size="small" aria-label="purchases">
+        <TableHead>
+          <TableRow>
+            <TableCell align="right">Name</TableCell>
+            <TableCell align="right">Id proof no</TableCell>
+            <TableCell align="right">Id proof type</TableCell>
+            <TableCell align="right">Id proof image</TableCell>
+            <TableCell align="right">Address proof no</TableCell>
+            <TableCell align="right">Address proof type</TableCell>
+            <TableCell align="right">Address proof image</TableCell>
+            <TableCell align="right"></TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          <TableRow key={kyc.id}>
+            <TableCell align="right">{fullName(kyc.name)}</TableCell>
+            <TableCell align="right">{kyc.id_proof_no}</TableCell>
+            <TableCell align="right">{kyc.id_proof_type?.toUpperCase()}</TableCell>
+            <TableCell align="right">
+              { isValidImage(kyc.id_proof_url) ?
+              <img src={kyc.id_proof_url} 
+                height="30px" 
+                width="30px" 
+                alt={kyc.id_proof_type}
+                onClick={() => handleOpen(kyc.id_proof_url, kyc.id_proof_type)}
+              />
+              : 'Not uploaded'}
+            </TableCell>
+            <TableCell align="right">{kyc.address_proof_no}</TableCell>
+            <TableCell align="right">{kyc.address_proof_type?.toUpperCase()}</TableCell>
+            <TableCell align="right">{ 
+            isValidImage(kyc.address_proof_url) ?
+              <img src={kyc.address_proof_url} 
+                height="30px" 
+                width="30px" 
+                alt={kyc.address_proof_type}
+                onClick={() => handleOpen(kyc.address_proof_url, kyc.address_proof_type)}
+              />
+              : 'Not uploaded'}</TableCell>
+            <TableCell align="right">
+              <EditIcon onClick={() => handleNavigate('/pan', { id: kyc.id })}/>
+            </TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </>
+  );
+}
+
+const BankAccountTable = ({bankAccounts, handleNavigate}) => {
+  return (
+    <>
+      <Typography variant="h6" gutterBottom component="div">
+        Bank accounts
+      </Typography>
+      <Table size="small" aria-label="purchases">
+        <TableHead>
+          <TableRow>
+            <TableCell align="right">Account number</TableCell>
+            <TableCell align="right">Account type</TableCell>
+            <TableCell align="right">IFSC Code</TableCell>
+            <TableCell align="right"></TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {bankAccounts.map((bank) => (
+            <TableRow key={bank.id}>
+              <TableCell align="right">{bank.account_number}</TableCell>
+              <TableCell align="right">{bank.account_type}</TableCell>
+              <TableCell align="right">{bank.ifsc}</TableCell>
+              <TableCell align="right">
+                <EditIcon onClick={() => handleNavigate('/bank', { id: bank.id })}/>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </>
+  );
+}
+
+const NomineesTable = ({ nominees, handleNavigate }) => {
+  return (
+    <>
+      <Typography variant="h6" gutterBottom component="div">
+        Nominees
+      </Typography>
+      <Table size="small" aria-label="purchases">
+        <TableHead>
+          <TableRow>
+            <TableCell align="right">Name</TableCell>
+            <TableCell align="right">Relationship</TableCell>
+            <TableCell align="right">Dob</TableCell>
+            <TableCell align="right">Relationship with gurdian</TableCell>
+            <TableCell align="right"></TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {nominees.map((nominee) => (
+            <TableRow key={nominee.id}>
+              <TableCell align="right">{fullName(nominee.name)}</TableCell>
+              <TableCell align="right">{toTitleCase(nominee.relationship)}</TableCell>
+              <TableCell align="right">{nominee.dob ? nominee.dob : 'NA'}</TableCell>
+              <TableCell align="right">{nominee.relationship_with_gurdian ? toTitleCase(nominee.relationship_with_gurdian) : 'NA'}</TableCell>
+              <TableCell align="right">
+                <EditIcon onClick={() => handleNavigate('/nominee', { id: nominee.id })}/>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </>
+  );
+}
+
 
 export default function CollapsibleKycedTable({ kycs }) {
   console.log('CollapsibleKycedTable', kycs)
