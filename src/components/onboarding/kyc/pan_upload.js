@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   Stack,
@@ -7,18 +7,15 @@ import {
   Button,
 } from "@mui/material";
 import {
-  getAccountsKyc,
-  getAccountsOnboarding,
   postFileUpload,
-  putAccountsKyc,
   putFileUpload,
 } from "../../../service/ash_admin";
 import ImageInput from "../../image-input";
-import { KycContext } from "../../../context/kyc/kycContextProvider";
+import { useKycContext } from "../../../context/kyc/kycContextProvider";
 import CustomAppBar from "../../common/AppBar/CustomAppBar";
 
 function PanUpload() {
-  const { updateKyc, fetchKycByIdForAdminData } = useContext(KycContext)
+  const { updateKyc, fetchKycByIdForAdminData } = useKycContext();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [kycId, setKycId] = useState(null);

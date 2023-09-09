@@ -1,7 +1,8 @@
+import { useContext } from 'react';
 import { createContext } from 'react';
 import { getAccountsKyc, getAllKycList, getKycByIdForAdmin, postAccountsKyc, putAccountsKyc } from '../../service/ash_admin';
 
-export const KycContext = createContext();
+const KycContext = createContext();
 
 export const KycContextProvider = (props) => {
   // TODO: Error Case Needs to be handled
@@ -77,4 +78,8 @@ export const KycContextProvider = (props) => {
    }}>
     {props.children}
   </KycContext.Provider>
+}
+
+export const useKycContext = () => {
+  return useContext(KycContext);
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   TextField,
@@ -6,18 +6,14 @@ import {
   MenuItem,
   Container,
 } from "@mui/material";
-import {
-  getAccountsKyc,
-  getAccountsOnboarding
-} from "../../../service/ash_admin";
 import { accountNoValidation, ifscValidation } from "../../../utils/validations";
-import { KycBankContext } from "../../../context/bank/kycBankContextProvider";
+import { useKycBankContext } from "../../../context/bank/kycBankContextProvider";
 import CustomAppBar from "../../common/AppBar/CustomAppBar";
 
 const Bank = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { fetchBankByIdForAdminData, updateKycBank } = useContext(KycBankContext)
+  const { fetchBankByIdForAdminData, updateKycBank } = useKycBankContext();
   const [bankData, setBankData] = useState({
     account_number: "",
     account_type: "",

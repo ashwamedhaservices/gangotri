@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
@@ -6,13 +6,13 @@ import Button from "@mui/material/Button";
 import { Grid } from "@mui/material";
 import { panNumberValidation } from "../../../utils/validations";
 
-import { KycContext } from "../../../context/kyc/kycContextProvider";
+import { useKycContext } from "../../../context/kyc/kycContextProvider";
 import CustomAppBar from "../../common/AppBar/CustomAppBar";
 
 const Pan = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { updateKyc, fetchKycByIdForAdminData } = useContext(KycContext)
+  const { updateKyc, fetchKycByIdForAdminData } = useKycContext();
   const [panNumberError, setPanNumberError] = useState("");
 
   const [kycData, setKycData] = useState({

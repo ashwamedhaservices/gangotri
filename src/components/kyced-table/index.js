@@ -155,7 +155,7 @@ const KycTable = ({ kyc, handleNavigate, handleOpen }) => {
       <Typography variant="h6" gutterBottom component="div">
         Kycs
       </Typography>
-      <Table size="small" aria-label="purchases">
+      <Table aria-label="kyc table">
         <TableHead>
           <TableRow>
             <TableCell align="right">Name</TableCell>
@@ -210,7 +210,7 @@ const BankAccountTable = ({bankAccounts, handleNavigate}) => {
       <Typography variant="h6" gutterBottom component="div">
         Bank accounts
       </Typography>
-      <Table size="small" aria-label="purchases">
+      <Table aria-label="bank table">
         <TableHead>
           <TableRow>
             <TableCell align="right">Account number</TableCell>
@@ -242,7 +242,7 @@ const NomineesTable = ({ nominees, handleNavigate }) => {
       <Typography variant="h6" gutterBottom component="div">
         Nominees
       </Typography>
-      <Table size="small" aria-label="purchases">
+      <Table aria-label="nominee table">
         <TableHead>
           <TableRow>
             <TableCell align="right">Name</TableCell>

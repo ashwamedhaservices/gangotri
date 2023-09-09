@@ -1,7 +1,7 @@
-import { createContext } from 'react';
+import { createContext, useContext } from 'react';
 import { getAccountsKycedBank, getBankByIdForAdmin, postAccountsKycedBank, putAccountsKycedBank } from '../../service/ash_admin';
 
-export const KycBankContext = createContext();
+const KycBankContext = createContext();
 
 export const KycBankContextProvider = (props) => {
   // TODO: Error Case Needs to be handled
@@ -65,4 +65,8 @@ export const KycBankContextProvider = (props) => {
    }}>
     {props.children}
   </KycBankContext.Provider>
+}
+
+export const useKycBankContext = () => {
+  return useContext(KycBankContext);
 }

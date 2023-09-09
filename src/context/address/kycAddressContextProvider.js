@@ -1,7 +1,7 @@
-import { createContext } from 'react';
+import { createContext, useContext } from 'react';
 import { getAccountsKycedAddress, getAddressByIdForAdmin, postAccountsKycedAddress, putAccountsKycedAddress } from '../../service/ash_admin';
 
-export const KycAddressContext = createContext();
+const KycAddressContext = createContext();
 
 export const KycAddressContextProvider = (props) => {
 
@@ -65,4 +65,8 @@ export const KycAddressContextProvider = (props) => {
    }}>
     {props.children}
   </KycAddressContext.Provider>
+}
+
+export const useKycAddressContext = () => {
+  return useContext(KycAddressContext);
 }

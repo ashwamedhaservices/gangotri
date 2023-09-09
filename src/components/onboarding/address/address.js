@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import {
   Container,
   Button,
@@ -8,13 +8,13 @@ import {
   FormControl,
 } from "@mui/material";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { KycAddressContext } from "../../../context/address/kycAddressContextProvider";
+import { useKycAddressContext } from "../../../context/address/kycAddressContextProvider";
 import CustomAppBar from "../../common/AppBar/CustomAppBar";
 
 function Address() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { fetchAddressByIdForAdminData, updateKycAddress } = useContext(KycAddressContext)
+  const { fetchAddressByIdForAdminData, updateKycAddress } = useKycAddressContext();
   const [kycId, setKycId] = useState(0);
   const [addressData, setAddressData] = useState({
     name: "",

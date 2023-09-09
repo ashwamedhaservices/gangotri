@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Container,
   Button,
@@ -6,14 +6,13 @@ import {
   MenuItem,
 } from "@mui/material";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { getAccountsKyc, getAccountsOnboarding } from '../../../service/ash_admin';
-import { KycNomineeContext } from '../../../context/nominee/kycNomineeContextProvider';
+import { useKycNomineeContext } from '../../../context/nominee/kycNomineeContextProvider';
 import CustomAppBar from '../../common/AppBar/CustomAppBar';
 
 const Nominee = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { fetchNomineeByIdForAdminData, createKycNominee, updateKycNominee } = useContext(KycNomineeContext)
+  const { fetchNomineeByIdForAdminData, createKycNominee, updateKycNominee } = useKycNomineeContext();
   const [kycId, setKycId] = useState(null);
   const [nomineeData, setNomineeData] = useState({
     name: '',

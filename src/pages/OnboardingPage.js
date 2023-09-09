@@ -1,11 +1,11 @@
-import { useState, useContext, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Container, Stack, Typography } from '@mui/material'
-import { KycContext } from '../context/kyc/kycContextProvider';
+import { useKycContext } from '../context/kyc/kycContextProvider';
 import CollapsibleKycedTable from '../components/kyced-table';
 
 const OnboardingPage = () => {
-  const { fetchAllKycData } = useContext(KycContext);
+  const { fetchAllKycData } = useKycContext();
   const [kycedUsers, setKycedUsers] = useState([]);
 
   useEffect(() => {

@@ -1,7 +1,7 @@
-import { createContext } from 'react';
-import { getAccountsKycedNominees, getNomineeByIdForAdmin, postAccountsKyc, postAccountsKycedNominees, putAccountsKyc, putAccountsKycedNominees } from '../../service/ash_admin';
+import { createContext, useContext } from 'react';
+import { getAccountsKycedNominees, getNomineeByIdForAdmin, postAccountsKycedNominees, putAccountsKycedNominees } from '../../service/ash_admin';
 
-export const KycNomineeContext = createContext();
+const KycNomineeContext = createContext();
 
 export const KycNomineeContextProvider = (props) => {
   // TODO: Error Case Needs to be handled
@@ -65,4 +65,8 @@ export const KycNomineeContextProvider = (props) => {
    }}>
     {props.children}
   </KycNomineeContext.Provider>
+}
+
+export const useKycNomineeContext = () => {
+  return useContext(KycNomineeContext);
 }
