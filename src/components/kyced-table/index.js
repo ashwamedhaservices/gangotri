@@ -33,7 +33,7 @@ const style = {
 
 function Row({ row }) {
   const navigate = useNavigate();
-  const { user, kyc, bank_accounts, nominees } = row;
+  const { user, kyc, bank_accounts, nominees, addresses } = row;
   const [open, setOpen] = React.useState(false);
 
   
@@ -102,6 +102,10 @@ function Row({ row }) {
 
             <Box sx={{ margin: 1, marginTop: 2, marginBottom: 2 }}>
               <NomineesTable nominees={nominees} handleNavigate={handleNavigate}/>
+            </Box>
+
+            <Box sx={{ margin: 1, marginTop: 2, marginBottom: 2 }}>
+              <AddressTable addresses={addresses} handleNavigate={handleNavigate} />
             </Box>
 
           </Collapse>
@@ -233,7 +237,7 @@ const BankAccountTable = ({bankAccounts, handleNavigate}) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {bankAccounts.map((bank) => (
+          {bankAccounts && bankAccounts.map((bank) => (
             <TableRow key={bank.id}>
               <TableCell align="right">{bank.account_number}</TableCell>
               <TableCell align="right">{bank.account_type}</TableCell>
@@ -266,7 +270,7 @@ const NomineesTable = ({ nominees, handleNavigate }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {nominees.map((nominee) => (
+          {nominees && nominees.map((nominee) => (
             <TableRow key={nominee.id}>
               <TableCell align="right">{fullName(nominee.name)}</TableCell>
               <TableCell align="right">{toTitleCase(nominee.relationship)}</TableCell>
@@ -274,6 +278,50 @@ const NomineesTable = ({ nominees, handleNavigate }) => {
               <TableCell align="right">{nominee.relationship_with_gurdian ? toTitleCase(nominee.relationship_with_gurdian) : 'NA'}</TableCell>
               <TableCell align="right">
                 <EditIcon onClick={() => handleNavigate('/nominee', { id: nominee.id })}/>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </>
+  );
+}
+
+const AddressTable = ({ addresses, handleNavigate }) => {
+  return (
+    <>
+      <Typography variant="h6" gutterBottom component="div">
+        Address
+      </Typography>
+      <Table aria-label="address table">
+        <TableHead>
+          <TableRow>
+            <TableCell align="right">Address name</TableCell>
+            <TableCell align="right">Address line one</TableCell>
+            <TableCell align="right">Address line two</TableCell>
+            <TableCell align="right">Address line three</TableCell>
+            <TableCell align="right">Address type</TableCell>
+            <TableCell align="right">City</TableCell>
+            <TableCell align="right">State</TableCell>
+            <TableCell align="right">Country</TableCell>
+            <TableCell align="right">Postal Code</TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {addresses && addresses.map((address) => (
+            <TableRow key={address.id}>
+              <TableCell align="right">{fullName(address.name)}</TableCell>
+              <TableCell align="right">{address.address_line_one}</TableCell>
+              <TableCell align="right">{address.address_line_two}</TableCell>
+              <TableCell align="right">{address.address_line_three}</TableCell>
+              <TableCell align="right">{toTitleCase(address.address_type)}</TableCell>
+              <TableCell align="right">{toTitleCase(address.city)}</TableCell>
+              <TableCell align="right">{toTitleCase(address.state)}</TableCell>
+              <TableCell align="right">{toTitleCase(address.country)}</TableCell>
+              <TableCell align="right">{address.postal_code ? address.postal_code : 'NA'}</TableCell>
+              <TableCell align="right">
+                <EditIcon onClick={() => handleNavigate('/address', { id: address.id })}/>
               </TableCell>
             </TableRow>
           ))}

@@ -15,7 +15,6 @@ function Address() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { fetchAddressByIdForAdminData, updateKycAddress } = useKycAddressContext();
-  const [kycId, setKycId] = useState(0);
   const [addressData, setAddressData] = useState({
     name: "",
     address_type: "",
@@ -44,7 +43,7 @@ function Address() {
 
   const _updateKycAddress = async () => {
     await updateKycAddress(addressData);
-    navigate('/kyc', {replace: true});
+    navigate('/onboarding', {replace: true});
   }
 
   const handleAddressSubmit = async () => {
@@ -199,7 +198,7 @@ function Address() {
           onClick={handleAddressSubmit}
           disabled={buttonDisabled()}
         >
-          Continue
+          Update
         </Button>
       </Container>
     </div>
