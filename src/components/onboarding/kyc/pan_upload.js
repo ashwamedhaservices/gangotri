@@ -18,8 +18,6 @@ function PanUpload() {
   const { updateKyc, fetchKycByIdForAdminData } = useKycContext();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [kycId, setKycId] = useState(null);
-  const [kycUpdateId, setKycUpdateId] = useState(null);
   const [uploadImagePercentage, setUploadImagePercentage] = useState(0);
   const [kycData, setKycData] = useState({
     id_proof_url: "",
@@ -115,7 +113,7 @@ function PanUpload() {
             onClick={handlePanProofSubmit}
             disabled={buttonDisabled()}
           >
-            {kycUpdateId ? 'Update' : 'Continue' }
+            Update
           </Button>
         </Container>
       </Container>

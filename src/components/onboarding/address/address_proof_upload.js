@@ -8,14 +8,14 @@ import { Container } from '@mui/system';
 import { getAccountsKyc, getAccountsOnboarding, postFileUpload, putAccountsKyc, putFileUpload } from '../../../service/ash_admin';
 import ImageInput from '../../image-input';
 import CustomAppBar from '../../common/AppBar/CustomAppBar';
+import { useKycContext } from '../../../context/kyc/kycContextProvider';
 
 const AddressProofUpload = () => {
   const navigate = useNavigate();
+  const { updateKyc, fetchKycByIdForAdminData } = useKycContext();
   const [searchParams] = useSearchParams();
-  const [kycId, setKycId] = useState(null);
-  const [kycUpdateId, setKycUpdateId] = useState(null);
   const [uploadImagePercentage, setUploadImagePercentage] = useState(0);
-  const [addressProofData, setAddressProofData] = useState({
+  const [kycData, setKycData] = useState({
     address_proof_no: '',
     address_proof_url: '',
     address_proof_type: 'aadhaar',
@@ -23,72 +23,33 @@ const AddressProofUpload = () => {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    fetchKycData();
     const kycId = searchParams.get('id');
-    setKycUpdateId(kycId)
-  }, []);
-
-  const fetchKycData = async () => {
-    try {
-      const kyc = await getAccountsKyc();
-      console.log("[address]::[_fetchKycData]::", kyc);
-      setKycId(kyc.id);
-    } catch (error) {
-      console.error("[address]::[_fetchKycData]::err", error);
+    if(kycId) {
+      _fetchKycData(kycId);
     }
+  }, [])
+
+  const _fetchKycData = async (kycId) => {
+    const kyc = await fetchKycByIdForAdminData(kycId);
+    setKycData({...kyc})
   };
 
-  const updateAddressProof = async () => {
-    try {
-      console.log("[address]::[_createKycAddress]:: Enter", addressProofData);
-      const addressProofPayload = { kyc: addressProofData };
-
-      const data = await putAccountsKyc(addressProofPayload, kycId);
-      console.log("[address_proof_upload]::[updateAddressProof]::[response]::", data);
-      
-      if(kycUpdateId) {
-        navigate('/kyc', {replace: true});
-        return
-      }
-
-      await _fetchOnboardingStatus();
-    } catch (error) {
-      console.error(error);
-    }
+  const _updateKyc = async () => {
+    await updateKyc(kycData);
+    navigate('/onboarding', {replace: true});
   };
 
-  const _fetchOnboardingStatus = async () => {
-    try {
-      console.log("[ProfilePage]::[_fetchOnboardingStatus]");
-      const onboarding = await getAccountsOnboarding();
-
-      const flow = onboarding["flow"];
-
-      const pages = flow.filter((page) => !page["status"]);
-      console.log(pages);
-
-      if (!onboarding["status"]) {
-        const path = `/kyc/${pages && pages[0]["page"]}`;
-        console.log(path);
-        navigate(path, { replace: true });
-      }
-
-      console.log(`[ProfilePage]::[_fetchOnboardingStatus]`, pages, onboarding);
-    } catch (err) {
-      console.log(`[ProfilePage]::[_fetchOnboardingStatus]::err ${err}`);
-    }
-  };
 
   const handleInputChange = event => {
     const { name, value } = event.target;
-    setAddressProofData(prevData => ({ ...prevData, [name]: value }));
+    setKycData(prevData => ({ ...prevData, [name]: value }));
   };
 
   const handleImage = async (file) => {
     let inputFile = { ...file[0] };
     inputFile.type = file[0].name.split(".")[1];
     inputFile.name = file[0].name.split(".")[0];
-    inputFile.location = addressProofData && addressProofData.address_proof_type ? addressProofData.address_proof_type: 'aadhaar';
+    inputFile.location = kycData && kycData.address_proof_type ? kycData.address_proof_type: 'aadhaar';
     console.log("file:", file[0], inputFile);
 
     // Creating the file location
@@ -100,8 +61,8 @@ const AddressProofUpload = () => {
     console.log("upload course res", res);
     const uploadImageLocation = res.message.split("?")[0];
     if (res) {
-      setAddressProofData({
-        ...addressProofData,
+      setKycData({
+        ...kycData,
         address_proof_url: uploadImageLocation,
       });
     }
@@ -122,16 +83,16 @@ const AddressProofUpload = () => {
   };
 
   const handleAddressSubmit = async () => {
-    console.log(addressProofData);
-    await updateAddressProof();
+    console.log(kycData);
+    await _updateKyc();
   };
 
   const buttonDisabled = () => {
     return (
-      addressProofData &&
-      (!addressProofData.address_proof_no ||
-        !addressProofData.address_proof_type ||
-        !addressProofData.address_proof_url)
+      kycData &&
+      (!kycData.address_proof_no ||
+        !kycData.address_proof_type ||
+        !kycData.address_proof_url)
     );
   }
 
@@ -143,7 +104,7 @@ const AddressProofUpload = () => {
           label="Enter address proof no"
           type="text"
           name="address_proof_no"
-          value={addressProofData.address_proof_no}
+          value={kycData.address_proof_no}
           onChange={handleInputChange}
           error={Boolean(errors.address_proof_no)}
           helperText={errors.address_proof_no}
@@ -155,7 +116,7 @@ const AddressProofUpload = () => {
         <FormControl fullWidth variant="outlined" margin="normal">
           <Select
             name="address_proof_type"
-            value={addressProofData.address_proof_type}
+            value={kycData.address_proof_type}
             onChange={handleInputChange}
             label="Address proof type"
           >
@@ -172,10 +133,10 @@ const AddressProofUpload = () => {
             }}
           >
             <Typography variant="subtitle1" gutterBottom>
-              Upload  {addressProofData.address_proof_type} image
+              Upload  {kycData.address_proof_type} image
             </Typography>
             <ImageInput
-              previewImage={addressProofData.address_proof_url}
+              previewImage={kycData.address_proof_url}
               handleImage={handleImage}
               percentage={uploadImagePercentage}
             />
@@ -198,7 +159,7 @@ const AddressProofUpload = () => {
           onClick={handleAddressSubmit}
           disabled={buttonDisabled()}
         >
-          {kycUpdateId ? 'Update' : 'Continue' }
+          Update
         </Button>
       </Container>
     </div>
