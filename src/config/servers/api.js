@@ -40,7 +40,7 @@ export const getAccountsKycUrl = () => `${API_BASE_URL}/${API_ACCOUNTS}${API_BAS
 export const postAccountsKycUrl = () => `${API_BASE_URL}/${API_ACCOUNTS}${API_BASE_VERSION}/kycs.json`;
 
 // For Accounts KYC PUT
-export const putAccountsKycUrl = (kycId) => `${API_BASE_URL}/${API_ACCOUNTS}${API_BASE_VERSION}/kycs/${kycId}.json`;
+export const putAccountsKycUrl = (kycId) => `${API_BASE_URL}/${API_ACCOUNTS}/admin${API_BASE_VERSION}/kycs/${kycId}.json`;
 
 // For Accounts Kyced BANK GET
 export const getAccountsKycedBankUrl = (kycId) => `${API_BASE_URL}/${API_ACCOUNTS}${API_BASE_VERSION}/kycs/${kycId}/bank_accounts.json`;
@@ -49,7 +49,7 @@ export const getAccountsKycedBankUrl = (kycId) => `${API_BASE_URL}/${API_ACCOUNT
 export const postAccountsKycedBankUrl = (kycId) => `${API_BASE_URL}/${API_ACCOUNTS}${API_BASE_VERSION}/kycs/${kycId}/bank_accounts.json`;
 
 // For Accounts Kyced BANK PUT
-export const putAccountsKycedBankUrl = (bankId) => `${API_BASE_URL}/${API_ACCOUNTS}${API_BASE_VERSION}/bank_accounts/${bankId}.json`;
+export const putAccountsKycedBankUrl = (bankId) => `${API_BASE_URL}/${API_ACCOUNTS}/admin${API_BASE_VERSION}/bank_accounts/${bankId}.json`;
 
 // For Accounts Kyced Address GET
 export const getAccountsKycedAddressUrl = (kycId) => `${API_BASE_URL}/${API_ACCOUNTS}${API_BASE_VERSION}/kycs/${kycId}/addresses.json`;
@@ -58,7 +58,7 @@ export const getAccountsKycedAddressUrl = (kycId) => `${API_BASE_URL}/${API_ACCO
 export const postAccountsKycedAddressUrl = (kycId) => `${API_BASE_URL}/${API_ACCOUNTS}${API_BASE_VERSION}/kycs/${kycId}/addresses.json`;
 
 // For Accounts Kyced Address PUT
-export const putAccountsKycedAddressUrl = (addressId) => `${API_BASE_URL}/${API_ACCOUNTS}${API_BASE_VERSION}/addresses/${addressId}.json`;
+export const putAccountsKycedAddressUrl = (addressId) => `${API_BASE_URL}/${API_ACCOUNTS}/admin${API_BASE_VERSION}/addresses/${addressId}.json`;
 
 // For Accounts Kyced nominees GET
 export const getAccountsKycedNomineesUrl = (kycId) => `${API_BASE_URL}/${API_ACCOUNTS}${API_BASE_VERSION}/kycs/${kycId}/nominees.json`;
@@ -67,7 +67,7 @@ export const getAccountsKycedNomineesUrl = (kycId) => `${API_BASE_URL}/${API_ACC
 export const postAccountsKycedNomineesUrl = (kycId) => `${API_BASE_URL}/${API_ACCOUNTS}${API_BASE_VERSION}/kycs/${kycId}/nominees.json`;
 
 // For Accounts Kyced nominees PUT
-export const putAccountsKycedNomineesUrl = (nomineeId) => `${API_BASE_URL}/${API_ACCOUNTS}${API_BASE_VERSION}/nominees/${nomineeId}.json`;
+export const putAccountsKycedNomineesUrl = (nomineeId) => `${API_BASE_URL}/${API_ACCOUNTS}/admin${API_BASE_VERSION}/nominees/${nomineeId}.json`;
 
 // For Accounts Onboarding GET
 export const getAccountsOnboardingUrl = () => `${API_BASE_URL}/${API_ACCOUNTS}${API_BASE_VERSION}/onboarding.json`;
