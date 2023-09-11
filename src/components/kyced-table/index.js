@@ -56,9 +56,19 @@ function Row({ row }) {
       search: `?${createSearchParams(params)}`,
     }, { replace: true });
   }
+
+  const handleEdit = (imageType) => {
+    console.log('edit', imageType.toLowerCase());
+    if(imageType.toLowerCase() === 'pan') {
+      handleNavigate('/pan-upload', { id: kyc.id });
+    } else {
+      handleNavigate('/address-proof-upload', { id: kyc.id });
+    }
+  }
+
   return (
     <React.Fragment>
-      <ImageModal openModal={openModal} handleClose={handleClose} currentImage={currentImage} currentImageType={currentImageType} />
+      <ImageModal openModal={openModal} handleClose={handleClose} currentImage={currentImage} currentImageType={currentImageType} handleEdit={handleEdit}/>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
         <TableCell>
           <IconButton
@@ -127,7 +137,7 @@ function Row({ row }) {
 //   createData('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
 // ];
 
-const ImageModal = ({ openModal, handleClose, currentImage, currentImageType }) => {
+const ImageModal = ({ openModal, handleClose, currentImage, currentImageType, handleEdit }) => {
   return (
     <Modal
       open={openModal}
@@ -139,11 +149,14 @@ const ImageModal = ({ openModal, handleClose, currentImage, currentImageType }) 
         <Typography id="modal-modal-title" variant="h6" component="h2">
           {currentImageType} image
         </Typography>
-        <img
-          src={currentImage}
-          alt={currentImageType}
-          loading="lazy"
-        />
+        <div>
+          <img
+            src={currentImage}
+            alt={currentImageType}
+            loading="lazy"
+          />
+        </div>
+        <EditIcon onClick={() => handleEdit(currentImageType)}/>
       </Box>
     </Modal>
   );

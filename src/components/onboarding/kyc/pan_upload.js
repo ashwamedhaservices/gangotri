@@ -27,21 +27,14 @@ function PanUpload() {
 
   useEffect(() => {
     const kycId = searchParams.get('id');
-    setKycUpdateId(kycId)
-    if(kycId){
+    if(kycId) {
       _fetchKycData(kycId);
     }
-    
-  }, []);
+  }, [])
 
   const _fetchKycData = async (kycId) => {
-    try {
-      const kyc = await fetchKycByIdForAdminData(kycId);
-      console.log("[pan_upload]::[_fetchKycData]::", kycId);
-      setKycData(kycId);
-    } catch (error) {
-      console.error("[pan_upload]::[_fetchKycData]::err", error);
-    }
+    const kyc = await fetchKycByIdForAdminData(kycId);
+    setKycData({...kyc})
   };
 
   const _updateKyc = async () => {
