@@ -4,10 +4,10 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { Stack, Typography, FormControl, Select, MenuItem } from '@mui/material';
 import { Container } from '@mui/system';
-import { postFileUpload, putFileUpload } from '../../../service/ash_admin';
-import ImageInput from '../../image-input';
-import CustomAppBar from '../../common/AppBar/CustomAppBar';
-import { useKycContext } from '../../../context/kyc/kycContextProvider';
+import { postFileUpload, putFileUpload } from '../../../../service/ash_admin';
+import ImageInput from '../../../../components/image-input';
+import CustomAppBar from '../../../../components/common/AppBar/CustomAppBar';
+import { useKycContext } from '../../../../context/kyc/kycContextProvider';
 
 const AddressProofUpload = () => {
   const navigate = useNavigate();

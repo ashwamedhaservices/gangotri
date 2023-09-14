@@ -1,11 +1,6 @@
 // Routes and Navigations
 import { Navigate, useRoutes } from 'react-router-dom';
-import Address from '../components/onboarding/address/address';
-import AddressProofUpload from '../components/onboarding/address/address_proof_upload';
-import Bank from '../components/onboarding/bank/bank';
-import Pan from '../components/onboarding/kyc/pan';
-import PanUpload from '../components/onboarding/kyc/pan_upload';
-import Nominee from '../components/onboarding/nominee/nominee';
+import onboardingRoutes from '../features/onboarding/routes';
 
 // Layouts
 import DashboardLayout from '../layouts/dashboard';
@@ -18,7 +13,6 @@ import {
   SubjectPage,
   ChapterPage,
   TopicPage,
-  OnboardingPage,
   Page404,
   ProductsPage,
   DashboardAppPage,
@@ -46,13 +40,7 @@ export default function Router() {
         { path: 'course/:course_name/subject/:subject_name/chapter', element: <ChapterPage />,},
         { path: 'course/:course_name/subject/:subject_name/chapter/:chapter_name/topic', element: <TopicPage />,},
         // { path: 'products', element: <ProductsPage /> },
-        { path: 'onboarding', element: <OnboardingPage />},
-        { path: 'pan', element: <Pan /> },
-        { path: 'pan-upload', element: <PanUpload /> },
-        { path: 'bank', element: <Bank /> },
-        { path: 'address', element: <Address /> },
-        { path: 'address-proof-upload', element: <AddressProofUpload /> },
-        { path: 'nominee', element: <Nominee /> },
+        ...onboardingRoutes
       ],
     },
     {

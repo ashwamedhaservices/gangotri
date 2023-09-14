@@ -6,8 +6,8 @@ import {
   MenuItem,
 } from "@mui/material";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useKycNomineeContext } from '../../../context/nominee/kycNomineeContextProvider';
-import CustomAppBar from '../../common/AppBar/CustomAppBar';
+import { useKycNomineeContext } from '../../../../context/nominee/kycNomineeContextProvider';
+import CustomAppBar from '../../../../components/common/AppBar/CustomAppBar';
 
 const Nominee = () => {
   const navigate = useNavigate();

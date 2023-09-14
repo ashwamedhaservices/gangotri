@@ -6,9 +6,9 @@ import {
   MenuItem,
   Container,
 } from "@mui/material";
-import { accountNoValidation, ifscValidation } from "../../../utils/validations";
-import { useKycBankContext } from "../../../context/bank/kycBankContextProvider";
-import CustomAppBar from "../../common/AppBar/CustomAppBar";
+import { accountNoValidation, ifscValidation } from "../../../../utils/validations";
+import { useKycBankContext } from "../../../../context/bank/kycBankContextProvider";
+import CustomAppBar from "../../../../components/common/AppBar/CustomAppBar";
 
 const Bank = () => {
   const navigate = useNavigate();

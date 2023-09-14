@@ -8,8 +8,8 @@ import {
   FormControl,
 } from "@mui/material";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useKycAddressContext } from "../../../context/address/kycAddressContextProvider";
-import CustomAppBar from "../../common/AppBar/CustomAppBar";
+import { useKycAddressContext } from "../../../../context/address/kycAddressContextProvider";
+import CustomAppBar from "../../../../components/common/AppBar/CustomAppBar";
 
 function Address() {
   const navigate = useNavigate();

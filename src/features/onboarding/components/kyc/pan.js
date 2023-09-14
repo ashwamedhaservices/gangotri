@@ -4,10 +4,10 @@ import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Grid } from "@mui/material";
-import { panNumberValidation } from "../../../utils/validations";
+import { panNumberValidation } from "../../../../utils/validations";
 
-import { useKycContext } from "../../../context/kyc/kycContextProvider";
-import CustomAppBar from "../../common/AppBar/CustomAppBar";
+import { useKycContext } from "../../../../context/kyc/kycContextProvider";
+import CustomAppBar from "../../../../components/common/AppBar/CustomAppBar";
 
 const Pan = () => {
   const navigate = useNavigate();

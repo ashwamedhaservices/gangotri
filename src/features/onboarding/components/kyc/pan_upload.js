@@ -9,10 +9,10 @@ import {
 import {
   postFileUpload,
   putFileUpload,
-} from "../../../service/ash_admin";
-import ImageInput from "../../image-input";
-import { useKycContext } from "../../../context/kyc/kycContextProvider";
-import CustomAppBar from "../../common/AppBar/CustomAppBar";
+} from "../../../../service/ash_admin";
+import ImageInput from "../../../../components/image-input";
+import { useKycContext } from "../../../../context/kyc/kycContextProvider";
+import CustomAppBar from "../../../../components/common/AppBar/CustomAppBar";
 
 function PanUpload() {
   const { updateKyc, fetchKycByIdForAdminData } = useKycContext();
