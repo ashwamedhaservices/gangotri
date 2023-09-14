@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from "react-router-dom";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import axios from 'axios';
 import { Stack, Typography, FormControl, Select, MenuItem } from '@mui/material';
 import { Container } from '@mui/system';
-import { getAccountsKyc, getAccountsOnboarding, postFileUpload, putAccountsKyc, putFileUpload } from '../../../service/ash_admin';
+import { postFileUpload, putFileUpload } from '../../../service/ash_admin';
 import ImageInput from '../../image-input';
 import CustomAppBar from '../../common/AppBar/CustomAppBar';
 import { useKycContext } from '../../../context/kyc/kycContextProvider';

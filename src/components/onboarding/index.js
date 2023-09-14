@@ -12,7 +12,6 @@ import {
 } from "../../service/ash_admin";
 import { useEffect } from "react";
 import { Button, Container, Grid, Typography } from "@mui/material";
-import ImageInput from "../image-input";
 
 const StyledRoot = styled("div")({
   display: "flex",

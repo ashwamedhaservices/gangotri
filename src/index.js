@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import './layout.css';
-import './table.css';
-import './padding.css';
-import './flex.css';
-import './video.css';
+
+import './assets/css/index.css';
+import './assets/css/layout.css';
+import './assets/css/table.css';
+import './assets/css/padding.css';
+import './assets/css/flex.css';
+import './assets/css/video.css';
+
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
