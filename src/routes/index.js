@@ -1,5 +1,6 @@
 // Routes and Navigations
 import { Navigate, useRoutes } from 'react-router-dom';
+import coursesRoutes from '../features/course/routes';
 import onboardingRoutes from '../features/onboarding/routes';
 
 // Layouts
@@ -9,10 +10,6 @@ import SimpleLayout from '../layouts/simple';
 // Pages
 import {
   LoginPage,
-  CoursePage,
-  SubjectPage,
-  ChapterPage,
-  TopicPage,
   Page404,
   ProductsPage,
   DashboardAppPage,
@@ -34,13 +31,10 @@ export default function Router() {
       element: token ? <DashboardLayout /> : <Navigate to="/login" />,
       children: [
         { element: <Navigate to="/course" />, index: true },
-        // { path: 'app', element: <DashboardAppPage /> },
-        { path: 'course', element: <CoursePage />,},
-        { path: 'course/:course_name/subject', element: <SubjectPage />,},
-        { path: 'course/:course_name/subject/:subject_name/chapter', element: <ChapterPage />,},
-        { path: 'course/:course_name/subject/:subject_name/chapter/:chapter_name/topic', element: <TopicPage />,},
+        ...coursesRoutes,
+        ...onboardingRoutes,
         // { path: 'products', element: <ProductsPage /> },
-        ...onboardingRoutes
+        // { path: 'app', element: <DashboardAppPage /> },
       ],
     },
     {

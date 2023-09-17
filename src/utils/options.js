@@ -5,7 +5,7 @@ export const LANGUAGES = [
   { value: 'unspecified', label: 'Unspecified' }
 ] 
 
-export const LEVEL = [
+export const COURSE_LEVEL = [
   { value: 'primary', label: 'Primary'},
   { value: 'secondary', label: 'Secondary'},
   { value: 'higher_secondary', label: 'Higher secondary'},
@@ -13,3 +13,12 @@ export const LEVEL = [
   { value: 'professional', label: 'Professional' },
   { value: 'life_skill', label: 'Life skill' },
 ]
+
+export const NOMINEE_RELATION = [
+  { value: 'self', label: 'Self'},
+  { value: 'spouse', label: 'Spouse'},
+  { value: 'child', label: 'Child'},
+  { value: 'parent', label: 'Parent'},
+  { value: 'other', label: 'Other' },
+  { value: 'life_skill', label: 'Life skill' },
+];

@@ -11,10 +11,10 @@ import {
   Grid,
 } from "@mui/material";
 // components
-import Iconify from "../components/iconify";
+import Iconify from "../../../components/iconify";
 import { LoadingButton } from "@mui/lab";
 import { styled } from "@mui/material/styles";
-import ImageInput from "../components/image-input";
+import ImageInput from "../../../components/image-input";
 import {
   getSubject,
   postFileUpload,
@@ -22,12 +22,12 @@ import {
   createSubject,
   storageGetItem,
   putSubject,
-} from "../service/ash_admin";
+} from "../../../service/ash_admin";
 import { useNavigate } from "react-router-dom";
-import { CourseContext } from "../context/courses/courseContextProvider";
-import { SubjectContext } from "../context/subjects/subjectContextProvider";
-import { createSlug } from "../utils/default";
-import { ItemCardList } from "../components/common/list";
+import { CourseContext } from "../../../context/courses/courseContextProvider";
+import { SubjectContext } from "../../../context/subjects/subjectContextProvider";
+import { createSlug } from "../../../utils/default";
+import { ItemCardList } from "../../../components/common/list";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",

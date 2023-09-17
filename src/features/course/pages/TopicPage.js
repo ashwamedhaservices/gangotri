@@ -11,17 +11,17 @@ import {
   Grid,
 } from '@mui/material';
 // components
-import Iconify from '../components/iconify';
+import Iconify from '../../../components/iconify';
 import { LoadingButton } from '@mui/lab';
 import { styled } from "@mui/material/styles";
-import ImageInput from '../components/image-input';
-import VideoInput from '../components/video-input';
-import { getTopic, createTopic, postFileUpload, putFileUpload, storageGetItem, putTopic } from '../service/ash_admin';
+import ImageInput from '../../../components/image-input';
+import VideoInput from '../../../components/video-input';
+import { getTopic, createTopic, postFileUpload, putFileUpload, storageGetItem, putTopic } from '../../../service/ash_admin';
 import { useNavigate } from 'react-router-dom';
-import { ChapterContext } from '../context/chapter/chapterContextProvider';
-import { SubjectContext } from '../context/subjects/subjectContextProvider';
-import { CourseContext } from '../context/courses/courseContextProvider';
-import { ItemCardList } from '../components/common/list';
+import { ChapterContext } from '../../../context/chapter/chapterContextProvider';
+import { SubjectContext } from '../../../context/subjects/subjectContextProvider';
+import { CourseContext } from '../../../context/courses/courseContextProvider';
+import { ItemCardList } from '../../../components/common/list';
 
 
 const Item = styled(Paper)(({ theme }) => ({

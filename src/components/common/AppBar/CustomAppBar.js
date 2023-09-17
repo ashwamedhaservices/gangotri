@@ -1,4 +1,3 @@
-import React from 'react'
 import { useNavigate } from "react-router-dom";
 
 import PropTypes from 'prop-types'
@@ -19,9 +18,10 @@ const CustomAppBar = ({
       style={{
         backgroundColor: "var(--theme-background-secondary)",
         elevation: 0,
+        borderRadius: '8px',
       }}
     >
-      <Toolbar>
+      <Toolbar sx={{ minHeight: '40px'}}>
         <IconButton onClick={() => navigate(link, { replace: isReplace })}>
           <ArrowBackSharpIcon
             color="primary"

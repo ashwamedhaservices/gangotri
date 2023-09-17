@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Container, Stack, Typography } from '@mui/material'
-import { useKycContext } from '../context/kyc/kycContextProvider';
-import CollapsibleKycedTable from '../components/kyced-table';
+import { useKycContext } from '../../../context/kyc/kycContextProvider';
+import CollapsibleKycedTable from '../../../components/kyced-table';
 
 const OnboardingPage = () => {
   const { fetchAllKycData } = useKycContext();

@@ -11,23 +11,23 @@ import {
   Grid,
 } from "@mui/material";
 // components
-import Iconify from "../components/iconify";
+import Iconify from "../../../components/iconify";
 
 import { styled } from "@mui/material/styles";
 import { LoadingButton } from "@mui/lab";
-import ImageInput from "../components/image-input";
+import ImageInput from "../../../components/image-input";
 import {
   createCourse,
   postFileUpload,
   putCourse,
   putFileUpload,
-} from "../service/ash_admin";
+} from "../../../service/ash_admin";
 import { useNavigate } from "react-router-dom";
-import { BlogPostsSort } from "../sections/@dashboard/blog";
-import { LANGUAGES, LEVEL } from "../utils/options";
-import { CourseContext } from "../context/courses/courseContextProvider";
-import { createSlug } from "../utils/default";
-import { ItemCardList } from "../components/common/list";
+import { BlogPostsSort } from "../../../sections/@dashboard/blog";
+import { LANGUAGES, COURSE_LEVEL } from "../../../utils/options";
+import { CourseContext } from "../../../context/courses/courseContextProvider";
+import { createSlug } from "../../../utils/default";
+import { ItemCardList } from "../../../components/common/list";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -245,7 +245,7 @@ export default function CoursePage() {
                       label="Course level*"
                       value={course.level}
                       onChange={handleCourseDetails}
-                      options={LEVEL}
+                      options={COURSE_LEVEL}
                     />
                   </Stack>
                 </Item>

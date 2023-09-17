@@ -8,6 +8,7 @@ import {
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useKycNomineeContext } from '../../../../context/nominee/kycNomineeContextProvider';
 import CustomAppBar from '../../../../components/common/AppBar/CustomAppBar';
+import { NOMINEE_RELATION } from '../../../../utils/options';
 
 const Nominee = () => {
   const navigate = useNavigate();
@@ -100,11 +101,7 @@ const Nominee = () => {
           fullWidth
           margin="normal"
         >
-          <MenuItem value="self">Self</MenuItem>
-          <MenuItem value="spouse">Spouse</MenuItem>
-          <MenuItem value="child">Child</MenuItem>
-          <MenuItem value="parent">Parent</MenuItem>
-          <MenuItem value="other">Other</MenuItem>
+          {NOMINEE_RELATION && NOMINEE_RELATION.map((nominee) => <MenuItem value={nominee.value}>{nominee.label}</MenuItem>)}
         </TextField>
 
         <Button

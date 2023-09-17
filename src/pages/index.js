@@ -1,13 +1,6 @@
 // Logged Out Pages
 export { default as LoginPage } from './LoginPage';
 
-// Logged In Pages
-export { default as CoursePage } from './CoursePage';
-export { default as SubjectPage } from './SubjectPage';
-export { default as ChapterPage } from './ChapterPage';
-export { default as TopicPage } from './TopicPage';
-export { default as OnboardingPage } from './OnboardingPage';
-
 // Not Found Pages
 export { default as Page404 } from './Page404';
 
