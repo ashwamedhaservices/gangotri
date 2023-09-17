@@ -10,5 +10,6 @@ export const LEVEL = [
   { value: 'secondary', label: 'Secondary'},
   { value: 'higher_secondary', label: 'Higher secondary'},
   { value: 'bachelors', label: 'Bachelors'},
-  { value: 'professional', label: 'Professional' }
+  { value: 'professional', label: 'Professional' },
+  { value: 'life_skill', label: 'Life skill' },
 ]
