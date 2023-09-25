@@ -2,6 +2,8 @@ export const apiBaseUrlStaging = 'http://138.197.50.162';
 // export const API_BASE_URL = 'http://64.227.164.116';
 export const API_BASE_URL = 'https://apistage.ashwamedha.net';
 export const API_ACCOUNTS = 'accounts';
+export const API_LEARNINGS = 'learnings';
+export const API_ADMIN = 'admin';
 export const API_BASE_VERSION = '/api/v1';
 
 export const API_BASE_VERSION_URL = `${API_BASE_URL}${API_BASE_VERSION}`;
@@ -82,3 +84,18 @@ export const getAddressByIdForAdminUrl = (addressId) => `${API_BASE_URL}/${API_A
 export const getNomineeByIdForAdminUrl = (nomineeId) => `${API_BASE_URL}/${API_ACCOUNTS}/admin${API_BASE_VERSION}/nominees/${nomineeId}.json`;
 
 export const getBankByIdForAdminUrl = (bankId) => `${API_BASE_URL}/${API_ACCOUNTS}/admin${API_BASE_VERSION}/bank_accounts/${bankId}.json`;
+
+// For create question paper POST
+export const postQuestionPaperUrl = () => `${API_BASE_URL}/${API_LEARNINGS}/${API_ADMIN}${API_BASE_VERSION}/question_papers.json`;
+
+// For adding questions and answers to paper POST
+export const postQuestionAndAnswersToPaperUrl = (paper_id) => `${API_BASE_URL}/${API_LEARNINGS}/${API_ADMIN}${API_BASE_VERSION}/question_papers/${paper_id}/question.json`;
+
+// For getting question paper by id
+export const getQuestionPaperByIdUrl = (paper_id) => `${API_BASE_URL}/${API_LEARNINGS}/${API_ADMIN}${API_BASE_VERSION}/question_papers/${paper_id}.json`;
+
+
+
+// Question paper enum :question_type, %i[samcq mamcq passage one_word]
+// Meetings enum
+// enum provider: { jitsi: 0, google_meet: 1, zoom: 2 }

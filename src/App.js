@@ -13,6 +13,8 @@ import { KycContextProvider } from "./context/kyc/kycContextProvider";
 import { KycBankContextProvider } from "./context/bank/kycBankContextProvider";
 import { KycAddressContextProvider } from "./context/address/kycAddressContextProvider";
 import { KycNomineeContextProvider } from "./context/nominee/kycNomineeContextProvider";
+import { QuizContextProvider } from "./features/quiz/context/quizContextProvider";
+import { MeetingContextProvider } from "./features/meetings/context/meetingContextProvider";
 
 function App() {
   return (
@@ -28,8 +30,12 @@ function App() {
                       <KycBankContextProvider>
                         <KycAddressContextProvider>
                           <KycNomineeContextProvider>
-                            <ScrollToTop />
-                            <Router />
+                            <QuizContextProvider>
+                              <MeetingContextProvider>
+                                <ScrollToTop />
+                                <Router />
+                              </MeetingContextProvider>
+                            </QuizContextProvider>
                           </KycNomineeContextProvider>
                         </KycAddressContextProvider>
                       </KycBankContextProvider>

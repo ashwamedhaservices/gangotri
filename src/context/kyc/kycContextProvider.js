@@ -1,5 +1,4 @@
-import { useContext } from 'react';
-import { createContext } from 'react';
+import { useContext, createContext } from 'react';
 import { getAccountsKyc, getAllKycList, getKycByIdForAdmin, postAccountsKyc, putAccountsKyc } from '../../service/ash_admin';
 
 const KycContext = createContext();
