@@ -1,7 +1,8 @@
-import { CreateMeetingPage } from "../pages";
+import { CreateMeetingPage, MeetingsPage } from "../pages";
 
 const meetingRoutes = [
-  { path: 'create-meeting', element: <CreateMeetingPage />}
+  { path: 'meeting', element: <MeetingsPage /> },
+  { path: 'meeting/create-meeting', element: <CreateMeetingPage />},
 ];
 
 export default meetingRoutes;

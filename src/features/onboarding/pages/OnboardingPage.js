@@ -24,7 +24,7 @@ const OnboardingPage = () => {
       </Helmet>
       
       <Container>
-      <Stack
+        <Stack
           direction="row"
           alignItems="center"
           justifyContent="space-between"

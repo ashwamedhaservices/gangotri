@@ -21,6 +21,11 @@ const navConfig = [
     path: '/onboarding',
     icon: icon('ic_lock'),
   },
+  {
+    title: 'meeting',
+    path: '/meeting',
+    icon: icon('ic_blog'),
+  },
   // {
   //   title: 'subject',
   //   path: '/subject',

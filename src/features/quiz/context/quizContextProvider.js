@@ -5,7 +5,9 @@ const QuizContext = createContext();
 export const QuizContextProvider = ({ children }) => {
 
 
-  return <QuizContext.Provider>{children}</QuizContext.Provider>
+  return <QuizContext.Provider
+    value={{ name: 'Quiz' }}
+  >{children}</QuizContext.Provider>
 }
 
 export const useQuizContext = () => {

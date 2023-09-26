@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CHAPTER_CREATE, CHAPTER_GET, COURSE_CREATE, COURSE_GET, SUBJECT_CREATE, SUBJECT_GET, TOPIC_CREATE, TOPIC_GET, ADMIN_LOGIN, FILE_UPLOAD, FILE_UPLOAD_WITH_FORM_DATA, TOPIC_UPDATE, CHAPTER_UPDATE, SUBJECT_UPDATE, COURSE_UPDATE, getAccountsKycUrl, postAccountsKycUrl, putAccountsKycUrl, getAccountsKycedBankUrl, postAccountsKycedBankUrl, putAccountsKycedBankUrl, getAccountsKycedAddressUrl, postAccountsKycedAddressUrl, putAccountsKycedAddressUrl, getAccountsKycedNomineesUrl, postAccountsKycedNomineesUrl, putAccountsKycedNomineesUrl, getAccountsOnboardingUrl, getAllKycListingUrl, getKycByIdForAdminUrl, getAddressByIdForAdminUrl, getNomineeByIdForAdminUrl, getBankByIdForAdminUrl, postQuestionPaperUrl, postQuestionAndAnswersToPaperUrl, getQuestionPaperByIdUrl } from '../config/servers/api';
+import { CHAPTER_CREATE, CHAPTER_GET, COURSE_CREATE, COURSE_GET, SUBJECT_CREATE, SUBJECT_GET, TOPIC_CREATE, TOPIC_GET, ADMIN_LOGIN, FILE_UPLOAD, FILE_UPLOAD_WITH_FORM_DATA, TOPIC_UPDATE, CHAPTER_UPDATE, SUBJECT_UPDATE, COURSE_UPDATE, getAccountsKycUrl, postAccountsKycUrl, putAccountsKycUrl, getAccountsKycedBankUrl, postAccountsKycedBankUrl, putAccountsKycedBankUrl, getAccountsKycedAddressUrl, postAccountsKycedAddressUrl, putAccountsKycedAddressUrl, getAccountsKycedNomineesUrl, postAccountsKycedNomineesUrl, putAccountsKycedNomineesUrl, getAccountsOnboardingUrl, getAllKycListingUrl, getKycByIdForAdminUrl, getAddressByIdForAdminUrl, getNomineeByIdForAdminUrl, getBankByIdForAdminUrl, postQuestionPaperUrl, postQuestionAndAnswersToPaperUrl, getQuestionPaperByIdUrl, postMeetingsUrl, getMeetingsUrl } from '../config/servers/api';
 
 // let instance;
 // class ApiAdminService {
@@ -580,4 +580,31 @@ export const getQuestionPaperById = async () => {
     return responseJson['data'];
   }
   return {};
+}
+
+// Post Create meeting
+export const postMeetings = async (payload) => {
+  console.log(`[service]::[postMeetings]:: ${payload}`);
+  const responseJson = await makeRequest(
+      'post', postMeetingsUrl(), payload);
+  console.log(
+      `[service]::[postMeetings]::[makeRequests]::[result] ${responseJson}`);
+  if (responseJson['success']) {
+    return responseJson['data'];
+  }
+  return {};
+}
+
+// Get Meetings list
+export const getMeetings = async () => {
+  console.log('[service]::[getMeetings]:: ');
+  const responseJson = await makeRequest(
+      'get', getMeetingsUrl(), {});
+  console.log(
+      `[service]::[getMeetings]::[makeRequests]::[result] ${responseJson}`);
+
+  if (responseJson['success']) {
+    return responseJson['data'];
+  }
+  return [];
 }

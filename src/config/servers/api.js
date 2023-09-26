@@ -94,7 +94,11 @@ export const postQuestionAndAnswersToPaperUrl = (paper_id) => `${API_BASE_URL}/$
 // For getting question paper by id
 export const getQuestionPaperByIdUrl = (paper_id) => `${API_BASE_URL}/${API_LEARNINGS}/${API_ADMIN}${API_BASE_VERSION}/question_papers/${paper_id}.json`;
 
+// For creating meeting
+export const getMeetingsUrl = () => `${API_BASE_URL}/${API_LEARNINGS}/${API_ADMIN}${API_BASE_VERSION}/meetings.json`;
 
+// For creating meeting
+export const postMeetingsUrl = () => `${API_BASE_URL}/${API_LEARNINGS}/${API_ADMIN}${API_BASE_VERSION}/meetings.json`;
 
 // Question paper enum :question_type, %i[samcq mamcq passage one_word]
 // Meetings enum
