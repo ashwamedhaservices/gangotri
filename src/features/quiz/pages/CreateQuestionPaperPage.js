@@ -58,7 +58,7 @@ const CreateQuestionPaperPage = () => {
           </Typography>
         </Stack>
         <Grid container spacing={2}>
-          <Grid item sx={12} sm={6}>
+          <Grid item xs={12} sm={6}>
             <Item>
               <Stack>
                 { /* Question paper title */ }
@@ -75,7 +75,7 @@ const CreateQuestionPaperPage = () => {
             </Item>
           </Grid>
 
-          <Grid item sx={12} sm={6}>
+          <Grid item xs={12} sm={6}>
             <Item>
               <Stack>
                 { /* Question paper notes or instruction */ }
@@ -92,7 +92,7 @@ const CreateQuestionPaperPage = () => {
             </Item>
           </Grid>
 
-          <Grid item sx={12} sm={6}>
+          <Grid item xs={12} sm={6}>
             <Item>
               <Stack>
                 
@@ -100,7 +100,7 @@ const CreateQuestionPaperPage = () => {
             </Item>
           </Grid>
 
-          <Grid item sx={12} sm={6}>
+          <Grid item xs={12} sm={6}>
             <Item>
               <Stack>
                 
