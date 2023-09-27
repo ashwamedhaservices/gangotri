@@ -101,5 +101,3 @@ export const getMeetingsUrl = () => `${API_BASE_URL}/${API_LEARNINGS}/${API_ADMI
 export const postMeetingsUrl = () => `${API_BASE_URL}/${API_LEARNINGS}/${API_ADMIN}${API_BASE_VERSION}/meetings.json`;
 
 // Question paper enum :question_type, %i[samcq mamcq passage one_word]
-// Meetings enum
-// enum provider: { jitsi: 0, google_meet: 1, zoom: 2 }
