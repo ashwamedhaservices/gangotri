@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CHAPTER_CREATE, CHAPTER_GET, COURSE_CREATE, COURSE_GET, SUBJECT_CREATE, SUBJECT_GET, TOPIC_CREATE, TOPIC_GET, ADMIN_LOGIN, FILE_UPLOAD, FILE_UPLOAD_WITH_FORM_DATA, TOPIC_UPDATE, CHAPTER_UPDATE, SUBJECT_UPDATE, COURSE_UPDATE, getAccountsKycUrl, postAccountsKycUrl, putAccountsKycUrl, getAccountsKycedBankUrl, postAccountsKycedBankUrl, putAccountsKycedBankUrl, getAccountsKycedAddressUrl, postAccountsKycedAddressUrl, putAccountsKycedAddressUrl, getAccountsKycedNomineesUrl, postAccountsKycedNomineesUrl, putAccountsKycedNomineesUrl, getAccountsOnboardingUrl, getAllKycListingUrl, getKycByIdForAdminUrl, getAddressByIdForAdminUrl, getNomineeByIdForAdminUrl, getBankByIdForAdminUrl, postQuestionPaperUrl, postQuestionAndAnswersToPaperUrl, getQuestionPaperByIdUrl, postMeetingsUrl, getMeetingsUrl } from '../config/servers/api';
+import { CHAPTER_CREATE, CHAPTER_GET, COURSE_CREATE, COURSE_GET, SUBJECT_CREATE, SUBJECT_GET, TOPIC_CREATE, TOPIC_GET, ADMIN_LOGIN, FILE_UPLOAD, FILE_UPLOAD_WITH_FORM_DATA, TOPIC_UPDATE, CHAPTER_UPDATE, SUBJECT_UPDATE, COURSE_UPDATE, getAccountsKycUrl, postAccountsKycUrl, putAccountsKycUrl, getAccountsKycedBankUrl, postAccountsKycedBankUrl, putAccountsKycedBankUrl, getAccountsKycedAddressUrl, postAccountsKycedAddressUrl, putAccountsKycedAddressUrl, getAccountsKycedNomineesUrl, postAccountsKycedNomineesUrl, putAccountsKycedNomineesUrl, getAccountsOnboardingUrl, getAllKycListingUrl, getKycByIdForAdminUrl, getAddressByIdForAdminUrl, getNomineeByIdForAdminUrl, getBankByIdForAdminUrl, postQuestionPaperUrl, postQuestionAndAnswersToPaperUrl, getQuestionPaperByIdUrl, postMeetingsUrl, getMeetingsUrl, getAllQuestionPapersUrl } from '../config/servers/api';
 
 // let instance;
 // class ApiAdminService {
@@ -556,6 +556,19 @@ export const postQuestionPaper = async (payload) => {
   return {};
 }
 
+// Get question paper listing
+export const getAllQuestionPapers = async ({ testable_type, testable_id }) => {
+  console.log(`[service]::[getAllQuestionPapers]:: `);
+  const responseJson = await makeRequest(
+      'get', getAllQuestionPapersUrl({ testable_type, testable_id }), {});
+  console.log(
+      `[service]::[getAllQuestionPapers]::[makeRequests]::[result] ${responseJson}`);
+  if (responseJson['success']) {
+    return responseJson['data'];
+  }
+  return {};
+}
+
 // Post question and answer to paper
 export const postQuestionAndAnswersToPaper = async (payload) => {
   console.log(`[service]::[postQuestionAndAnswersToPaper]:: ${payload}`);
@@ -573,7 +586,7 @@ export const postQuestionAndAnswersToPaper = async (payload) => {
 export const getQuestionPaperById = async () => {
   console.log(`[service]::[getQuestionPaperById]:: `);
   const responseJson = await makeRequest(
-      'post', getQuestionPaperByIdUrl(), {});
+      'get', getQuestionPaperByIdUrl(), {});
   console.log(
       `[service]::[getQuestionPaperById]::[makeRequests]::[result] ${responseJson}`);
   if (responseJson['success']) {

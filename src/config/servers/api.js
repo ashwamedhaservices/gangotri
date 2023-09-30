@@ -85,7 +85,7 @@ export const getNomineeByIdForAdminUrl = (nomineeId) => `${API_BASE_URL}/${API_A
 
 export const getBankByIdForAdminUrl = (bankId) => `${API_BASE_URL}/${API_ACCOUNTS}/admin${API_BASE_VERSION}/bank_accounts/${bankId}.json`;
 
-// For create question paper POST
+// For Creating Question Paper for any type of topic, subject, chapter
 export const postQuestionPaperUrl = () => `${API_BASE_URL}/${API_LEARNINGS}/${API_ADMIN}${API_BASE_VERSION}/question_papers.json`;
 
 // For adding questions and answers to paper POST
@@ -94,10 +94,12 @@ export const postQuestionAndAnswersToPaperUrl = (paper_id) => `${API_BASE_URL}/$
 // For getting question paper by id
 export const getQuestionPaperByIdUrl = (paper_id) => `${API_BASE_URL}/${API_LEARNINGS}/${API_ADMIN}${API_BASE_VERSION}/question_papers/${paper_id}.json`;
 
+// Question paper enum :question_type, %i[samcq mamcq passage one_word]
+// For listing out all the question papers for testable type and testable id
+export const getAllQuestionPapersUrl = ({ testable_type, testable_id }) => `${API_BASE_URL}/${API_LEARNINGS}/${API_ADMIN}${API_BASE_VERSION}/question_papers/list/${testable_type}/${testable_id}.json`;
+
 // For creating meeting
 export const getMeetingsUrl = () => `${API_BASE_URL}/${API_LEARNINGS}/${API_ADMIN}${API_BASE_VERSION}/meetings.json`;
 
 // For creating meeting
 export const postMeetingsUrl = () => `${API_BASE_URL}/${API_LEARNINGS}/${API_ADMIN}${API_BASE_VERSION}/meetings.json`;
-
-// Question paper enum :question_type, %i[samcq mamcq passage one_word]

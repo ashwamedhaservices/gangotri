@@ -1,8 +1,9 @@
-import { CreateQuestionPaperPage } from "../pages";
+import { CreateQuestionPaperPage, TestableQuestionPaperPage } from "../pages";
 
 
 const quizRoutes = [
-  { path: 'create-question-paper', element: <CreateQuestionPaperPage />}
+  { path: 'paper/:testable_type/:testable_id', element: <CreateQuestionPaperPage />},
+  { path: 'paper/:testable_type/:testable_id/testable', element: <TestableQuestionPaperPage />},
 ];
 
 export default quizRoutes;

@@ -182,7 +182,13 @@ export default function TopicPage() {
   const watchVideo = (topic) => {
     if(showVideo) {
       setShowVideo('');
+      setTopic({
+        name: "",
+        description: "",
+        image_url: "",
+      });
     } else {
+      setTopic(topic);
       setShowVideo(topic.video_url);
     }
   }
@@ -196,6 +202,10 @@ export default function TopicPage() {
     setTopicAdd(true);
     setTopic(topic);
   };
+
+  const handleCreateQuesionPaper = () => {
+    navigate(`/paper/topic/${topic.id}`, { replace: false });
+  }
 
   return (
     <>
@@ -346,14 +356,52 @@ export default function TopicPage() {
       </Container>
       {
         showVideo && (
+          <Container sx={{mb: 2}}>
+            <Grid container>
+              <Grid xs={12}>
+                <Item>
+                  <Stack direction="column" alignItems="start" justifyContent="start" mb={2}>
+                    <Typography variant="h6">
+                      Topic
+                    </Typography>
+                    <Typography variant="body1">
+                      {topic.name}
+                    </Typography>
+                    <Typography variant="body2">
+                      {topic.description}
+                    </Typography>
+                  </Stack>
+                </Item>
+              </Grid>
+              <Grid xs={12}>
+                <Item>
+                  <Stack direction="row" alignItems="center" justifyContent="end" mb={2}>
+                    <Button
+                      variant="contained"
+                      startIcon={<Iconify icon="eva:plus-fill" />}
+                      onClick={handleCreateQuesionPaper}
+                    >
+                      Create question paper
+                    </Button>
+                  </Stack>
+                </Item>
+              </Grid>
+            </Grid> 
+          </Container>
+        )
+      }
+      {
+        showVideo && (
           <Container className="a-video-container">
-            <video
-              className="VideoInput_video a-video"
-              width="100%"
-              height="100%"
-              controls
-              src={showVideo}
-            />
+            <Item>
+              <video
+                className="VideoInput_video a-video"
+                width="100%"
+                height="100%"
+                controls
+                src={showVideo}
+              />
+            </Item>
           </Container>
         )
       }

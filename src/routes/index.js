@@ -4,7 +4,7 @@ import { TextEditor } from '../components/rich-text-editor';
 import coursesRoutes from '../features/course/routes';
 import meetingRoutes from '../features/meetings/routes';
 import onboardingRoutes from '../features/onboarding/routes';
-// import quizRoutes from '../features/quiz/routes';
+import quizRoutes from '../features/quiz/routes';
 
 // Layouts
 import DashboardLayout from '../layouts/dashboard';
@@ -36,7 +36,7 @@ export default function Router() {
         { element: <Navigate to="/course" />, index: true },
         ...coursesRoutes,
         ...onboardingRoutes,
-        // ...quizRoutes,
+        ...quizRoutes,
         ...meetingRoutes,
         // { path: 'products', element: <ProductsPage /> },
         // { path: 'app', element: <DashboardAppPage /> },
