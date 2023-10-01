@@ -1,5 +1,5 @@
 import { useContext, createContext } from 'react';
-import { getAllQuestionPapers, postQuestionPaper } from '../../../service/ash_admin';
+import { getAllQuestionPapers, getQuestionPaperContentById, postQuestionPaper } from '../../../service/ash_admin';
 
 const QuizContext = createContext();
 
@@ -32,10 +32,21 @@ export const QuizContextProvider = ({ children }) => {
   const _fetchAllQuestionPapers = async ({testable_type, testable_id}) => {
     try {
       const papers = await getAllQuestionPapers({ testable_type, testable_id });
-      console.log("[QuizContextProvider]::[_fetchMeetingsData]::", papers);
+      console.log("[QuizContextProvider]::[_fetchAllQuestionPapers]::", papers);
       return papers;
     } catch (error) {
-      console.error("[QuizContextProvider]::[_fetchMeetingsData]::err", error);
+      console.error("[QuizContextProvider]::[_fetchAllQuestionPapers]::err", error);
+      return [];
+    }
+  }
+  
+  const _fetchQuestionPaperContentById = async (paper_id) => {
+    try {
+      const papers = await getQuestionPaperContentById(paper_id);
+      console.log("[QuizContextProvider]::[_fetchQuestionPaperContentById]::", papers);
+      return papers;
+    } catch (error) {
+      console.error("[QuizContextProvider]::[_fetchQuestionPaperContentById]::err", error);
       return {};
     }
   }
@@ -57,6 +68,7 @@ export const QuizContextProvider = ({ children }) => {
     value={{ 
       fetchAllQuestionPapers: _fetchAllQuestionPapers,
       createQuestionPaper: _createQuestionPaper,
+      fetchQuestionPaperContentById: _fetchQuestionPaperContentById,
     }}
   >{children}</QuizContext.Provider>
 }

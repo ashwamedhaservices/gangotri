@@ -88,6 +88,9 @@ export const getBankByIdForAdminUrl = (bankId) => `${API_BASE_URL}/${API_ACCOUNT
 // For Creating Question Paper for any type of topic, subject, chapter
 export const postQuestionPaperUrl = () => `${API_BASE_URL}/${API_LEARNINGS}/${API_ADMIN}${API_BASE_VERSION}/question_papers.json`;
 
+// For geting the Question paper content
+export const getQuestionPaperContentByIdUrl = (paper_id) => `${API_BASE_URL}/${API_LEARNINGS}/${API_ADMIN}${API_BASE_VERSION}/question_papers/${paper_id}.json`;
+
 // For adding questions and answers to paper POST
 export const postQuestionAndAnswersToPaperUrl = (paper_id) => `${API_BASE_URL}/${API_LEARNINGS}/${API_ADMIN}${API_BASE_VERSION}/question_papers/${paper_id}/question.json`;
 

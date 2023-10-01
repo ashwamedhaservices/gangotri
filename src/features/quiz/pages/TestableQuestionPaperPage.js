@@ -24,11 +24,12 @@ const TestableQuestionPaperPage = () => {
 
   const handleEditPaper = () => {
     // For Edit the Question paper
-    navigate();
+    // navigate();
   }
 
-  const handleViewPaper = () => {
+  const handleViewPaper = (paper) => {
     // For the question paper visibility with all the questions and answer added to the paper
+    navigate(`/paper/${testable_type}/${testable_id}/testable/${paper.id}`, { replace: false });
   }
 
   return (
