@@ -24,7 +24,7 @@ const Question = ({
   
   return (
     <>
-     <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+     <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
         <Typography variant="body2" gutterBottom>
           Question
         </Typography>
