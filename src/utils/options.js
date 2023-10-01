@@ -22,3 +22,10 @@ export const NOMINEE_RELATION = [
   { value: 'other', label: 'Other' },
   { value: 'life_skill', label: 'Life skill' },
 ];
+
+export const QUESTION_TYPE = [
+  { value: 'samcq', label: 'Single choice'},
+  { value: 'mamcq', label: 'Multiple choice'},
+  { value: 'passage', label: 'Passage/Paragraph'},
+  { value: 'one_word', label: 'One word'},
+];

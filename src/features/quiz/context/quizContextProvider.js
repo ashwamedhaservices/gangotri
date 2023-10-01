@@ -1,5 +1,5 @@
 import { useContext, createContext } from 'react';
-import { getAllQuestionPapers, getQuestionPaperContentById, postQuestionPaper } from '../../../service/ash_admin';
+import { getAllQuestionPapers, getQuestionPaperContentById, postQuestionAndAnswersToPaper, postQuestionPaper } from '../../../service/ash_admin';
 
 const QuizContext = createContext();
 
@@ -51,6 +51,19 @@ export const QuizContextProvider = ({ children }) => {
     }
   }
 
+  const _addQuestionAndAnswersToPaper = async (paper_id, question_paper) => {
+    try {
+      const payload = { question_paper: question_paper };
+      console.log(`[QuizContextProvider]::[_addQuestionAndAnswersToPaper]:: Enter ${payload}`);
+      const data = await postQuestionAndAnswersToPaper(paper_id, payload);
+      console.log("[QuizContextProvider]::[_addQuestionAndAnswersToPaper]::", data);
+      return data
+    } catch (error) {
+      console.error("[QuizContextProvider]::[_addQuestionAndAnswersToPaper]::err", error);
+      return {}
+    }
+  }
+
   const _createQuestionPaper = async (question_paper) => {
     try {
       const payload = { question_paper: question_paper };
@@ -69,6 +82,7 @@ export const QuizContextProvider = ({ children }) => {
       fetchAllQuestionPapers: _fetchAllQuestionPapers,
       createQuestionPaper: _createQuestionPaper,
       fetchQuestionPaperContentById: _fetchQuestionPaperContentById,
+      addQuestionAndAnswersToPaper: _addQuestionAndAnswersToPaper,
     }}
   >{children}</QuizContext.Provider>
 }

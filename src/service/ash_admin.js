@@ -583,10 +583,10 @@ export const getAllQuestionPapers = async ({ testable_type, testable_id }) => {
 }
 
 // Post question and answer to paper
-export const postQuestionAndAnswersToPaper = async (payload) => {
+export const postQuestionAndAnswersToPaper = async (paper_id, payload) => {
   console.log(`[service]::[postQuestionAndAnswersToPaper]:: ${payload}`);
   const responseJson = await makeRequest(
-      'post', postQuestionAndAnswersToPaperUrl(), payload);
+      'post', postQuestionAndAnswersToPaperUrl(paper_id), payload);
   console.log(
       `[service]::[postQuestionAndAnswersToPaper]::[makeRequests]::[result] ${responseJson}`);
   if (responseJson['success']) {

@@ -14,7 +14,8 @@ import { LoadingButton } from '@mui/lab';
 
 import { useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { useEffect } from 'react';
-import { useQuizContext } from '../context/quizContextProvider';
+import { useQuizContext } from '../../../context/quizContextProvider';
+import { Answer, Question } from '..';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -24,7 +25,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const CreateQuestionPaperPage = () => {
+const AddQuestionAnswerToPaper = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { createQuestionPaper } = useQuizContext();
@@ -50,13 +51,7 @@ const CreateQuestionPaperPage = () => {
   };
 
   const handleSubmit = async () => {
-    console.log("paperData:", paperData);
-    const data = await createQuestionPaper(paperData);
-    navigate(`/paper/${paperData.testable_type}/${paperData.testable_id}/testable/${data.id}`, { replace: false });
-    setPaperData({
-      name: '', 
-      notes: '',
-    })
+   
   };
 
   const handleDisable = () => {
@@ -76,41 +71,9 @@ const CreateQuestionPaperPage = () => {
             Question paper {testable_type} {testable_id}
           </Typography>
         </Stack>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <Item>
-              <Stack>
-                { /* Question paper title */ }
-                <TextField
-                  label="Paper title"
-                  name="name"
-                  variant="outlined"
-                  fullWidth
-                  value={paperData.name}
-                  onChange={handleQuestionPaperDetail}
-                  margin="normal"
-                />
-              </Stack>
-            </Item>
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <Item>
-              <Stack>
-                { /* Question paper notes or instruction */ }
-                <TextField
-                  label="Paper instruction or notes"
-                  name="notes"
-                  variant="outlined"
-                  fullWidth
-                  value={paperData.notes}
-                  onChange={handleQuestionPaperDetail}
-                  margin="normal"
-                />
-              </Stack>
-            </Item>
-          </Grid>
-        </Grid>
+        
+        <Question question={{question: '', type: ''}}/>
+        <Answer answer={{value: '', correct: false, explanation: ''}}/>
 
         <LoadingButton
           size="large"
@@ -127,4 +90,4 @@ const CreateQuestionPaperPage = () => {
   )
 }
 
-export default CreateQuestionPaperPage;
+export default AddQuestionAnswerToPaper;

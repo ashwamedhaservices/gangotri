@@ -207,6 +207,10 @@ export default function TopicPage() {
     navigate(`/paper/topic/${topic.id}`, { replace: false });
   }
 
+  const handleTestableRouting = () => {
+    navigate(`/paper/topic/${topic.id}/testable`, { replace: false });
+  }
+
   return (
     <>
       <Helmet>
@@ -375,7 +379,13 @@ export default function TopicPage() {
               </Grid>
               <Grid xs={12}>
                 <Item>
-                  <Stack direction="row" alignItems="center" justifyContent="end" mb={2}>
+                  <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+                    <Button
+                      variant="outlined"
+                      onClick={handleTestableRouting}
+                    >
+                      Paper List
+                    </Button>
                     <Button
                       variant="contained"
                       startIcon={<Iconify icon="eva:plus-fill" />}
