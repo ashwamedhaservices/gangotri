@@ -7,6 +7,7 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { toTitleCase } from '../../../utils/text-typecase';
 import { AddQuestionAnswerToPaper } from '../components/form';
 import Iconify from '../../../components/iconify';
+import { PaperContent } from '../components';
 
 const TestableQuestionPaperContentPaperPage = () => {
   const [paperData, setPaperData] = useState({});
@@ -40,6 +41,115 @@ const TestableQuestionPaperContentPaperPage = () => {
     setShowAdd(!showAdd)
     countApiCall.current = countApiCall.current + 1;
   }
+
+  const response = {
+    "1": {
+        "id": 3,
+        "value": "what is life",
+        "question_type": "mcq",
+        "answers": [
+            {
+                "id": 5,
+                "value": "its bad",
+                "correct": true,
+                "explanation": "kya karega"
+            },
+            {
+                "id": 6,
+                "value": "its bad ok",
+                "correct": false,
+                "explanation": "kya karega"
+            }
+        ]
+    },
+    "2": {
+        "id": 4,
+        "value": "what is life",
+        "question_type": "mcq",
+        "answers": [
+            {
+                "id": 7,
+                "value": "its bad",
+                "correct": true,
+                "explanation": "kya karega"
+            },
+            {
+                "id": 8,
+                "value": "its bad ok",
+                "correct": false,
+                "explanation": "kya karega"
+            }
+        ]
+    },
+    "3": {
+        "id": 2,
+        "value": "Define is matter?",
+        "question_type": "mcq",
+        "answers": [
+            {
+                "id": 1,
+                "value": "matter nahi karta",
+                "correct": false,
+                "explanation": null
+            },
+            {
+                "id": 2,
+                "value": "bekar ki cheese",
+                "correct": false,
+                "explanation": null
+            },
+            {
+                "id": 3,
+                "value": "tujhe kya",
+                "correct": false,
+                "explanation": null
+            },
+            {
+                "id": 4,
+                "value": "everything around us",
+                "correct": true,
+                "explanation": "ab sahi hai to mai kya karu"
+            }
+        ]
+    },
+    "4": {
+        "id": 14,
+        "value": "What is matter",
+        "question_type": "mcq",
+        "answers": []
+    },
+    "5": {
+        "id": 24,
+        "value": "Define is matter?",
+        "question_type": "mcq",
+        "answers": [
+            {
+                "id": 1,
+                "value": "matter nahi karta",
+                "correct": false,
+                "explanation": null
+            },
+            {
+                "id": 2,
+                "value": "bekar ki cheese",
+                "correct": false,
+                "explanation": null
+            },
+            {
+                "id": 3,
+                "value": "tujhe kya",
+                "correct": false,
+                "explanation": null
+            },
+            {
+                "id": 4,
+                "value": "everything around us",
+                "correct": true,
+                "explanation": "ab sahi hai to mai kya karu"
+            }
+        ]
+    }
+}
   
 
   return (
@@ -66,6 +176,7 @@ const TestableQuestionPaperContentPaperPage = () => {
         </Stack>
       </Container>
 
+      { !showAdd && <PaperContent questions={Object.values(paperData)}/>}
       {showAdd && <AddQuestionAnswerToPaper togglePaperAdd={togglePaperAdd} questionNo={1}/>}
     </>
   )

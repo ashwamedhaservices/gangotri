@@ -16,6 +16,7 @@ import { useParams } from "react-router-dom";
 import { useQuizContext } from '../../../context/quizContextProvider';
 import { Answer, Question } from '..';
 import { QUESTION_TYPE } from '../../../../../utils/options';
+import { AnswersItem, QuestionItem } from '../../paper-content/PaperContentItem';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -97,22 +98,20 @@ const AddQuestionAnswerToPaper = ({
       </Helmet>
 
       <Container>
-        {/* <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
-          <Typography variant="h4" gutterBottom>
-            Add questions to paper of {testable_type} {testable_id}
-          </Typography>
-        </Stack> */}
         
         <Question question={question} handleChange={handleQuestionChange}/>
-        {JSON.stringify(question)}
+
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6} mt={2}>
+            <Item>
+              <Stack>
+                {question && question.type && question.question && <QuestionItem questionNo={questionNo} question={question.question} questionType={question.type}/>}
+                { answers && <AnswersItem answers={answers} />}
+              </Stack>
+            </Item>
+          </Grid>
+        </Grid>
         
-        {
-          answers && answers.map((answer, index) => <Stack key={answer.value + index}>
-            <Typography variant="body2"><b>Answer value</b> {answer.value}</Typography>
-            <Typography variant="body2"><b>Answer explanation</b> {answer.explanation}</Typography>
-            <Typography variant="body2"><b>Answer correctness</b> {answer.correct ? 'Yes': 'No'}</Typography>
-          </Stack>)
-        }
 
         <Typography variant="body2" gutterBottom sx={{ mt: 2, mb: '-16px', color: 'red'}}>
           Note: ( {answers.length} answer added in the list out of {answerCount() > 1 ?  `${answerCount()} answers` : `${answerCount()} answer`} )
