@@ -87,19 +87,23 @@ export const getBankByIdForAdminUrl = (bankId) => `${API_BASE_URL}/${API_ACCOUNT
 
 // For Creating Question Paper for any type of topic, subject, chapter
 export const postQuestionPaperUrl = () => `${API_BASE_URL}/${API_LEARNINGS}/${API_ADMIN}${API_BASE_VERSION}/question_papers.json`;
-
 // For geting the Question paper content
 export const getQuestionPaperContentByIdUrl = (paper_id) => `${API_BASE_URL}/${API_LEARNINGS}/${API_ADMIN}${API_BASE_VERSION}/question_papers/${paper_id}.json`;
-
 // For adding questions and answers to paper POST
 export const postQuestionAndAnswersToPaperUrl = (paper_id) => `${API_BASE_URL}/${API_LEARNINGS}/${API_ADMIN}${API_BASE_VERSION}/question_papers/${paper_id}/question.json`;
-
 // For getting question paper by id
 export const getQuestionPaperByIdUrl = (paper_id) => `${API_BASE_URL}/${API_LEARNINGS}/${API_ADMIN}${API_BASE_VERSION}/question_papers/${paper_id}.json`;
-
 // Question paper enum :question_type, %i[samcq mamcq passage one_word]
 // For listing out all the question papers for testable type and testable id
 export const getAllQuestionPapersUrl = ({ testable_type, testable_id }) => `${API_BASE_URL}/${API_LEARNINGS}/${API_ADMIN}${API_BASE_VERSION}/question_papers/list/${testable_type}/${testable_id}.json`;
+
+// For Question
+export const getQuestionByIdUrl = (question_id) => `${API_BASE_URL}/${API_LEARNINGS}/${API_ADMIN}${API_BASE_VERSION}/questions/${question_id}.json`;
+export const putQuestionByIdUrl = (question_id) => `${API_BASE_URL}/${API_LEARNINGS}/${API_ADMIN}${API_BASE_VERSION}/questions/${question_id}.json`;
+
+// For Answer
+export const getAnswerByIdUrl = (answer_id) => `${API_BASE_URL}/${API_LEARNINGS}/${API_ADMIN}${API_BASE_VERSION}/answers/${answer_id}.json`;
+export const putAnswerByIdUrl = (answer_id) => `${API_BASE_URL}/${API_LEARNINGS}/${API_ADMIN}${API_BASE_VERSION}/answers/${answer_id}.json`;
 
 // For creating meeting
 export const getMeetingsUrl = () => `${API_BASE_URL}/${API_LEARNINGS}/${API_ADMIN}${API_BASE_VERSION}/meetings.json`;
