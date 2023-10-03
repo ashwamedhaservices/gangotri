@@ -21,7 +21,8 @@ const Answer = ({
   answer,
   handleChange,
   handleAddAnswer,
-  showAddButton
+  showAddButton,
+  showDropdown
 }) => {
 
   const CORRECT = [
@@ -68,19 +69,20 @@ const Answer = ({
             </Stack>
           </Item>
         </Grid>
-        <Grid item xs={12} sm={6} md={2}>
-          <Item>
-            <Stack>
-              <BlogPostsSort
-                name="correct"
-                label="Answer correctness"
-                value={answer.correct}
-                onChange={handleChange}
-                options={CORRECT}
-              />
-            </Stack>
-          </Item>
-        </Grid>
+        {showDropdown && <Grid item xs={12} sm={6} md={2}>
+            <Item>
+              <Stack>
+                <BlogPostsSort
+                  name="correct"
+                  label="Answer correctness"
+                  value={answer.correct}
+                  onChange={handleChange}
+                  options={CORRECT}
+                />
+              </Stack>
+            </Item>
+          </Grid>
+        }
         {showAddButton && <Grid item xs={12} sm={6} md={1}>
           <Item>
             <Stack>

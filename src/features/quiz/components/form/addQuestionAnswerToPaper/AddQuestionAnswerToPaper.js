@@ -36,6 +36,7 @@ const AddQuestionAnswerToPaper = ({
   const [question, setQuestion] = useState({ question: '', type: '' });
   const [answer, setAnswer] = useState({ value: '', correct: false, explanation: '' });
   const [answers, setAnswers] = useState([]);
+  const [showDropdown, setShowDropdown] = useState(true);
 
   const handleSubmit = async () => {
     await _addQuestionAndAnswersToPaper();
@@ -43,7 +44,6 @@ const AddQuestionAnswerToPaper = ({
   };
 
   const handleDisable = () => {
-    console.log();
     if(!question.question || !question.type || answerCount() !== answers.length || validationForAnswer()) return true
     return false
   }
@@ -66,6 +66,7 @@ const AddQuestionAnswerToPaper = ({
   const handleQuestionChange = (e) => {
     if(e.target.name === 'type' && e.target.value !== question.type) {
       setAnswers([]);
+      setShowDropdown(true);
     }
     setQuestion(() => ({
       ...question,
@@ -82,6 +83,9 @@ const AddQuestionAnswerToPaper = ({
 
   const handleAddAnswer = () => {
     if(!answer.value) return
+    if(answer && answer.correct && question.type === 'samcq') {
+      setShowDropdown(false);
+    }
     setAnswers(() => [...answers, answer]);
     setAnswer(() => ({value: '', correct: false, explanation: ''}))
     console.log([...answers, answer])
@@ -116,7 +120,7 @@ const AddQuestionAnswerToPaper = ({
         <Typography variant="body2" gutterBottom sx={{ mt: 2, mb: '-16px', color: 'red'}}>
           Note: ( {answers.length} answer added in the list out of {answerCount() > 1 ?  `${answerCount()} answers` : `${answerCount()} answer`} )
         </Typography>
-        { answerCount() !== answers.length && <Answer answer={answer} handleAddAnswer={handleAddAnswer} handleChange={handleAnswerChange} showAddButton={true}/>}
+        { answerCount() !== answers.length && <Answer answer={answer} handleAddAnswer={handleAddAnswer} handleChange={handleAnswerChange} showAddButton={true} showDropdown={showDropdown}/>}
       
         <LoadingButton
           size="large"

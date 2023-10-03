@@ -7,7 +7,8 @@ const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
   // textAlign: "center",
   color: theme.palette.text.secondary,
-  border: `1px solid ${theme.palette.text.secondary}`
+  border: `1px solid ${theme.palette.text.secondary}`,
+  maxHeight: '148px',
 }));
 
 const TestableCard = ({
@@ -20,6 +21,13 @@ const TestableCard = ({
       <Stack direction="column">
         <Item>
           <Typography>{paper.name}</Typography>
+          <Typography
+            variant="caption"
+            sx={{ color: "text.disabled", display: "block" }}
+            className="truncate-3"
+          >
+            {paper.notes}
+          </Typography>
           <Stack direction="row" justifyContent="space-between" mt={2}>
             <Button 
               variant="outlined"
@@ -27,12 +35,12 @@ const TestableCard = ({
             >
               View
             </Button>
-            <Button 
+            {/* <Button 
               variant="contained"
               onClick={() => handleEdit(paper)}
             >
               Edit
-            </Button>
+            </Button> */}
           </Stack>
         </Item>
       </Stack>
