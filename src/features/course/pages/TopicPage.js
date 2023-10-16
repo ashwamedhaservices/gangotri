@@ -22,6 +22,7 @@ import { ChapterContext } from '../../../context/chapter/chapterContextProvider'
 import { SubjectContext } from '../../../context/subjects/subjectContextProvider';
 import { CourseContext } from '../../../context/courses/courseContextProvider';
 import { ItemCardList } from '../../../components/common/list';
+import PdfInput from '../../../components/pdf-input';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -211,6 +212,48 @@ export default function TopicPage() {
     navigate(`/paper/topic/${topic.id}/testable`, { replace: false });
   }
 
+  const handlePdf = async (type, file) => {
+    let inputFile = {...file[0]}
+    inputFile.type = file[0].name.split('.')[1];
+    inputFile.name = file[0].name.split('.')[0];
+    console.log("file:", file[0], inputFile);
+
+    if(selectedCourseDetails.id && selectedSubjectDetails.id && selectedChapterDetails.id) {
+      inputFile.location = `course/${selectedCourseDetails.id}/subject/${selectedSubjectDetails.id}/chapter/${selectedChapterDetails.id}/topic/${type}`;
+      // Creating the file location
+      const res = await postFileUpload({
+        file: {
+          ...inputFile
+        }
+      });
+      console.log('upload topic res', res, type);
+      const uploadImageLocation = res.message.split('?')[0]
+      console.log('upload topic res', {
+        ...topic,
+        [type]: uploadImageLocation
+      })
+      if(res) {
+        setTopic({
+          ...topic,
+          [type]: uploadImageLocation
+        })
+      }
+
+
+      console.log('hanldePdf putFileUpload Start', type);
+      // Uploading the file to the Storage URL of file location
+      const resFileUpload = await putFileUpload(
+          res.message, 
+          file[0], 
+          (progressEvent) => {
+            const percentage= parseInt(Math.round((progressEvent.loaded * 100) / progressEvent.total));
+            setUploadImagePercentage(percentage);
+            return percentage; // Because you were returning the percentage before.
+          });
+      console.log('hanldePdf putFileUpload end', type, resFileUpload);
+    }
+  }
+
   return (
     <>
       <Helmet>
@@ -305,6 +348,39 @@ export default function TopicPage() {
                     </Typography>
 
                     <VideoInput height="300px" handleVideo={handleVideo} percentage={uploadVideoPercentage}/>
+                  </Stack>
+                </Item>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Item>
+                  <Stack sx={{ display:'flex', justifyContent: 'center', alignItems: "center", height: '180px' }}>
+                    <Typography variant="subtitle1" gutterBottom>
+                      Upload notification
+                    </Typography>
+
+                    <PdfInput handlePdf={(file) => handlePdf('notification_url', file)}/>
+                  </Stack>
+                </Item>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Item>
+                  <Stack sx={{ display:'flex', justifyContent: 'center', alignItems: "center", height: '180px' }}>
+                    <Typography variant="subtitle1" gutterBottom>
+                      Upload notes
+                    </Typography>
+
+                    <PdfInput handlePdf={(file) => handlePdf('notes_url', file)}/>
+                  </Stack>
+                </Item>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Item>
+                  <Stack sx={{ display:'flex', justifyContent: 'center', alignItems: "center", height: '180px' }}>
+                    <Typography variant="subtitle1" gutterBottom>
+                      Upload assignment
+                    </Typography>
+
+                    <PdfInput handlePdf={(file) => handlePdf('assignment_url', file)}/>
                   </Stack>
                 </Item>
               </Grid>
