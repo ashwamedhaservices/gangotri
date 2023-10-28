@@ -23,6 +23,7 @@ import { SubjectContext } from '../../../context/subjects/subjectContextProvider
 import { CourseContext } from '../../../context/courses/courseContextProvider';
 import { ItemCardList } from '../../../components/common/list';
 import PdfInput from '../../../components/pdf-input';
+import { useQuizContext } from '../../quiz/context/quizContextProvider';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -45,6 +46,7 @@ export default function TopicPage() {
   const { selectedCourse } = useContext(CourseContext)
   const { selectedSubject } = useContext(SubjectContext)
   const { selectedChapter } = useContext(ChapterContext)
+  const { fetchAllQuestionPapers } = useQuizContext();
   const navigate = useNavigate();
   const [topicAdd, setTopicAdd] = useState(false);
   const [topic, setTopic] = useState({
@@ -60,7 +62,7 @@ export default function TopicPage() {
   const [selectedCourseDetails, setSelectedCourseDetails] = useState({});
   const [selectedSubjectDetails, setSelectedSubjectDetails] = useState({});
   const [selectedChapterDetails, setSelectedChapterDetails] = useState({});
-
+  const [createQuiz, setCreateQuiz] = useState(true);
   const handleSubjectDetails = (e) => {
     setTopic(() => ({
       ...topic,
@@ -191,6 +193,7 @@ export default function TopicPage() {
     } else {
       setTopic(topic);
       setShowVideo(topic.video_url);
+      _fetchAllQuestionPapers(topic.id);
     }
   }
 
@@ -251,6 +254,14 @@ export default function TopicPage() {
             return percentage; // Because you were returning the percentage before.
           });
       console.log('hanldePdf putFileUpload end', type, resFileUpload);
+    }
+  }
+
+  const _fetchAllQuestionPapers = async (testable_id) => {
+    if(testable_id) {
+      const data = await fetchAllQuestionPapers({testable_type: 'topic', testable_id});
+      setCreateQuiz(() => data.length === 0);
+      console.log('[TestableQuestionPaperPage]::[_fetchAllQuestionPapers]::', data);
     }
   }
 
@@ -462,13 +473,14 @@ export default function TopicPage() {
                     >
                       Paper List
                     </Button>
-                    <Button
+                    {createQuiz && <Button
                       variant="contained"
                       startIcon={<Iconify icon="eva:plus-fill" />}
                       onClick={handleCreateQuesionPaper}
                     >
                       Create question paper
                     </Button>
+                    }
                   </Stack>
                 </Item>
               </Grid>
