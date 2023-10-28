@@ -26,6 +26,6 @@ export const NOMINEE_RELATION = [
 export const QUESTION_TYPE = [
   { value: 'samcq', label: 'Single choice', answer_count: 4},
   { value: 'mamcq', label: 'Multiple choice', answer_count: 4},
-  { value: 'passage', label: 'Passage/Paragraph', answer_count: 1},
-  { value: 'one_word', label: 'One word', answer_count: 1},
+  // { value: 'passage', label: 'Passage/Paragraph', answer_count: 1},
+  // { value: 'one_word', label: 'One word', answer_count: 1},
 ];
