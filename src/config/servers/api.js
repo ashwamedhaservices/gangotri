@@ -110,3 +110,8 @@ export const getMeetingsUrl = () => `${API_BASE_URL}/${API_LEARNINGS}/${API_ADMI
 
 // For creating meeting
 export const postMeetingsUrl = () => `${API_BASE_URL}/${API_LEARNINGS}/${API_ADMIN}${API_BASE_VERSION}/meetings.json`;
+// For Payout Report
+export const getPayoutReportCsvUrl = () => `${API_BASE_URL}/referrals/admin/api/v1/credits/payout_report.csv`;
+
+
+

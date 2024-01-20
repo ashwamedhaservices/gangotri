@@ -26,11 +26,11 @@ const navConfig = [
     path: '/meeting',
     icon: icon('ic_blog'),
   },
-  // {
-  //   title: 'subject',
-  //   path: '/subject',
-  //   icon: icon('ic_cart'),
-  // },
+  {
+    title: 'report',
+    path: '/payout-report',
+    icon: icon('ic_cart'),
+   },
   // {
   //   title: 'chapter',
   //   path: '/chapter',

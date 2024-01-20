@@ -5,11 +5,11 @@ import coursesRoutes from '../features/course/routes';
 import meetingRoutes from '../features/meetings/routes';
 import onboardingRoutes from '../features/onboarding/routes';
 import quizRoutes from '../features/quiz/routes';
-
+import PayoutReport from '../features/reports/components/payout-reports';
 // Layouts
 import DashboardLayout from '../layouts/dashboard';
 import SimpleLayout from '../layouts/simple';
-
+import PayoutRoutes from '../features/reports/routes';
 // Pages
 import {
   LoginPage,
@@ -38,6 +38,7 @@ export default function Router() {
         ...onboardingRoutes,
         ...quizRoutes,
         ...meetingRoutes,
+        ...PayoutRoutes,
         // { path: 'products', element: <ProductsPage /> },
         // { path: 'app', element: <DashboardAppPage /> },
         { path: 'test', element: <TextEditor /> }
@@ -51,6 +52,9 @@ export default function Router() {
         { path: '*', element: <Navigate to="/404" /> },
       ],
     },
+    
+    {
+      path: '/payout-reports',element:<PayoutReport/>},
     {
       path: '*',
       element: <Navigate to="/404" replace />,
