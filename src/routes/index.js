@@ -9,6 +9,8 @@ import quizRoutes from '../features/quiz/routes';
 // Layouts
 import DashboardLayout from '../layouts/dashboard';
 import SimpleLayout from '../layouts/simple';
+import PayoutRoutes from '../features/reports/routes';
+import  SearchUserRoutes from '../features/search_User/routes/index';
 
 // Pages
 import {
@@ -38,6 +40,8 @@ export default function Router() {
         ...onboardingRoutes,
         ...quizRoutes,
         ...meetingRoutes,
+        ...PayoutRoutes,
+        ... SearchUserRoutes,
         // { path: 'products', element: <ProductsPage /> },
         // { path: 'app', element: <DashboardAppPage /> },
         { path: 'test', element: <TextEditor /> }

@@ -26,6 +26,16 @@ const navConfig = [
     path: '/meeting',
     icon: icon('ic_blog'),
   },
+  {
+    title: 'report',
+   path: '/payout-report',
+   icon: icon('ic_cart'),
+   },
+   {
+     title: 'Search User',
+     path: '/search-user',
+     icon: icon('ic_user'),
+   },
   // {
   //   title: 'subject',
   //   path: '/subject',
