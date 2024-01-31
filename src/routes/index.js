@@ -1,6 +1,5 @@
 // Routes and Navigations
 import { Navigate, useRoutes } from 'react-router-dom';
-import { TextEditor } from '../components/rich-text-editor';
 import coursesRoutes from '../features/course/routes';
 import meetingRoutes from '../features/meetings/routes';
 import onboardingRoutes from '../features/onboarding/routes';
