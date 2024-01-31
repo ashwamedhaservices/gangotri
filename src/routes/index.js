@@ -43,7 +43,7 @@ export default function Router() {
         ... SearchUserRoutes,
         // { path: 'products', element: <ProductsPage /> },
         // { path: 'app', element: <DashboardAppPage /> },
-        { path: 'test', element: <TextEditor /> }
+        // { path: 'test', element: <TextEditor /> }
       ],
     },
     {
