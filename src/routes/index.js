@@ -1,6 +1,5 @@
 // Routes and Navigations
 import { Navigate, useRoutes } from 'react-router-dom';
-import { TextEditor } from '../components/rich-text-editor';
 import coursesRoutes from '../features/course/routes';
 import meetingRoutes from '../features/meetings/routes';
 import onboardingRoutes from '../features/onboarding/routes';
@@ -9,6 +8,8 @@ import quizRoutes from '../features/quiz/routes';
 // Layouts
 import DashboardLayout from '../layouts/dashboard';
 import SimpleLayout from '../layouts/simple';
+import PayoutRoutes from '../features/reports/routes';
+import  SearchUserRoutes from '../features/search_User/routes/index';
 
 // Pages
 import {
@@ -38,9 +39,11 @@ export default function Router() {
         ...onboardingRoutes,
         ...quizRoutes,
         ...meetingRoutes,
+        ...PayoutRoutes,
+        ... SearchUserRoutes,
         // { path: 'products', element: <ProductsPage /> },
         // { path: 'app', element: <DashboardAppPage /> },
-        { path: 'test', element: <TextEditor /> }
+        // { path: 'test', element: <TextEditor /> }
       ],
     },
     {

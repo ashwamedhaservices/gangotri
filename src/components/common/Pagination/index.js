@@ -1,4 +1,5 @@
-import { AiOutlineLeftCircle, AiOutlineRightCircle } from "react-icons/ai";
+import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
+import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import './index.css'
 const Pagination = ({currentPage, pageCount, onPageChange}) => {
   const handleLeftClick = () => {
@@ -12,9 +13,9 @@ const Pagination = ({currentPage, pageCount, onPageChange}) => {
   }
   return (
     <div className="k-flex k-aic k-jce pagination-container k-pt16">
-      <AiOutlineLeftCircle className="cursor-pointer" onClick={handleLeftClick}/>
+      <ArrowCircleLeftIcon className="cursor-pointer" onClick={handleLeftClick}/>
       <span className="k-pl8 k-pr8">Page: {currentPage} / Total: {pageCount}</span> 
-      <AiOutlineRightCircle className="cursor-pointer" onClick={handleRightClick}/>
+      <ArrowCircleRightIcon className="cursor-pointer" onClick={handleRightClick}/>
     </div>
   )
 }
