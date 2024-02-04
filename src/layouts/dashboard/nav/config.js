@@ -25,7 +25,7 @@ const navConfig = [
   },
   {
     title: 'report',
-    path: '/payout-report',
+    path: '/reports',
     icon: <AssessmentIcon/>,
    },
    {
